@@ -17,6 +17,7 @@ public class UserController {
          * 调用StpUtil.getPermissionList() 才走 StpInterfaceImpl？
          */
 //        List<String> permissionList = StpUtil.getPermissionList();
-        System.out.println("123456...");
+        System.out.println("登录成功！");
+        System.out.println(tokenInfo.toString());
     }
 }

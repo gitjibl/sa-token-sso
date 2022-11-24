@@ -3,6 +3,7 @@ package com.example.satokenadmin.handler;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
+import com.example.satokenadmin.utils.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,7 +20,7 @@ public class GlobalExceptionHandler {
      * 未登录异常
      */
     @ExceptionHandler(NotLoginException.class)
-    public String NotLoginException(NotLoginException e) {
+    public R NotLoginException(NotLoginException e) {
 
         // 打印堆栈，以供调试
         e.printStackTrace();
@@ -43,7 +44,7 @@ public class GlobalExceptionHandler {
         /**
          * 可以返回状态码 前台用拦截器拦截提示！ 401
          */
-        return message;
+        return R.fail(401,message);
     }
 
     /**
