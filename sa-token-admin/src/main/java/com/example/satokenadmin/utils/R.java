@@ -39,6 +39,10 @@ public class R<T> implements Serializable {
         return restResult(data, SUCCESS, msg);
     }
 
+    public static <T> R<T> ok(int code, String msg) {
+        return restResult(null, code, msg);
+    }
+
     public static <T> R<T> fail() {
         return restResult(null, FAIL, "操作失败");
     }

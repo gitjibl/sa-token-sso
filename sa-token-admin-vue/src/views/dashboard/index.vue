@@ -1,25 +1,26 @@
 <!--
  * @Descripttion: 
  * @Author: jibl
- * @Date: 2022-11-22 16:56:45
+ * @Date: 2022-07-27 14:48:00
  * @LastEditors: jibl
- * @LastEditTime: 2022-11-25 16:28:04
+ * @LastEditTime: 2022-07-27 15:02:54
 -->
-<!--  -->
 <template>
-  <div style="text-align: center">
-    <h1>home</h1>
-    <button @click="logOut">退出</button>
+  <div class="dashboard-container">
+    <div class="dashboard-text">name: {{ "555555555" }}</div>
   </div>
 </template>
 
 <script>
-import { Notification } from "element-ui";
+import { mapGetters } from 'vuex'
+
 export default {
-  data() {
-    return {};
+  name: 'Dashboard',
+  computed: {
+    ...mapGetters([
+      'name'
+    ])
   },
-  created() {},
   mounted() {
     this.getToken();
   },
@@ -41,8 +42,17 @@ export default {
       location.href = 'http://localhost:9000/sso/signout?'+'&back='+'http://localhost:9000/sso/auth?redirect='+location.href;
     }
   },
-};
+}
 </script>
-<style scoped>
-/* @import url(); 引入css类 */
+
+<style lang="scss" scoped>
+.dashboard {
+  &-container {
+    margin: 30px;
+  }
+  &-text {
+    font-size: 30px;
+    line-height: 46px;
+  }
+}
 </style>
