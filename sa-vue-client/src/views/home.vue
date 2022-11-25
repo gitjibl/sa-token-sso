@@ -3,12 +3,13 @@
  * @Author: jibl
  * @Date: 2022-11-22 16:56:45
  * @LastEditors: jibl
- * @LastEditTime: 2022-11-22 17:33:59
+ * @LastEditTime: 2022-11-25 16:28:04
 -->
 <!--  -->
 <template>
   <div style="text-align: center">
     <h1>home</h1>
+    <button @click="logOut">退出</button>
   </div>
 </template>
 
@@ -36,6 +37,9 @@ export default {
         });
       });
     },
+    logOut(){
+      location.href = 'http://localhost:9000/sso/signout?'+'&back='+'http://localhost:9000/sso/auth?redirect='+location.href;
+    }
   },
 };
 </script>

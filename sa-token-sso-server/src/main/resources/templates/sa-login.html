@@ -1,45 +1,57 @@
-<!DOCTYPE html>
-<html lang="zh">
-	<head>
-		<title>Sa-SSO-Server 认证中心-登录</title>
-		<meta charset="utf-8">
-		<base th:href="@{/}" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<link rel="stylesheet" href="./sa-res/login.css">
-	</head>
-	<body>
-		<div class="view-box">
-			<div class="bg-1"></div>
-			<div class="bg-2"></div>
-			<div class="content-box">
-				<div class="login-box">
-					<div class="from-box">
-						<h2 class="from-title">Sa-SSO-Server 认证中心</h2>
-						<div class="from-item">
-							<input class="s-input" name="name" placeholder="请输入账号" />
-						</div>
-						<div class="from-item">
-							<input class="s-input" name="pwd" type="password" placeholder="请输入密码" />
-						</div>
-						<div class="from-item">
-							<button class="s-input s-btn login-btn">登录</button>
-						</div>
-						<div class="from-item reset-box">
-							<a href="javascript: location.reload();" >刷新</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 底部 版权 -->
-			<div style="position: absolute; bottom: 40px; width: 100%; text-align: center; color: #666;">
-				This page is provided by Sa-Token-SSO 
-			</div>
-		</div>
+<!DOCTYPE html><html>
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}" />
+    <title>统一认证中心</title>
+    <link rel="stylesheet" href="./sa-res/login/login-bg.css">
+    <link rel="stylesheet" href="./sa-res/login/login.css">
+    <link rel="stylesheet" type="text/css" href="./sa-res/login/zui.css" media="all">
+    <link href="./sa-res/login/animate.min.css" rel="stylesheet">
+    <link href="./sa-res/login/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
 
-		<!-- scripts -->
-		<script src="./sa-res/jquery.min.js"></script>
-		<script src="./sa-res/layer/layer.js"></script>
-		<script src="./sa-res/login.js"></script>
-		
-	</body>
+<canvas id="canvas"></canvas>
+<div id="main-box"></div>
+<div id="main-content">
+    <div class="login-body  animated fadeInLeft">
+        <div class="login-main pr">
+            <form action="javascript:;" method="post" class="login-form">
+                <h3> 统一认证中心 </h3>
+                <h5 style="padding-bottom: 10px"> Unified Certification Center </h5>
+                <!-- 账号登陆 -->
+                <div class="item-box"  >
+                    <div class="input-group user-name"> <span class="input-group-addon"><i class="icon-user"></i></span>
+                        <input type="text" name="username" class="form-control" placeholder="用户名">
+                    </div>
+                    <div class="input-group password"> <span class="input-group-addon"><i class="icon-lock"></i></span>
+                        <input type="password" name="password" class="form-control" placeholder="密码">
+                    </div>
+
+                    <div class="input-group">
+                        <img id="kaptcha_img" title="点击更换验证码" th:src="@{/kaptcha}" onclick="changeCode()" />
+                        <input
+                                class="form-kaptcha"
+                                placeholder="请输入验证码"
+                                type="text"
+                                id="code"
+                        >
+                    </div>
+
+
+                    <div class="login_btn_panel">
+                        <button id="login-btn" class="btn btn-primary btn-block btn-lg" data-ajax="post"  data-callback="success">登录</button>
+                        <div class="check-tips"></div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- scripts -->
+<script src="./sa-res/jquery.min.js"></script>
+<script src="./sa-res/layer/layer.js"></script>
+<script src="./sa-res/login/login-bg.js"></script>
+<script src="./sa-res/login/login.js"></script>
+<script src="./sa-res/login/code.js"></script>
+</body>
 </html>

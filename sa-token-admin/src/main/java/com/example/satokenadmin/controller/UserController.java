@@ -1,5 +1,6 @@
 package com.example.satokenadmin.controller;
 
+import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,14 +11,17 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    @RequestMapping("/getToken")
-    public void getToken(){
+    @RequestMapping("/getUserInfo")
+    public Object getUserInfo(){
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         /**
          * 调用StpUtil.getPermissionList() 才走 StpInterfaceImpl？
          */
 //        List<String> permissionList = StpUtil.getPermissionList();
-        System.out.println("登录成功！");
-        System.out.println(tokenInfo.toString());
+        StpUtil.getSessionByLoginId(tokenInfo.getLoginId());
+        long tokenTimeout = StpUtil.getTokenTimeout();
+        SaSession session = StpUtil.getTokenSession();
+        Object o = session.get("user");
+        return o;
     }
 }

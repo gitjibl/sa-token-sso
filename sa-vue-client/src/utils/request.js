@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-09-22 13:43:06
  * @LastEditors: jibl
- * @LastEditTime: 2022-11-22 17:41:28
+ * @LastEditTime: 2022-11-25 16:30:22
  */
 // import Cookies from 'js-cookie'
 import axios from 'axios'
@@ -51,15 +51,16 @@ service.interceptors.response.use(res => {
             return res.data
         }
         if (code === 401) {
-            MessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
-                confirmButtonText: '重新登录',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                location.href = 'http://localhost:9000/sso/auth?redirect='+location.href
-            }).catch(() => {
+            // MessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
+            //     confirmButtonText: '重新登录',
+            //     cancelButtonText: '取消',
+            //     type: 'warning'
+            // }).then(() => {
+            //     location.href = 'http://localhost:9000/sso/auth?redirect='+location.href
+            // }).catch(() => {
 
-            });
+            // });
+            location.href = 'http://localhost:9000/sso/auth?redirect='+location.href
             return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
         } else if (code === 200) {
             return Promise.resolve(res.data)
