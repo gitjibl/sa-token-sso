@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-07-27 17:52:42
  * @LastEditors: jibl
- * @LastEditTime: 2022-09-08 15:46:58
+ * @LastEditTime: 2022-11-28 16:23:27
 -->
 <template>
   <section class="app-main">
@@ -46,9 +46,9 @@
 
 <style lang="scss">
   // fix css style bug in open el-dialog
-  .el-popup-parent--hidden {
-    .fixed-header {
-      padding-right: 15px;
-    }
-  }
+  // .el-popup-parent--hidden {  
+  //   .fixed-header {
+  //     padding-right: 15px;
+  //   }
+  // }
 </style>

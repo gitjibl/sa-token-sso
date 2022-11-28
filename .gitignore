@@ -29,3 +29,7 @@ build/
 
 ### VS Code ###
 .vscode/
+/sa-token-master/sa-token-admin/*.iml
+/sa-token-master/sa-token-common/*.iml
+/sa-token-master/sa-token-admin/*.iml
+/sa-token-master/sa-token-admin/*.iml

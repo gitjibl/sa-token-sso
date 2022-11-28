@@ -11,7 +11,7 @@
  Target Server Version : 80015
  File Encoding         : 65001
 
- Date: 28/11/2022 11:52:49
+ Date: 28/11/2022 17:28:48
 */
 
 SET NAMES utf8mb4;
@@ -72,7 +72,7 @@ INSERT INTO `sys_menu` VALUES (2, '系统监控', 0, 2, 'monitor', NULL, NULL, 1
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_project`;
 CREATE TABLE `sys_project`  (
-  `project_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '项目ID',
+  `project_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '项目ID',
   `project_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '项目名称',
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
   `project_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地址',
@@ -84,12 +84,19 @@ CREATE TABLE `sys_project`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of sys_project
+-- ----------------------------
+INSERT INTO `sys_project` VALUES ('CS001', '权限系统', '权限系统6', 'http://localhost:9003', 0, NULL, 'admin', '2022-11-28 14:39:00');
+INSERT INTO `sys_project` VALUES ('CS002', '测试系统', '权限系统6', 'http://localhost:9055', 1, NULL, 'admin', '2022-11-28 14:39:00');
+
+-- ----------------------------
 -- Table structure for sys_role
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role`  (
   `role_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
   `role_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '角色名称',
+  `project_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '项目ID',
   `role_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '角色权限字符串',
   `role_sort` int(10) NOT NULL COMMENT '显示顺序',
   `status` int(10) NOT NULL COMMENT '角色状态（0正常 1停用）',
@@ -102,8 +109,8 @@ CREATE TABLE `sys_role`  (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, '超级管理员', 'admin', 1, 0, 'admin', '2022-11-11 17:20:14', '超级管理员');
-INSERT INTO `sys_role` VALUES (2, '普通角色', 'common', 2, 0, 'admin', '2022-11-11 17:20:14', '普通角色');
+INSERT INTO `sys_role` VALUES (1, '超级管理员', '', 'admin', 1, 0, 'admin', '2022-11-11 17:20:14', '超级管理员');
+INSERT INTO `sys_role` VALUES (2, '普通角色', '', 'common', 2, 0, 'admin', '2022-11-11 17:20:14', '普通角色');
 
 -- ----------------------------
 -- Table structure for sys_role_dept

@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 13:31:34
  * @LastEditors: jibl
- * @LastEditTime: 2022-11-28 15:09:58
+ * @LastEditTime: 2022-11-28 17:26:59
 -->
 <!--  -->
 <template>
@@ -56,6 +56,7 @@
           plain
           icon="el-icon-edit"
           size="mini"
+          :disabled="single"
           @click="handleUpdate"
           >修改</el-button
         >
@@ -66,6 +67,7 @@
           plain
           icon="el-icon-delete"
           size="mini"
+          :disabled="multiple"
           @click="handleDelete"
           >删除</el-button
         >
@@ -149,6 +151,42 @@
       layout="prev, pager, next, jumper, sizes,total"
       :total="pagination.total"
     ></el-pagination>
+
+    <!-- 添加或修改角色配置对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="500px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <el-form-item label="项目编码" prop="projectId">
+          <el-input
+            v-model="form.projectId"
+            placeholder="请输入项目编码"
+            :disabled="!isInsert"
+          />
+        </el-form-item>
+        <el-form-item label="项目名称" prop="projectName">
+          <el-input v-model="form.projectName" placeholder="请输入项目名称" />
+        </el-form-item>
+        <el-form-item label="项目地址">
+          <el-input v-model="form.projectUrl" placeholder="请输入项目地址" />
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-radio v-model="form.status" :label="0">正常</el-radio>
+          <el-radio v-model="form.status" :label="1">停用</el-radio>
+        </el-form-item>
+        <el-form-item label="项目描述">
+          <el-input
+            type="textarea"
+            :rows="3"
+            placeholder="请输入内容"
+            v-model="form.description"
+          >
+          </el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="open = false">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -156,14 +194,38 @@
 export default {
   data() {
     return {
-      queryParams: {},
+      //操作类型
+      isInsert: false,
+      // 查询参数
+      queryParams: {
+        projectName: null,
+        status: null,
+      },
+      // 遮罩层
       loading: false,
+      // 选中数组
+      ids: [],
       projectList: [],
+      // 分页
       pagination: {
         pageNum: 1,
         total: 0,
-        pageSizes: [100, 200, 300, 400],
-        pageSize: 100,
+        pageSizes: [10, 20, 30, 50],
+        pageSize: 10,
+      },
+      // 非单个禁用
+      single: true,
+      // 非多个禁用
+      multiple: true,
+      // 是否显示弹出层
+      open: false,
+      // 表单校验
+      rules: {},
+      // 弹出层标题
+      title: "",
+      // 表单参数
+      form: {
+        status: 0,
       },
     };
   },
@@ -172,18 +234,75 @@ export default {
   },
   mounted() {},
   methods: {
-    handleQuery() {},
-    resetQuery() {},
-    handleAdd() {},
-    handleUpdate() {},
-    handleDelete() {},
-    handleExport() {},
-    handleSizeChange() {},
-    handleCurrentChange() {},
-    handleStatusChange(){},
-    handleSelectionChange(selection) {
-      let ids = selection.map((item) => item.roleId);
+    //搜索按钮操作
+    handleQuery() {
+      this.pagination.pageNum = 1;
+      this.getList();
     },
+    //重置搜索
+    resetQuery() {
+      this.$data.queryParams = this.$options.data().queryParams;
+      this.getList();
+    },
+    //新增按钮操作
+    handleAdd() {
+      this.isInsert = true;
+      this.open = true;
+      this.title = "新增项目";
+    },
+    //修改按钮操作
+    handleUpdate(row) {
+      this.isInsert = false;
+      this.open = true;
+      this.title = "编辑项目";
+      this.form = { ...row };
+    },
+    handleDelete(row) {
+      const ids = [row.projectId] || this.ids;
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$axios({
+            method: "post",
+            url: "/project/delete",
+            data: JSON.stringify(ids),
+            headers: {
+              "Content-Type": "application/json; charset=UTF-8",
+            },
+          })
+            .then((res) => {
+              this.$message({
+                type: "success",
+                message: "删除成功!",
+              });
+              this.getList()
+            })
+            .catch((err) => {});
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+    handleExport() {
+      alert("开发中...");
+    },
+
+    handleStatusChange() {
+      alert("开发中...");
+    },
+    // 多选框选中数据
+    handleSelectionChange(selection) {
+      this.ids = selection.map((item) => item.projectId);
+      this.single = selection.length != 1;
+      this.multiple = !selection.length;
+    },
+    //查询列表
     getList() {
       this.$axios({
         method: "get",
@@ -202,6 +321,54 @@ export default {
           console.log(err);
         });
     },
+    //提交按钮
+    submitForm() {
+      this.$refs["form"].validate((valid) => {
+        if (valid) {
+          if (this.isInsert) {
+            this.$axios({
+              method: "get",
+              url: "/project/insert",
+              params: {
+                ...this.form,
+              },
+            }).then((res) => {
+              this.$notify.success({
+                title: "成功",
+                message: "操作成功",
+              });
+              this.open = false;
+              this.getList();
+            });
+          } else {
+            this.$axios({
+              method: "get",
+              url: "/project/update",
+              params: {
+                ...this.form,
+              },
+            }).then((res) => {
+              this.$notify.success({
+                title: "成功",
+                message: "操作成功",
+              });
+              this.open = false;
+              this.getList();
+            });
+          }
+        }
+      });
+    },
+    // ----分页----
+    handleSizeChange(val) {
+      this.pagination.pageSize = val;
+      this.getList();
+    },
+    handleCurrentChange(val) {
+      this.pagination.pageNum = val;
+      this.getList();
+    },
+    // ------
   },
 };
 </script>

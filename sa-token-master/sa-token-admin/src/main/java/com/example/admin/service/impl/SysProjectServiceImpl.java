@@ -37,7 +37,7 @@ public class SysProjectServiceImpl extends ServiceImpl<SysProjectMapper, SysProj
         if (!ObjectUtils.isEmpty(sysProject.getStatus())) {
             queryWrapper.eq("status", sysProject.getStatus());
         }
-
+        queryWrapper.orderByAsc("create_time");
         IPage<SysProject> list = sysProjectMapper.selectPage(page, queryWrapper);
         return list;
     }

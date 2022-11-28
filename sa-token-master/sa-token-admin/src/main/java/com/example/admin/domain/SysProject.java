@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
@@ -61,6 +62,7 @@ public class SysProject implements Serializable {
      * 创建时间
      */
     @TableField(value = "create_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date createTime;
 
     @TableField(exist = false)

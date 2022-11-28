@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-22 16:46:10
  * @LastEditors: jibl
- * @LastEditTime: 2022-11-22 17:30:10
+ * @LastEditTime: 2022-11-28 16:09:32
  */
 import request from '@/utils/request'
 import Vue from 'vue'
@@ -19,7 +19,7 @@ import '@/config/permission' // permission control
 import '@/styles/index.scss' // global css
 
 Vue.use(ElementUI, {
-  size: 'mini'
+  size: 'small'
 });
 Vue.config.productionTip = false
 Vue.prototype.$axios = request
