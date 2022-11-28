@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/sa-token-master/sa-token-admin/sa-token-admin.iml" filepath="$PROJECT_DIR$/sa-token-master/sa-token-admin/sa-token-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sa-token-master/sa-token-common/sa-token-common.iml" filepath="$PROJECT_DIR$/sa-token-master/sa-token-common/sa-token-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sa-token-master/sa-token-framework/sa-token-framework.iml" filepath="$PROJECT_DIR$/sa-token-master/sa-token-framework/sa-token-framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sa-token-master/sa-token-master.iml" filepath="$PROJECT_DIR$/sa-token-master/sa-token-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sa-token-sso.iml" filepath="$PROJECT_DIR$/sa-token-sso.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sa-token-sso-server/sa-token-sso-server.iml" filepath="$PROJECT_DIR$/sa-token-sso-server/sa-token-sso-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sso-client-001/sso-client-001.iml" filepath="$PROJECT_DIR$/sso-client-001/sso-client-001.iml" />
+    </modules>
+  </component>
+</project>
