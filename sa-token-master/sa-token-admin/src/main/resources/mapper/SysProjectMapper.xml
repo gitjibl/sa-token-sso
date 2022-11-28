@@ -5,7 +5,7 @@
 <mapper namespace="com.example.admin.mapper.SysProjectMapper">
 
     <resultMap id="BaseResultMap" type="com.example.admin.domain.SysProject">
-            <id property="projectId" column="project_id" jdbcType="INTEGER"/>
+            <id property="projectId" column="project_id" jdbcType="VARCHAR"/>
             <result property="projectName" column="project_name" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
             <result property="projectUrl" column="project_url" jdbcType="VARCHAR"/>

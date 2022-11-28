@@ -3,11 +3,11 @@
  * @Author: jibl
  * @Date: 2022-07-27 14:20:40
  * @LastEditors: jibl
- * @LastEditTime: 2022-07-27 16:57:42
+ * @LastEditTime: 2022-11-28 15:13:33
  */
 module.exports = {
 
-  title: 'XXXXXXXX系统',
+  title: '权限系统',
 
   /**
    * @type {boolean} true | false

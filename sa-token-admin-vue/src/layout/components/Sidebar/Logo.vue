@@ -1,3 +1,10 @@
+<!--
+ * @Descripttion: 
+ * @Author: jibl
+ * @Date: 2022-11-28 09:38:28
+ * @LastEditors: jibl
+ * @LastEditTime: 2022-11-28 13:23:56
+-->
 <template>
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
@@ -24,7 +31,7 @@ export default {
   },
   data() {
     return {
-      title: 'Vue Admin Template',
+      title: 'sa-token权限系统',
       logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
     }
   }

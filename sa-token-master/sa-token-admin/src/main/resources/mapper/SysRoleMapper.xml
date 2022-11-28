@@ -7,6 +7,7 @@
     <resultMap id="BaseResultMap" type="com.example.admin.domain.SysRole">
             <id property="roleId" column="role_id" jdbcType="BIGINT"/>
             <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+            <result property="projectId" column="project_id" jdbcType="VARCHAR"/>
             <result property="roleKey" column="role_key" jdbcType="VARCHAR"/>
             <result property="roleSort" column="role_sort" jdbcType="INTEGER"/>
             <result property="status" column="status" jdbcType="INTEGER"/>
@@ -16,8 +17,8 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        role_id,role_name,role_key,
-        role_sort,status,create_by,
-        create_time,remark
+        role_id,role_name,project_id,
+        role_key,role_sort,status,
+        create_by,create_time,remark
     </sql>
 </mapper>

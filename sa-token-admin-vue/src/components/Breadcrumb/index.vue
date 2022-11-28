@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-07-27 14:56:43
  * @LastEditors: jibl
- * @LastEditTime: 2022-07-28 09:06:32
+ * @LastEditTime: 2022-11-28 15:15:10
 -->
 <template>
   <el-breadcrumb class="app-breadcrumb" separator="/">
@@ -48,13 +48,12 @@
           matched = [{
             path: '/dashboard',
             meta: {
-              title: 'Dashboard'
+              title: '首页'
             }
           }].concat(matched)
         }
 
         this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
-        console.log(this.levelList,"66666666666666")
       },
       isDashboard(route) {
         const name = route && route.name

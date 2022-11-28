@@ -35,6 +35,11 @@ sa-token:
         # 连接池中的最小空闲连接
         min-idle: 0
 spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
   autoconfigure:
     #自动化配置
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure

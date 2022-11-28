@@ -1,3 +1,10 @@
+/*
+ * @Descripttion: 
+ * @Author: jibl
+ * @Date: 2022-11-28 09:38:28
+ * @LastEditors: jibl
+ * @LastEditTime: 2022-11-28 15:12:26
+ */
 /**
  * Note: 路由配置项
  *
@@ -19,77 +26,91 @@
     activeMenu: '/system/user'      // 当路由设置了该属性，则会高亮相对应的侧边栏。
   }
  */
-  import Vue from 'vue'
-  import VueRouter from 'vue-router'
-  
-  Vue.use(VueRouter)
-  
-  /* Layout */
-  import Layout from '@/layout'
-  
-  export const constantRoutes = [{
-      path: '/redirect',
-      component: Layout,
-      hidden: true,
-      children: [{
-        path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect/index')
-      }]
-    },
-    {
-      path: '/',
-      component: Layout,
-      redirect: '/dashboard',
-      children: [{
-        path: 'dashboard',
-        name: 'Dashboard',
-        component: () => import('@/views/dashboard/index'),
-        meta: {
-          title: 'Dashboard',
-          icon: 'dashboard',
-          affix: true
-        }
-      }]
-    }, {
-      path: '/form',
-      component: Layout,
-      redirect: 'noRedirect',
-      meta: {
-        title: 'Form',
-        icon: 'example'
-      },
-      children: [{
-        path: 'index',
-        name: 'Index',
-        component: () => import('@/views/form/index'),
-        meta: {
-          title: '表单',
-        }
-      }, {
-        path: 'index1',
-        name: 'Index1',
-        component: () => import('@/views/form/index'),
-        meta: {
-          title: '表单2',
-        }
-      },]
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
+/* Layout */
+import Layout from '@/layout'
+
+export const constantRoutes = [{
+  path: '/redirect',
+  component: Layout,
+  hidden: true,
+  children: [{
+    path: '/redirect/:path(.*)',
+    component: () => import('@/views/redirect/index')
+  }]
+},
+{
+  path: '/',
+  component: Layout,
+  redirect: '/dashboard',
+  children: [{
+    path: 'dashboard',
+    name: 'Dashboard',
+    component: () => import('@/views/dashboard/index'),
+    meta: {
+      title: '首页',
+      icon: 'dashboard',
+      affix: true
     }
-  ];
-  export const asyncRoutes = []
-  const createRouter = () => new VueRouter({
-    // mode: 'history', // require service support
-    scrollBehavior: () => ({
-      y: 0
-    }),
-    routes: constantRoutes
-  })
-  
-  const router = createRouter()
-  
-  // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-  export function resetRouter() {
-    const newRouter = createRouter()
-    router.matcher = newRouter.matcher // reset router
-  }
-  
-  export default router
+  }]
+}, {
+  path: '/system',
+  component: Layout,
+  redirect: 'noRedirect',
+  meta: {
+    title: '系统管理',
+    icon: 'example'
+  },
+  children: [{
+    path: 'project',
+    name: 'Project',
+    component: () => import('@/views/system/project/index'),
+    meta: {
+      title: '项目管理',
+    }
+  }, {
+    path: 'user',
+    name: 'User',
+    component: () => import('@/views/form/index'),
+    meta: {
+      title: '用户管理',
+    }
+  }, {
+    path: 'menu',
+    name: 'Menu',
+    component: () => import('@/views/form/index'),
+    meta: {
+      title: '菜单管理',
+    }
+  }, {
+    path: 'dept',
+    name: 'Dept',
+    component: () => import('@/views/form/index'),
+    meta: {
+      title: '部门管理',
+    }
+  },]
+}
+];
+export const asyncRoutes = []
+const createRouter = () => new VueRouter({
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({
+    y: 0
+  }),
+  routes: constantRoutes
+})
+
+const router = createRouter()
+
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
+}
+
+export default router

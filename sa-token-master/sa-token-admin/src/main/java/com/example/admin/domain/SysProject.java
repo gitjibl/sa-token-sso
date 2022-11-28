@@ -18,8 +18,8 @@ public class SysProject implements Serializable {
     /**
      * 项目ID
      */
-    @TableId(value = "project_id", type = IdType.AUTO)
-    private Integer projectId;
+    @TableId(value = "project_id")
+    private String projectId;
 
     /**
      * 项目名称
@@ -65,4 +65,10 @@ public class SysProject implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    @TableField(exist = false)
+    private Integer pageNum;
+
+    @TableField(exist = false)
+    private Integer pageSize;
 }
