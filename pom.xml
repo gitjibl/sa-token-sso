@@ -21,7 +21,7 @@
     <modules>
         <module>sa-token-sso-server</module>
         <module>sso-client-001</module>
-        <module>sa-token-admin</module>
+        <module>sa-token-master</module>
     </modules>
 
     <dependencies>
