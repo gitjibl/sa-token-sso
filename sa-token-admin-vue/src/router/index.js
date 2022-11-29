@@ -89,7 +89,7 @@ export const constantRoutes = [{
   }, {
     path: 'dept',
     name: 'Dept',
-    component: () => import('@/views/form/index'),
+    component: () => import('@/views/system/dept/index'),  //配置部门管理组件地址
     meta: {
       title: '部门管理',
     }
