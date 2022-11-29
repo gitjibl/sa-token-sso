@@ -1,5 +1,6 @@
 package com.example.admin.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.admin.domain.SysDept;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -10,4 +11,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SysDeptService extends IService<SysDept> {
 
+    IPage getPageList(SysDept sysDept);
 }
