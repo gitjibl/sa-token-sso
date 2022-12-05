@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import com.example.common.core.domain.BaseEntity;
 import lombok.Data;
 
 /**
@@ -14,7 +16,7 @@ import lombok.Data;
  */
 @TableName(value ="sys_role")
 @Data
-public class SysRole implements Serializable {
+public class SysRole extends BaseEntity implements Serializable {
     /**
      * 角色ID
      */
@@ -71,4 +73,10 @@ public class SysRole implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    /** 菜单组 */
+    @TableField(exist = false)
+    private Integer[] menuIds;
+
+
 }

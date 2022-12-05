@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 13:31:34
  * @LastEditors: jibl
- * @LastEditTime: 2022-11-28 17:26:59
+ * @LastEditTime: 2022-12-05 10:20:27
 -->
 <!--  -->
 <template>
@@ -39,7 +39,7 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" style="margin-bottom: 8px">
+    <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
           type="primary"
@@ -257,6 +257,7 @@ export default {
       this.title = "编辑项目";
       this.form = { ...row };
     },
+    // 删除按钮
     handleDelete(row) {
       const ids = [row.projectId] || this.ids;
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
@@ -278,7 +279,7 @@ export default {
                 type: "success",
                 message: "删除成功!",
               });
-              this.getList()
+              this.getList();
             })
             .catch((err) => {});
         })
@@ -290,11 +291,35 @@ export default {
         });
     },
     handleExport() {
-      alert("开发中...");
+      alert("功能开发中...");
     },
 
-    handleStatusChange() {
-      alert("开发中...");
+    //状态改变
+    handleStatusChange(row) {
+      let text = row.status === "0" ? "启用" : "停用";
+      this.$confirm(
+        '确认要"' + text + '""' + row.projectName + '"项目吗？',
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).then(() => {
+        this.$axios({
+          method: "get",
+          url: "/project/updateStatus",
+          params: {
+            projectId: row.projectId,
+            status: row.status,
+          },
+        }).then((res) => {
+          this.$notify.success({
+            title: "成功",
+            message: "操作成功",
+          });
+        });
+      });
     },
     // 多选框选中数据
     handleSelectionChange(selection) {

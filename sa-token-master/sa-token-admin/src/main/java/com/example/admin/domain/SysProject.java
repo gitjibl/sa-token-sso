@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import com.example.common.core.domain.BaseEntity;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,7 +17,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @TableName(value ="sys_project")
 @Data
-public class SysProject implements Serializable {
+public class SysProject extends BaseEntity implements Serializable {
     /**
      * 项目ID
      */
@@ -68,9 +70,4 @@ public class SysProject implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
-    @TableField(exist = false)
-    private Integer pageNum;
-
-    @TableField(exist = false)
-    private Integer pageSize;
 }

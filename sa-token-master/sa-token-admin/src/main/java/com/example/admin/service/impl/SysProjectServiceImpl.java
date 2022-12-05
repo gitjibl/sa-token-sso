@@ -28,7 +28,6 @@ public class SysProjectServiceImpl extends ServiceImpl<SysProjectMapper, SysProj
 
     @Override
     public IPage getPageList(SysProject sysProject) {
-        Map<String, Object> map = new HashMap<>();
         Page<SysProject> page = new Page<>(sysProject.getPageNum(), sysProject.getPageSize());
         QueryWrapper<SysProject> queryWrapper = new QueryWrapper<>();
         if (!ObjectUtils.isEmpty(sysProject.getProjectName())) {

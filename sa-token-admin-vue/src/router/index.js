@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 09:38:28
  * @LastEditors: jibl
- * @LastEditTime: 2022-11-28 15:12:26
+ * @LastEditTime: 2022-12-05 10:10:04
  */
 /**
  * Note: 路由配置项
@@ -92,6 +92,13 @@ export const constantRoutes = [{
     component: () => import('@/views/system/dept/index'),  //配置部门管理组件地址
     meta: {
       title: '部门管理',
+    }
+  }, {
+    path: 'role',
+    name: 'Role',
+    component: () => import('@/views/system/role/index'),
+    meta: {
+      title: '角色管理',
     }
   },]
 }

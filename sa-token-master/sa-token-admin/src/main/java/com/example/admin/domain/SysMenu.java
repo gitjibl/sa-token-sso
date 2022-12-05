@@ -5,7 +5,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import com.example.common.core.domain.BaseEntity;
 import lombok.Data;
 
 /**
@@ -14,7 +18,7 @@ import lombok.Data;
  */
 @TableName(value ="sys_menu")
 @Data
-public class SysMenu implements Serializable {
+public class SysMenu extends BaseEntity implements Serializable {
     /**
      * 菜单ID
      */
@@ -79,13 +83,13 @@ public class SysMenu implements Serializable {
      * 菜单状态（0显示 1隐藏）
      */
     @TableField(value = "visible")
-    private String visible;
+    private Integer visible;
 
     /**
      * 菜单状态（0正常 1停用）
      */
     @TableField(value = "status")
-    private String status;
+    private Integer status;
 
     /**
      * 权限标识
@@ -119,4 +123,7 @@ public class SysMenu implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    @TableField(exist = false)
+    private List<SysMenu> children = new ArrayList<SysMenu>();
 }

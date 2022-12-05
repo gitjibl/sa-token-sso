@@ -84,4 +84,10 @@ public class SysUser implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+
+    public static boolean isAdmin(Integer userId)
+    {
+        return userId != null && 1 == userId;
+    }
 }

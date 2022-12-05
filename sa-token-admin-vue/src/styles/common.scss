@@ -72,6 +72,19 @@
 //     color: #e7eaef;
 // }
 
+
+.el-dialog:not(.is-fullscreen) {
+	margin-top: 6vh !important;
+}
+
+.el-dialog__wrapper.scrollbar .el-dialog .el-dialog__body {
+    overflow: auto;
+	overflow-x: hidden;
+	max-height: 70vh;
+	padding: 10px 20px 0;
+}
+
+
 /**el-table **/
 
 .el-table {
@@ -110,4 +123,32 @@ label {
     margin-bottom: 10px;
     margin-top: 15px;
     padding: 10px 20px !important;
+}
+
+.mb8 {
+    margin-bottom: 8px;
+}
+
+/** 表格更多操作下拉样式 */
+.el-table .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+    margin-left: 5px;
+}
+
+.el-table .el-dropdown,
+.el-icon-arrow-down {
+    font-size: 12px;
+}
+
+
+/* tree border */
+.tree-border {
+    margin-top: 5px;
+    border: 1px solid #e5e6e7;
+    background: #FFFFFF none;
+    border-radius:4px;
+    max-height: 480px;
+    min-height: 300px;
+    overflow-y:auto
 }

@@ -5,31 +5,76 @@
 <mapper namespace="com.example.admin.mapper.SysMenuMapper">
 
     <resultMap id="BaseResultMap" type="com.example.admin.domain.SysMenu">
-            <id property="menuId" column="menu_id" jdbcType="BIGINT"/>
-            <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
-            <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
-            <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
-            <result property="path" column="path" jdbcType="VARCHAR"/>
-            <result property="component" column="component" jdbcType="VARCHAR"/>
-            <result property="query" column="query" jdbcType="VARCHAR"/>
-            <result property="isFrame" column="is_frame" jdbcType="INTEGER"/>
-            <result property="isCache" column="is_cache" jdbcType="INTEGER"/>
-            <result property="menuType" column="menu_type" jdbcType="CHAR"/>
-            <result property="visible" column="visible" jdbcType="CHAR"/>
-            <result property="status" column="status" jdbcType="CHAR"/>
-            <result property="perms" column="perms" jdbcType="VARCHAR"/>
-            <result property="icon" column="icon" jdbcType="VARCHAR"/>
-            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <id property="menuId" column="menu_id" jdbcType="BIGINT"/>
+        <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
+        <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+        <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
+        <result property="path" column="path" jdbcType="VARCHAR"/>
+        <result property="component" column="component" jdbcType="VARCHAR"/>
+        <result property="query" column="query" jdbcType="VARCHAR"/>
+        <result property="isFrame" column="is_frame" jdbcType="INTEGER"/>
+        <result property="isCache" column="is_cache" jdbcType="INTEGER"/>
+        <result property="menuType" column="menu_type" jdbcType="CHAR"/>
+        <result property="visible" column="visible" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="perms" column="perms" jdbcType="VARCHAR"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        menu_id,menu_name,parent_id,
+        menu_id
+        ,menu_name,parent_id,
         order_num,path,component,
         query,is_frame,is_cache,
         menu_type,visible,status,
         perms,icon,create_by,
         create_time,remark
     </sql>
+    <select id="selectMenuList" resultType="com.example.admin.domain.SysMenu">
+        select * from sys_menu
+        <where>
+            <if test="menuName != null and menuName != ''">
+                AND menu_name like concat('%', #{menuName}, '%')
+            </if>
+            <if test="visible != null and visible != ''">
+                AND visible = #{visible}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+        </where>
+        order by parent_id, order_num
+    </select>
+    <select id="selectMenuListByUserId" resultType="com.example.admin.domain.SysMenu">
+        select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.`query`, m.visible, m.status,
+        ifnull(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
+        from sys_menu m
+        left join sys_role_menu rm on m.menu_id = rm.menu_id
+        left join sys_user_role ur on rm.role_id = ur.role_id
+        left join sys_role ro on ur.role_id = ro.role_id
+        where ur.user_id = #{params.userId}
+        <if test="menuName != null and menuName != ''">
+            AND m.menu_name like concat('%', #{menuName}, '%')
+        </if>
+        <if test="visible != null">
+            AND m.visible = #{visible}
+        </if>
+        <if test="status != null">
+            AND m.status = #{status}
+        </if>
+        order by m.parent_id, m.order_num
+    </select>
+    <select id="selectMenuListByRoleId" resultType="java.lang.Integer">
+        select m.menu_id
+        from sys_menu m
+                 left join sys_role_menu rm on m.menu_id = rm.menu_id
+        where rm.role_id = #{roleId}
+          and m.menu_id not in (select m.parent_id
+                                from sys_menu m
+                                         inner join sys_role_menu rm on m.menu_id = rm.menu_id and rm.role_id = #{roleId})
+        order by m.parent_id, m.order_num
+    </select>
 </mapper>

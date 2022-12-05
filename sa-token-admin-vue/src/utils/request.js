@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-09-22 13:43:06
  * @LastEditors: jibl
- * @LastEditTime: 2022-11-28 15:06:01
+ * @LastEditTime: 2022-12-05 14:41:46
  */
 // import Cookies from 'js-cookie'
 import axios from 'axios'
@@ -63,7 +63,7 @@ service.interceptors.response.use(res => {
             location.href = 'http://localhost:9000/sso/auth?redirect='+location.href
             return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
         } else if (code === 200) {
-            return Promise.resolve(res)
+            return Promise.resolve(res.data)
         } else {
             Notification({
                 title: '错误',
