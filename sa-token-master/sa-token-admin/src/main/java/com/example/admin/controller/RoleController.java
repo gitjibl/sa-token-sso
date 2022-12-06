@@ -36,4 +36,11 @@ public class RoleController extends BaseController {
         boolean update = sysRoleService.update(sysRole, wrapper);
         return update ? R.ok() : R.fail();
     }
+
+    @PostMapping("/updateRoleMenu")
+    public R updateRoleMenu(@RequestBody SysRole sysRole) {
+        boolean update = sysRoleService.updateRoleMenu(sysRole);
+        return update ? R.ok() : R.fail();
+    }
+
 }

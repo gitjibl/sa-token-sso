@@ -5,7 +5,7 @@
 <mapper namespace="com.example.admin.mapper.SysRoleMapper">
 
     <resultMap id="BaseResultMap" type="com.example.admin.domain.SysRole">
-            <id property="roleId" column="role_id" jdbcType="BIGINT"/>
+            <id property="roleId" column="role_id" jdbcType="INTEGER"/>
             <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
             <result property="projectId" column="project_id" jdbcType="VARCHAR"/>
             <result property="roleKey" column="role_key" jdbcType="VARCHAR"/>
@@ -21,4 +21,5 @@
         role_key,role_sort,status,
         create_by,create_time,remark
     </sql>
+
 </mapper>

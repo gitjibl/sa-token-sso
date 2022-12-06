@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -41,13 +42,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
     public List<SysMenu> selectMenuList(Integer userId) {
         SysMenu menu = new SysMenu();
         List<SysMenu> menuList = null;
+        menuList = sysMenuMapper.selectMenuList(menu);
         // 管理员显示所有菜单信息
-        if (SysUser.isAdmin(userId)) {
-            menuList = sysMenuMapper.selectMenuList(menu);
-        } else {
-            menu.getParams().put("userId", userId);
-            menuList = sysMenuMapper.selectMenuListByUserId(menu);
-        }
+//        if (SysUser.isAdmin(userId)) {
+//            menuList = sysMenuMapper.selectMenuList(menu);
+//        } else {
+//            menu.getParams().put("userId", userId);
+//            menuList = sysMenuMapper.selectMenuListByUserId(menu);
+//        }
         return menuList;
     }
 
@@ -59,7 +61,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
      */
     @Override
     public List<TreeSelect> buildMenuTreeSelect(List<SysMenu> menus) {
-        List<SysMenu> menuTrees = buildMenuTree(menus);
+//        List<SysMenu> menuTrees = buildMenuTree(menus);
+        List<SysMenu> menuTrees = new ArrayList<>();
+        Map<String, List<SysMenu>> collect = menus.stream().collect(Collectors.groupingBy(SysMenu::getProjectName));
+
+        collect.forEach((key,value)->{
+            SysMenu sysMenu = new SysMenu();
+            sysMenu.setMenuId((int) Math.random());
+            sysMenu.setMenuName(key);
+            sysMenu.setChildren(buildMenuTree(menus));
+            menuTrees.add(sysMenu);
+        });
+
         return menuTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
@@ -85,7 +98,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
      */
     public List<SysMenu> buildMenuTree(List<SysMenu> menus) {
         List<SysMenu> returnList = new ArrayList<SysMenu>();
-        List<Long> tempList = new ArrayList<Long>();
+        List<Integer> tempList = new ArrayList<Integer>();
         for (SysMenu dept : menus) {
             tempList.add(dept.getMenuId());
         }

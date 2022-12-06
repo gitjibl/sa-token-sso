@@ -5,9 +5,9 @@
 <mapper namespace="com.example.admin.mapper.SysMenuMapper">
 
     <resultMap id="BaseResultMap" type="com.example.admin.domain.SysMenu">
-        <id property="menuId" column="menu_id" jdbcType="BIGINT"/>
+        <id property="menuId" column="menu_id" jdbcType="INTEGER"/>
         <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
-        <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+        <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
         <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
         <result property="path" column="path" jdbcType="VARCHAR"/>
         <result property="component" column="component" jdbcType="VARCHAR"/>
@@ -34,16 +34,16 @@
         create_time,remark
     </sql>
     <select id="selectMenuList" resultType="com.example.admin.domain.SysMenu">
-        select * from sys_menu
+        select a.*,b.project_name from sys_menu a left join sys_project b on a.project_id = b.project_id
         <where>
             <if test="menuName != null and menuName != ''">
-                AND menu_name like concat('%', #{menuName}, '%')
+                AND a.menu_name like concat('%', #{menuName}, '%')
             </if>
             <if test="visible != null and visible != ''">
-                AND visible = #{visible}
+                AND a.visible = #{visible}
             </if>
             <if test="status != null and status != ''">
-                AND status = #{status}
+                AND a.status = #{status}
             </if>
         </where>
         order by parent_id, order_num

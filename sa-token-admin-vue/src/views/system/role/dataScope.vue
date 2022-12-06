@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-12-05 16:41:37
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-05 16:48:54
+ * @LastEditTime: 2022-12-06 17:05:14
 -->
 <!--  -->
 <template>
@@ -14,11 +14,7 @@
     width="500px"
     append-to-body
   >
-    <el-form
-      ref="form"
-      :model="menuform"
-      label-width="100px"
-    >
+    <el-form ref="form" :model="menuform" label-width="100px">
       <el-form-item label="角色名称" prop="roleName">
         <el-input
           v-model="menuform.roleName"
@@ -79,6 +75,8 @@ export default {
         children: "children",
         label: "label",
       },
+      //当前行
+      row_: null,
     };
   },
   created() {},
@@ -92,6 +90,7 @@ export default {
         params: { roleId: roleId },
       }).then((res) => {
         this.menuOptions = res.data.menus;
+        console.log(this.menuOptions,"this.menuOptions")
         let checkedKeys = res.data.checkedKeys;
         checkedKeys.forEach((v) => {
           this.$nextTick(() => {
@@ -103,6 +102,7 @@ export default {
 
     /** 分配数据权限操作 */
     handleDataScope(row) {
+      this.row_ = row;
       this.getRoleMenuTreeselect(row.roleId);
       this.menuform.roleName = row.roleName;
       this.menuTitle = "分配数据权限";
@@ -140,6 +140,27 @@ export default {
       let halfCheckedKeys = this.$refs.menu.getHalfCheckedKeys();
       checkedKeys.unshift.apply(checkedKeys, halfCheckedKeys);
       return checkedKeys;
+    },
+
+    submitMenuForm() {
+      let menuIds = this.getMenuAllCheckedKeys();
+      this.$axios({
+        method: "post",
+        url: "/role/updateRoleMenu",
+        data: JSON.stringify({
+          roleId: this.row_.roleId,
+          menuIds: menuIds,
+        }),
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+        },
+      }).then((res) => {
+        this.$notify.success({
+          title: "成功",
+          message: "操作成功",
+        });
+        this.menuOpen = false;
+      });
     },
   },
 };

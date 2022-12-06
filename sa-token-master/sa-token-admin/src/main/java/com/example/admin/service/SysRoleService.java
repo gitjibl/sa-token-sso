@@ -12,4 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface SysRoleService extends IService<SysRole> {
 
     IPage getPageList(SysRole sysRole);
+
+    boolean updateRoleMenu(SysRole sysRole);
 }

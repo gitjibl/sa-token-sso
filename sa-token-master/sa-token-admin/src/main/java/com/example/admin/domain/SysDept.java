@@ -22,13 +22,13 @@ public class SysDept implements Serializable {
      * 部门id
      */
     @TableId(value = "dept_id", type = IdType.AUTO)
-    private Long deptId;
+    private Integer deptId;
 
     /**
      * 父部门id
      */
     @TableField(value = "parent_id")
-    private Long parentId;
+    private Integer parentId;
 
     /**
      * 祖级列表

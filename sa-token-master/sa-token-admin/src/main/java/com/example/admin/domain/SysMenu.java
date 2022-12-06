@@ -23,7 +23,7 @@ public class SysMenu extends BaseEntity implements Serializable {
      * 菜单ID
      */
     @TableId(value = "menu_id", type = IdType.AUTO)
-    private Long menuId;
+    private Integer menuId;
 
     /**
      * 菜单名称
@@ -35,7 +35,7 @@ public class SysMenu extends BaseEntity implements Serializable {
      * 父菜单ID
      */
     @TableField(value = "parent_id")
-    private Long parentId;
+    private Integer parentId;
 
     /**
      * 显示顺序
@@ -104,6 +104,12 @@ public class SysMenu extends BaseEntity implements Serializable {
     private String icon;
 
     /**
+     * 项目ID
+     */
+    @TableField(value = "project_id")
+    private String projectId;
+
+    /**
      * 创建者
      */
     @TableField(value = "create_by")
@@ -126,4 +132,7 @@ public class SysMenu extends BaseEntity implements Serializable {
 
     @TableField(exist = false)
     private List<SysMenu> children = new ArrayList<SysMenu>();
+
+    @TableField(exist = false)
+    private String projectName;
 }
