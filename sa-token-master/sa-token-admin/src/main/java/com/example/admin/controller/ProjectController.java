@@ -1,6 +1,7 @@
 package com.example.admin.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.admin.domain.SysProject;
@@ -19,10 +20,17 @@ public class ProjectController extends BaseController {
     @Autowired
     SysProjectService sysProjectService;
 
-    @GetMapping("/getList")
-    public R getList(SysProject sysProject) {
+    @GetMapping("/getPageList")
+    public R getPageList(SysProject sysProject) {
         IPage pageList = sysProjectService.getPageList(sysProject);
         return R.ok(pageList);
+    }
+
+    @GetMapping("/getList")
+    public R getList(SysProject sysProject) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        List list = sysProjectService.list(queryWrapper);
+        return R.ok(list);
     }
 
     @GetMapping("/insert")

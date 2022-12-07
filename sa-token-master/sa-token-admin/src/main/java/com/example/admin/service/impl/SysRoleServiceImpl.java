@@ -36,18 +36,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
     @Override
     public IPage getPageList(SysRole sysRole) {
         Page<SysRole> page = new Page<>(sysRole.getPageNum(), sysRole.getPageSize());
-        QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
-        if (!ObjectUtils.isEmpty(sysRole.getRoleName())) {
-            queryWrapper.like("role_name", sysRole.getRoleName());
-        }
-        if (!ObjectUtils.isEmpty(sysRole.getRoleKey())) {
-            queryWrapper.like("role_key", sysRole.getRoleKey());
-        }
-        if (!ObjectUtils.isEmpty(sysRole.getStatus())) {
-            queryWrapper.eq("status", sysRole.getStatus());
-        }
-        queryWrapper.orderByAsc("role_sort");
-        IPage<SysRole> list = sysRoleMapper.selectPage(page, queryWrapper);
+        IPage list = sysRoleMapper.getPageList(page, sysRole);
         return list;
     }
 

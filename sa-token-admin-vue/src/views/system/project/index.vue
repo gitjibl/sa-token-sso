@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 13:31:34
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-05 10:20:27
+ * @LastEditTime: 2022-12-07 16:34:44
 -->
 <!--  -->
 <template>
@@ -152,7 +152,7 @@
       :total="pagination.total"
     ></el-pagination>
 
-    <!-- 添加或修改角色配置对话框 -->
+    <!-- 添加或修改项目配置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px">
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="项目编码" prop="projectId">
@@ -230,19 +230,19 @@ export default {
     };
   },
   created() {
-    this.getList();
+    this.getPageList();
   },
   mounted() {},
   methods: {
     //搜索按钮操作
     handleQuery() {
       this.pagination.pageNum = 1;
-      this.getList();
+      this.getPageList();
     },
     //重置搜索
     resetQuery() {
       this.$data.queryParams = this.$options.data().queryParams;
-      this.getList();
+      this.getPageList();
     },
     //新增按钮操作
     handleAdd() {
@@ -279,7 +279,7 @@ export default {
                 type: "success",
                 message: "删除成功!",
               });
-              this.getList();
+              this.getPageList();
             })
             .catch((err) => {});
         })
@@ -328,10 +328,10 @@ export default {
       this.multiple = !selection.length;
     },
     //查询列表
-    getList() {
+    getPageList() {
       this.$axios({
         method: "get",
-        url: "/project/getList",
+        url: "/project/getPageList",
         params: {
           ...this.queryParams,
           pageNum: this.pagination.pageNum,
@@ -363,7 +363,7 @@ export default {
                 message: "操作成功",
               });
               this.open = false;
-              this.getList();
+              this.getPageList();
             });
           } else {
             this.$axios({
@@ -378,7 +378,7 @@ export default {
                 message: "操作成功",
               });
               this.open = false;
-              this.getList();
+              this.getPageList();
             });
           }
         }
@@ -387,11 +387,11 @@ export default {
     // ----分页----
     handleSizeChange(val) {
       this.pagination.pageSize = val;
-      this.getList();
+      this.getPageList();
     },
     handleCurrentChange(val) {
       this.pagination.pageNum = val;
-      this.getList();
+      this.getPageList();
     },
     // ------
   },

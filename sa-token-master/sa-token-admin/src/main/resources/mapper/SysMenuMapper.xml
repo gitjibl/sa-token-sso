@@ -77,4 +77,10 @@
                                          inner join sys_role_menu rm on m.menu_id = rm.menu_id and rm.role_id = #{roleId})
         order by m.parent_id, m.order_num
     </select>
+    <select id="selectMenuListByProjectId" resultType="com.example.admin.domain.SysMenu">
+        select a.*, b.project_name
+        from sys_menu a
+                 left join sys_project b on a.project_id = b.project_id
+        where a.project_id = #{projectId}
+    </select>
 </mapper>

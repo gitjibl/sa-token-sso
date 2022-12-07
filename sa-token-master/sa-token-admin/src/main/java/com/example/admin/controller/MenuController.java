@@ -8,12 +8,11 @@ import com.example.admin.service.SysMenuService;
 import com.example.common.core.controller.BaseController;
 import com.example.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +25,10 @@ public class MenuController extends BaseController {
     SysMenuService sysMenuService;
 
     @GetMapping("/roleMenuTreeselect")
-    public R roleMenuTreeselect(Integer roleId) {
+    public R roleMenuTreeselect(Integer roleId,String projectId) {
         Map map = new HashMap<>();
-        SysUser loginUser = JSON.parseObject(getLoginUser().toString(), SysUser.class);
-        List<SysMenu> menus = sysMenuService.selectMenuList(loginUser.getUserId());
+//        SysUser loginUser = JSON.parseObject(getLoginUser().toString(), SysUser.class);
+        List<SysMenu> menus = sysMenuService.selectMenuListByProjectId(projectId);
         List<Integer> checkedKeys = sysMenuService.selectMenuListByRoleId(roleId);
         List<TreeSelect> treeMenus = sysMenuService.buildMenuTreeSelect(menus);
         map.put("checkedKeys", checkedKeys);

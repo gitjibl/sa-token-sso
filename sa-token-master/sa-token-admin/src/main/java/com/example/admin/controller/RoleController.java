@@ -9,6 +9,8 @@ import com.example.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/role")
 public class RoleController extends BaseController {
@@ -17,14 +19,16 @@ public class RoleController extends BaseController {
     SysRoleService sysRoleService;
 
 
-    @GetMapping("/getList")
-    public R getList(SysRole sysRole) {
+    @GetMapping("/getPageList")
+    public R getPageList(SysRole sysRole) {
         IPage pageList = sysRoleService.getPageList(sysRole);
         return R.ok(pageList);
     }
 
     @GetMapping("/insert")
     public R insert(SysRole sysRole) {
+        sysRole.setCreateBy(getLoginUserName());
+        sysRole.setCreateTime(new Date());
         boolean update = sysRoleService.save(sysRole);
         return update ? R.ok() : R.fail();
     }

@@ -5,21 +5,40 @@
 <mapper namespace="com.example.admin.mapper.SysRoleMapper">
 
     <resultMap id="BaseResultMap" type="com.example.admin.domain.SysRole">
-            <id property="roleId" column="role_id" jdbcType="INTEGER"/>
-            <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
-            <result property="projectId" column="project_id" jdbcType="VARCHAR"/>
-            <result property="roleKey" column="role_key" jdbcType="VARCHAR"/>
-            <result property="roleSort" column="role_sort" jdbcType="INTEGER"/>
-            <result property="status" column="status" jdbcType="INTEGER"/>
-            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <id property="roleId" column="role_id" jdbcType="INTEGER"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <result property="projectId" column="project_id" jdbcType="VARCHAR"/>
+        <result property="roleKey" column="role_key" jdbcType="VARCHAR"/>
+        <result property="roleSort" column="role_sort" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        role_id,role_name,project_id,
+        role_id
+        ,role_name,project_id,
         role_key,role_sort,status,
         create_by,create_time,remark
     </sql>
+    <select id="getPageList" resultType="com.example.admin.domain.SysRole">
+        select a.*, b.project_name
+        from sys_role a
+        left join sys_project b on a.project_id = b.project_id
+        <where>
+            a.project_id = #{enity.projectId}
+            <if test="enity.roleName != null">
+                and a.role_name like '%'+#{enity.roleName}+'%'
+            </if>
+            <if test="enity.roleKey != null">
+                and a.role_key like '%'+#{enity.roleKey}+'%'
+            </if>
+            <if test="enity.status != null">
+                and a.status = #{enity.status}
+            </if>
+        </where>
+        order by role_sort
+    </select>
 
 </mapper>

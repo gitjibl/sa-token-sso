@@ -78,5 +78,6 @@ public class SysRole extends BaseEntity implements Serializable {
     @TableField(exist = false)
     private Integer[] menuIds;
 
-
+    @TableField(exist = false)
+    private String projectName;
 }

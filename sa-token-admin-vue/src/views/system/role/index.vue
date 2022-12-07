@@ -3,17 +3,14 @@
  * @Author: jibl
  * @Date: 2022-12-05 10:08:45
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-05 16:53:03
+ * @LastEditTime: 2022-12-07 16:43:16
 -->
 <!--  -->
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
       <el-form-item label="项目名称" prop="roleName">
-        <el-select
-          v-model="queryParams.projectId"
-          placeholder="请选择项目名称"
-        >
+        <el-select v-model="queryParams.projectId" placeholder="请选择项目名称">
           <el-option
             v-for="item in projectOptions"
             :key="item.projectId"
@@ -143,7 +140,7 @@
         align="center"
         class-name="small-padding fixed-width"
       >
-        <template slot-scope="scope" v-if="scope.row.roleId !== 1">
+        <template slot-scope="scope" v-if="scope.row.roleKey !== 'super-admin'">
           <el-button
             size="mini"
             type="text"
@@ -200,6 +197,7 @@
       :visible.sync="roleOpen"
       width="500px"
       append-to-body
+      @closed="close"
     >
       <el-form
         ref="roleform"
@@ -207,6 +205,11 @@
         :rules="roleRules"
         label-width="100px"
       >
+        <el-form-item label="所属项目" prop="projectName">
+          <label style="color: #001fff" disabled>{{
+            roleform.projectName
+          }}</label>
+        </el-form-item>
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="roleform.roleName" placeholder="请输入角色名称" />
         </el-form-item>
@@ -231,8 +234,8 @@
         </el-form-item>
         <el-form-item label="状态">
           <el-radio-group v-model="roleform.status">
-            <el-radio label="正常" :value="0"></el-radio>
-            <el-radio label="停用" :value="1"></el-radio>
+            <el-radio :label="0">正常</el-radio>
+            <el-radio :label="1">停用</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注">
@@ -245,7 +248,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button @click="roleOpen = false">取 消</el-button>
       </div>
     </el-dialog>
 
@@ -259,7 +262,9 @@ export default {
   data() {
     return {
       // 查询参数
-      queryParams: {},
+      queryParams: {
+        projectId: null,
+      },
       // 遮罩层
       loading: false,
       // 选中数组
@@ -275,7 +280,9 @@ export default {
       // 角色弹出层
       roleOpen: false,
       // 角色表单参数
-      roleform: {},
+      roleform: {
+        status:0
+      },
       // 分页
       pagination: {
         pageNum: 1,
@@ -283,8 +290,17 @@ export default {
         pageSizes: [10, 20, 30, 50],
         pageSize: 10,
       },
+      //项目集合
+      projectOptions: [],
       // 表单校验
       roleRules: {
+        projectName: [
+          {
+            required: true,
+            message: "所属项目不能为空",
+            trigger: "blur",
+          },
+        ],
         roleName: [
           {
             required: true,
@@ -310,7 +326,7 @@ export default {
     };
   },
   created() {
-    this.getList();
+    this.getProjectList();
   },
   mounted() {},
   components: {
@@ -320,18 +336,18 @@ export default {
     //搜索按钮操作
     handleQuery() {
       this.pagination.pageNum = 1;
-      this.getList();
+      this.getPageList();
     },
     //重置搜索
     resetQuery() {
       this.$data.queryParams = this.$options.data().queryParams;
-      this.getList();
+      this.getProjectList();
     },
     //查询列表
-    getList() {
+    getPageList() {
       this.$axios({
         method: "get",
-        url: "/role/getList",
+        url: "/role/getPageList",
         params: {
           ...this.queryParams,
           pageNum: this.pagination.pageNum,
@@ -343,10 +359,27 @@ export default {
       });
     },
 
+    //加载项目列表
+    getProjectList() {
+      this.$axios({
+        method: "get",
+        url: "/project/getList",
+        params: {},
+      }).then((res) => {
+        this.projectOptions = res.data;
+        this.queryParams.projectId = res.data[0].projectId;
+        this.getPageList();
+      });
+    },
+
     //新增按钮操作
     handleAdd() {
       this.isInsert = true;
       this.roleOpen = true;
+      this.roleform.projectName = this.projectOptions.filter((item) => {
+        return this.queryParams.projectId == item.projectId;
+      })[0].projectName;
+      this.roleform.projectId = this.queryParams.projectId;
       this.roleTitle = "新增角色";
     },
     /** 修改按钮操作 */
@@ -375,7 +408,6 @@ export default {
     submitForm() {
       this.$refs["roleform"].validate((valid) => {
         if (valid) {
-          // this.form.menuIds = this.getMenuAllCheckedKeys();
           let url = "";
           if (this.isInsert) {
             url = "/role/insert";
@@ -394,21 +426,24 @@ export default {
               message: "操作成功",
             });
             this.roleOpen = false;
-            this.getList();
+            this.getPageList();
           });
         }
       });
     },
     cancel() {},
+    close() {
+      this.$data.roleform = this.$options.data().roleform;
+    },
 
     // ----分页----
     handleSizeChange(val) {
       this.pagination.pageSize = val;
-      this.getList();
+      this.getPageList();
     },
     handleCurrentChange(val) {
       this.pagination.pageNum = val;
-      this.getList();
+      this.getPageList();
     },
     // ------
   },

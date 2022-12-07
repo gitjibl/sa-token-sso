@@ -35,17 +35,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
     /**
      * 查询系统菜单列表
      *
-     * @param userId 登录用户ID
+     * @param projectId 项目ID
      * @return 菜单列表
      */
     @Override
-    public List<SysMenu> selectMenuList(Integer userId) {
+    public List<SysMenu> selectMenuListByProjectId(String projectId) {
         SysMenu menu = new SysMenu();
         List<SysMenu> menuList = null;
-        menuList = sysMenuMapper.selectMenuList(menu);
-        // 管理员显示所有菜单信息
+        menuList = sysMenuMapper.selectMenuListByProjectId(projectId);
+//        // 管理员显示所有菜单信息
 //        if (SysUser.isAdmin(userId)) {
-//            menuList = sysMenuMapper.selectMenuList(menu);
+//            menuList = sysMenuMapper.selectMenuListByProjectId(projectId);
 //        } else {
 //            menu.getParams().put("userId", userId);
 //            menuList = sysMenuMapper.selectMenuListByUserId(menu);
@@ -61,17 +61,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
      */
     @Override
     public List<TreeSelect> buildMenuTreeSelect(List<SysMenu> menus) {
-//        List<SysMenu> menuTrees = buildMenuTree(menus);
-        List<SysMenu> menuTrees = new ArrayList<>();
-        Map<String, List<SysMenu>> collect = menus.stream().collect(Collectors.groupingBy(SysMenu::getProjectName));
-
-        collect.forEach((key,value)->{
-            SysMenu sysMenu = new SysMenu();
-            sysMenu.setMenuId((int) Math.random());
-            sysMenu.setMenuName(key);
-            sysMenu.setChildren(buildMenuTree(menus));
-            menuTrees.add(sysMenu);
-        });
+        List<SysMenu> menuTrees = buildMenuTree(menus);
+//        List<SysMenu> menuTrees = new ArrayList<>();
+//        Map<String, List<SysMenu>> collect = menus.stream().collect(Collectors.groupingBy(SysMenu::getProjectName));
+//
+//        collect.forEach((key,value)->{
+//            SysMenu sysMenu = new SysMenu();
+//            sysMenu.setMenuId((int) Math.random());
+//            sysMenu.setMenuName(key);
+//            sysMenu.setChildren(buildMenuTree(menus));
+//            menuTrees.add(sysMenu);
+//        });
 
         return menuTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
     }

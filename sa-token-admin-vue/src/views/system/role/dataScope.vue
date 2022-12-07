@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-12-05 16:41:37
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-06 17:05:14
+ * @LastEditTime: 2022-12-07 16:47:59
 -->
 <!--  -->
 <template>
@@ -15,12 +15,14 @@
     append-to-body
   >
     <el-form ref="form" :model="menuform" label-width="100px">
+      <el-form-item label="所属项目" prop="projectName">
+        <label style="color: #001fff" disabled>{{
+          menuform.projectName
+        }}</label>
+      </el-form-item>
+
       <el-form-item label="角色名称" prop="roleName">
-        <el-input
-          v-model="menuform.roleName"
-          placeholder="请输入角色名称"
-          disabled
-        />
+        <label style="color: rgb(15 111 76)" disabled>{{ menuform.roleName }}</label>
       </el-form-item>
 
       <el-form-item label="菜单权限">
@@ -83,14 +85,14 @@ export default {
   mounted() {},
   methods: {
     /** 根据角色ID查询菜单下拉树结构 */
-    getRoleMenuTreeselect(roleId) {
+    getRoleMenuTreeselect(roleId, projectId) {
       this.$axios({
         method: "get",
         url: "/menu/roleMenuTreeselect",
-        params: { roleId: roleId },
+        params: { roleId: roleId, projectId: projectId },
       }).then((res) => {
         this.menuOptions = res.data.menus;
-        console.log(this.menuOptions,"this.menuOptions")
+        console.log(this.menuOptions, "this.menuOptions");
         let checkedKeys = res.data.checkedKeys;
         checkedKeys.forEach((v) => {
           this.$nextTick(() => {
@@ -103,8 +105,9 @@ export default {
     /** 分配数据权限操作 */
     handleDataScope(row) {
       this.row_ = row;
-      this.getRoleMenuTreeselect(row.roleId);
+      this.getRoleMenuTreeselect(row.roleId, row.projectId);
       this.menuform.roleName = row.roleName;
+      this.menuform.projectName = row.projectName;
       this.menuTitle = "分配数据权限";
       this.menuOpen = true;
     },
