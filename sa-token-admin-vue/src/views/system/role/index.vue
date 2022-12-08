@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-12-05 10:08:45
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-07 16:43:16
+ * @LastEditTime: 2022-12-08 16:03:59
 -->
 <!--  -->
 <template>
@@ -253,11 +253,14 @@
     </el-dialog>
 
     <data-scope ref="data-scope" />
+
+    <auth-user ref="auth-user" />
   </div>
 </template>
 
 <script>
 import DataScope from "./dataScope";
+import AuthUser from "./authUser";
 export default {
   data() {
     return {
@@ -281,7 +284,7 @@ export default {
       roleOpen: false,
       // 角色表单参数
       roleform: {
-        status:0
+        status: 0,
       },
       // 分页
       pagination: {
@@ -331,6 +334,7 @@ export default {
   mounted() {},
   components: {
     DataScope,
+    AuthUser,
   },
   methods: {
     //搜索按钮操作
@@ -372,6 +376,38 @@ export default {
       });
     },
 
+    //状态改变
+    handleStatusChange(row) {
+      let text = row.status === 0 ? "启用" : "停用";
+      this.$confirm(
+        '确认要"' + text + '""' + row.roleName + '"角色吗？',
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      )
+        .then(() => {
+          this.$axios({
+            method: "get",
+            url: "/role/update",
+            params: {
+              roleId: row.roleId,
+              status: row.status,
+            },
+          }).then((res) => {
+            this.$notify.success({
+              title: "成功",
+              message: "操作成功",
+            });
+          });
+        })
+        .catch(function () {
+          row.status = row.status === 0 ? 1 : 0;
+        });
+    },
+
     //新增按钮操作
     handleAdd() {
       this.isInsert = true;
@@ -388,8 +424,12 @@ export default {
       this.roleTitle = "编辑角色";
       this.roleform = { ...row };
     },
-    handleDelete() {},
-    handleExport() {},
+    handleDelete() {
+      alert("功能开发中...");
+    },
+    handleExport() {
+      alert("功能开发中...");
+    },
     handleSelectionChange() {},
     // 更多操作触发
     handleCommand(command, row) {
@@ -398,7 +438,7 @@ export default {
           this.$refs["data-scope"].handleDataScope(row);
           break;
         case "handleAuthUser":
-          this.handleAuthUser(row);
+          this.$refs["auth-user"].handleAuthUser(row);
           break;
         default:
           break;

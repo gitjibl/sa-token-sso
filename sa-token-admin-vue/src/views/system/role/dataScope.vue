@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-12-05 16:41:37
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-07 16:47:59
+ * @LastEditTime: 2022-12-08 16:16:21
 -->
 <!--  -->
 <template>
@@ -22,7 +22,7 @@
       </el-form-item>
 
       <el-form-item label="角色名称" prop="roleName">
-        <label style="color: rgb(15 111 76)" disabled>{{ menuform.roleName }}</label>
+        <label style="color: rgb(11 181 119)" disabled>{{ menuform.roleName }}</label>
       </el-form-item>
 
       <el-form-item label="菜单权限">
@@ -49,7 +49,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="submitMenuForm">确 定</el-button>
-      <el-button @click="cancel">取 消</el-button>
+      <el-button @click="menuOpen = false">取 消</el-button>
     </div>
   </el-dialog>
 </template>
@@ -78,7 +78,7 @@ export default {
         label: "label",
       },
       //当前行
-      row_: null,
+      row_g: null,
     };
   },
   created() {},
@@ -104,7 +104,7 @@ export default {
 
     /** 分配数据权限操作 */
     handleDataScope(row) {
-      this.row_ = row;
+      this.row_g = row;
       this.getRoleMenuTreeselect(row.roleId, row.projectId);
       this.menuform.roleName = row.roleName;
       this.menuform.projectName = row.projectName;
@@ -151,7 +151,7 @@ export default {
         method: "post",
         url: "/role/updateRoleMenu",
         data: JSON.stringify({
-          roleId: this.row_.roleId,
+          roleId: this.row_g.roleId,
           menuIds: menuIds,
         }),
         headers: {

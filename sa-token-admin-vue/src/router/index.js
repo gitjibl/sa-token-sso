@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 09:38:28
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-05 10:10:04
+ * @LastEditTime: 2022-12-08 16:26:17
  */
 /**
  * Note: 路由配置项
@@ -68,16 +68,23 @@ export const constantRoutes = [{
   children: [{
     path: 'project',
     name: 'Project',
-    component: () => import('@/views/system/project/index'),
+    component: () => import('@/views/system/project'),
     meta: {
       title: '项目管理',
     }
   }, {
     path: 'user',
     name: 'User',
-    component: () => import('@/views/form/index'),
+    component: () => import('@/views/system/user'),
     meta: {
       title: '用户管理',
+    }
+  }, {
+    path: 'role',
+    name: 'Role',
+    component: () => import('@/views/system/role'),
+    meta: {
+      title: '角色管理',
     }
   }, {
     path: 'menu',
@@ -92,13 +99,6 @@ export const constantRoutes = [{
     component: () => import('@/views/system/dept/index'),  //配置部门管理组件地址
     meta: {
       title: '部门管理',
-    }
-  }, {
-    path: 'role',
-    name: 'Role',
-    component: () => import('@/views/system/role/index'),
-    meta: {
-      title: '角色管理',
     }
   },]
 }

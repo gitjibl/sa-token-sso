@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.admin.domain.SysRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.admin.domain.SysUser;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,7 +18,12 @@ import java.util.Map;
 */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
-    IPage getPageList(@Param("page") Page<SysRole> page, @Param("enity") SysRole sysRole);
+    IPage getPageList(@Param("page") Page<SysRole> page, @Param("e") SysRole sysRole);
+
+    IPage getAuthUsers(@Param("page") Page<SysUser> page,@Param("e") SysUser user);
+
+    IPage getUnAuthUsers(@Param("page") Page<SysUser> page, @Param("e") SysUser user);
+
 }
 
 

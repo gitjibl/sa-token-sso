@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import com.example.common.core.domain.BaseEntity;
 import lombok.Data;
 
 /**
@@ -14,7 +16,7 @@ import lombok.Data;
  */
 @TableName(value ="sys_user")
 @Data
-public class SysUser implements Serializable {
+public class SysUser extends BaseEntity implements Serializable {
     /**
      * id，自增主键
      */
@@ -85,6 +87,12 @@ public class SysUser implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
+
+    /**
+     * 角色ID
+     */
+    @TableField(exist = false)
+    private Integer roleId;
 
     public static boolean isAdmin(Integer userId)
     {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.admin.mapper.SysUserRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.admin.domain.SysUserRole">
+        <id property="userId" column="user_id" jdbcType="INTEGER"/>
+        <id property="roleId" column="role_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id
+        ,role_id
+    </sql>
+    <insert id="insertBatchByRoleId">
+        INSERT INTO sys_user_role(user_id, role_id)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item,jdbcType=INTEGER},#{roleId,jdbcType=INTEGER})
+        </foreach>
+
+    </insert>
+
+</mapper>

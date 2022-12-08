@@ -55,13 +55,5 @@ public class ProjectController extends BaseController {
     }
 
 
-    @GetMapping("/updateStatus")
-    public R updateStatus(SysProject sysProject) {
-        UpdateWrapper<SysProject> wrapper = new UpdateWrapper<>();
-        wrapper.eq("project_id", sysProject.getProjectId());
-        boolean update = sysProjectService.update(sysProject, wrapper);
-        return update ? R.ok() : R.fail();
-    }
-
 
 }
