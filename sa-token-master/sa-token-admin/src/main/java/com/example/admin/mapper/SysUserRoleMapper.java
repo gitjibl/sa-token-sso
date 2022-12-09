@@ -14,8 +14,32 @@ import java.util.List;
  */
 public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 
+    /**
+     * 批量授权用户角色
+     * @param list
+     * @param roleId
+     */
     void insertBatchByRoleId(@Param("list") List<Integer> list, @Param("roleId") Integer roleId);
 
+    /**
+     * 通过用户ID删除用户和角色关联
+     *
+     * @param userId
+     */
+    void deleteUserRoleByUserId(@Param("userId") int userId);
+
+    /**
+     * 批量新增用户角色信息
+     *
+     * @param list
+     */
+    void insertUserRoleBatch(List<SysUserRole> list);
+
+    /**
+     * 批量删除用户与角色关联
+     * @param userIds
+     */
+    void deleteBatchUserIds(List<Integer> userIds);
 }
 
 

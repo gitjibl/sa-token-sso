@@ -22,9 +22,9 @@ export function removeToken() {
   return Cookies.remove(TokenKey)
 }
 // 获取用户详细信息
-export function getUserInfo() {
+export function getLoginUserInfo() {
   return request({
-    url: '/getUserInfo',
+    url: '/user/getLoginUserInfo',
     method: 'get'
   })
 }

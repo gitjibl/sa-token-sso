@@ -2,6 +2,7 @@ package com.example.admin.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.admin.domain.SysRole;
@@ -28,6 +29,14 @@ public class RoleController extends BaseController {
         IPage pageList = sysRoleService.getPageList(sysRole);
         return R.ok(pageList);
     }
+
+    @GetMapping("/getList")
+    public R getList(SysRole sysRole) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        List<SysRole> list = sysRoleService.list(queryWrapper);
+        return R.ok(list);
+    }
+
 
     @GetMapping("/insert")
     public R insert(SysRole sysRole) {

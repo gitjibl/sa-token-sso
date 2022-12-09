@@ -29,7 +29,7 @@ public class ProjectController extends BaseController {
     @GetMapping("/getList")
     public R getList(SysProject sysProject) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        List list = sysProjectService.list(queryWrapper);
+        List<SysProject> list = sysProjectService.list(queryWrapper);
         return R.ok(list);
     }
 

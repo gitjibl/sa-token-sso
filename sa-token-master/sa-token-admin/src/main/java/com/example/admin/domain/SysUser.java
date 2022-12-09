@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import com.example.common.core.domain.BaseEntity;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
@@ -89,10 +91,21 @@ public class SysUser extends BaseEntity implements Serializable {
 
 
     /**
-     * 角色ID
+     * 部门名称
      */
     @TableField(exist = false)
-    private Integer roleId;
+    private String deptName;
+
+    /** 角色ID */
+    private Long roleId;
+
+    /** 角色对象 */
+    @TableField(exist = false)
+    private List<SysRole> roles;
+
+    /** 角色组 */
+    @TableField(exist = false)
+    private Integer[] roleIds;
 
     public static boolean isAdmin(Integer userId)
     {

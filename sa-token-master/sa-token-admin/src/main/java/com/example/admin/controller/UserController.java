@@ -3,14 +3,44 @@ package com.example.admin.controller;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.example.admin.domain.SysProject;
+import com.example.admin.domain.SysRole;
+import com.example.admin.domain.SysUser;
+import com.example.admin.domain.SysUserRole;
+import com.example.admin.service.SysRoleService;
+import com.example.admin.service.SysUserRoleService;
+import com.example.admin.service.SysUserService;
+import com.example.common.core.controller.BaseController;
+import com.example.common.utils.R;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
-public class UserController {
+@RequestMapping("/user")
+public class UserController extends BaseController {
 
-    @RequestMapping("/getUserInfo")
-    public Object getUserInfo(){
+    @Autowired
+    SysUserService sysUserService;
+
+    @Autowired
+    SysRoleService sysRoleService;
+
+    @Autowired
+    SysUserRoleService sysUserRoleService;
+
+
+    @RequestMapping("/getLoginUserInfo")
+    public Object getLoginUserInfo() {
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         /**
          * 调用StpUtil.getPermissionList() 才走 StpInterfaceImpl？
@@ -21,5 +51,49 @@ public class UserController {
         SaSession session = StpUtil.getTokenSession();
         Object o = session.get("user");
         return o;
+    }
+
+
+    @GetMapping("/getPageList")
+    public R getPageList(SysUser sysUser) {
+        IPage pageList = sysUserService.getPageList(sysUser);
+        return R.ok(pageList);
+    }
+
+    /**
+     * 根据用户编号获取详细信息
+     */
+    @GetMapping("/getUserInfo")
+    public R getUserInfo(SysUser sysUser) {
+        Integer userId = sysUser.getUserId();
+        List<SysRole> roles = sysRoleService.list();
+        sysUser.setRoles(roles);
+        if (!ObjectUtils.isEmpty(userId)) {
+            QueryWrapper queryWrapper = new QueryWrapper();
+            queryWrapper.eq("user_id", userId);
+            List<SysUserRole> userRoles = sysUserRoleService.list(queryWrapper);
+            List<Integer> collect = userRoles.stream().map(SysUserRole::getRoleId).collect(Collectors.toList());
+            sysUser.setRoleIds(collect.toArray(new Integer[collect.size()]));
+        }
+        return R.ok(sysUser);
+    }
+
+    @PostMapping("/insert")
+    public R insert(@RequestBody SysUser sysUser) {
+         boolean update = sysUserService.insertUser(sysUser);
+        return update ? R.ok() : R.fail();
+    }
+
+    @PostMapping("/update")
+    public R update(@RequestBody SysUser sysUser) {
+        boolean update = sysUserService.updateUser(sysUser);
+        return update ? R.ok() : R.fail();
+    }
+
+    @PostMapping("/delete")
+    public R delete(@RequestBody String ids) {
+        List<Integer> userIds = JSON.parseArray(ids,Integer.class);
+        boolean update = sysUserService.deleteUserBatch(userIds);
+        return update ? R.ok() : R.fail();
     }
 }

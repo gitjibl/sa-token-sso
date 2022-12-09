@@ -29,8 +29,8 @@ public class MenuController extends BaseController {
         Map map = new HashMap<>();
 //        SysUser loginUser = JSON.parseObject(getLoginUser().toString(), SysUser.class);
         List<SysMenu> menus = sysMenuService.selectMenuListByProjectId(projectId);
-        List<Integer> checkedKeys = sysMenuService.selectMenuListByRoleId(roleId);
         List<TreeSelect> treeMenus = sysMenuService.buildMenuTreeSelect(menus);
+        List<Integer> checkedKeys = sysMenuService.selectMenuListByRoleId(roleId);
         map.put("checkedKeys", checkedKeys);
         map.put("menus", treeMenus);
         return R.ok(map);

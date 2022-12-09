@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-22 16:56:45
  * @LastEditors: jibl
- * @LastEditTime: 2022-11-25 16:28:04
+ * @LastEditTime: 2022-12-09 13:34:04
 -->
 <!--  -->
 <template>
@@ -26,7 +26,7 @@ export default {
   methods: {
     getToken() {
       this.$axios({
-        url: "/getUserInfo",
+        url: "/user/getLoginUserInfo",
         method: "get",
         params: {},
       }).then((res) => {

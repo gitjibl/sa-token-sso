@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 13:31:34
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-08 16:03:43
+ * @LastEditTime: 2022-12-09 16:28:20
 -->
 <!--  -->
 <template>
@@ -260,7 +260,7 @@ export default {
     // 删除按钮
     handleDelete(row) {
       const ids = [row.projectId] || this.ids;
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+      this.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
