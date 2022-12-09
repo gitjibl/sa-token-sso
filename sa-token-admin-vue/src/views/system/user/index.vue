@@ -411,6 +411,7 @@ export default {
       // 表单参数
       form: {
         password: null,
+        status: 0,
       },
       defaultProps: {
         children: "children",
@@ -539,17 +540,33 @@ export default {
     },
     // 用户状态修改
     handleStatusChange(row) {
-      let text = row.status === "0" ? "启用" : "停用";
-      this.$modal
-        .confirm('确认要"' + text + '""' + row.username + '"用户吗？')
-        .then(function () {
-          return changeUserStatus(row.userId, row.status);
-        })
+      let text = row.status === 0 ? "启用" : "停用";
+      this.$confirm(
+        '确认要"' + text + '""' + row.username + '"用户吗？',
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      )
         .then(() => {
-          this.$modal.msgSuccess(text + "成功");
+          this.$axios({
+            method: "get",
+            url: "/user/updateStatus",
+            params: {
+              userId: row.userId,
+              status: row.status,
+            },
+          }).then((res) => {
+            this.$notify.success({
+              title: "成功",
+              message: "操作成功",
+            });
+          });
         })
         .catch(function () {
-          row.status = row.status === "0" ? "1" : "0";
+          row.status = row.status === 0 ? 1 : 0;
         });
     },
     // 取消按钮
@@ -634,8 +651,18 @@ export default {
         inputErrorMessage: "用户密码长度必须介于 5 和 20 之间",
       })
         .then(({ value }) => {
-          resetUserPwd(row.userId, value).then((response) => {
-            this.$modal.msgSuccess("修改成功，新密码是：" + value);
+          this.$axios({
+            method: "get",
+            url: "/user/resetUserPwd",
+            params: {
+              userId: row.userId,
+              password: value,
+            },
+          }).then((res) => {
+            this.$notify.success({
+              title: "成功",
+              message: "操作成功",
+            });
           });
         })
         .catch(() => {});
@@ -648,7 +675,6 @@ export default {
     },
     /** 提交按钮 */
     submitForm: function () {
-      console.log(this.form, "this.form");
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.userId != undefined) {
@@ -681,18 +707,6 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      // alert("功能开发中");
-      // const userIds = row.userId || this.ids;
-      // this.$modal
-      //   .confirm('是否确认删除用户编号为"' + userIds + '"的数据项？')
-      //   .then(function () {
-      //     return delUser(userIds);
-      //   })
-      //   .then(() => {
-      //     this.getPageList();
-      //     this.$modal.msgSuccess("删除成功");
-      //   })
-      //   .catch(() => {});
       let userIds = [];
       if (row.userId != undefined) {
         userIds = [row.userId];

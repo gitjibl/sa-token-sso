@@ -14,8 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.ObjectUtils;
+import sun.security.provider.MD5;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,6 +73,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     @Transactional(rollbackFor = {RuntimeException.class, Error.class})
     public boolean insertUser(SysUser sysUser) {
+        String password = DigestUtils.md5DigestAsHex(sysUser.getPassword().getBytes(StandardCharsets.UTF_8));
+        sysUser.setPw(sysUser.getPassword());
+        sysUser.setPassword(password);
         sysUser.setCreateTime(new Date());
         // 新增用户信息
         sysUserMapper.insert(sysUser);
