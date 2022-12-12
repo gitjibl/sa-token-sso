@@ -3,6 +3,7 @@ package com.example.framework.web.exception;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
+import com.example.common.exception.ServiceException;
 import com.example.common.utils.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * 全局异常处理器
+ * @author jibl
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
@@ -44,8 +47,9 @@ public class GlobalExceptionHandler {
         /**
          * 可以返回状态码 前台用拦截器拦截提示！ 401
          */
-        return R.fail(401,message);
+        return R.fail(401, message);
     }
+
 
     /**
      * 角色异常
@@ -64,4 +68,11 @@ public class GlobalExceptionHandler {
     }
 
 
+    /**
+     * service异常
+     */
+    @ExceptionHandler(ServiceException.class)
+    public R ServiceException(ServiceException e) {
+        return R.fail(500, e.getMessage());
+    }
 }

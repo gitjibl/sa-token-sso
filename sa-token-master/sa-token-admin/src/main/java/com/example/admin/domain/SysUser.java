@@ -38,6 +38,12 @@ public class SysUser extends BaseEntity implements Serializable {
     private String username;
 
     /**
+     * 用户昵称
+     */
+    @TableField(value = "nickname")
+    private String nickname;
+
+    /**
      * 密码
      */
     @TableField(value = "password")
@@ -74,6 +80,13 @@ public class SysUser extends BaseEntity implements Serializable {
     @TableField(value = "status")
     private Integer status;
 
+
+    /**
+     * 排序
+     */
+    @TableField(value = "user_sort")
+    private Integer userSort;
+
     /**
      * 创建时间
      */
@@ -97,7 +110,7 @@ public class SysUser extends BaseEntity implements Serializable {
     private String deptName;
 
     /** 角色ID */
-    private Long roleId;
+    private Integer roleId;
 
     /** 角色对象 */
     @TableField(exist = false)

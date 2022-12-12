@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-12-08 09:19:16
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-08 16:00:21
+ * @LastEditTime: 2022-12-12 14:34:20
 -->
 <!-- 用户分配 -->
 <template>
@@ -32,12 +32,12 @@
             style="width: 240px"
           />
         </el-form-item>
-        <el-form-item label="是否授权">
+        <!-- <el-form-item label="是否授权">
           <el-select v-model="queryParams.flag" placeholder="授权">
             <el-option label="是" :value="true"></el-option>
             <el-option label="否" :value="false"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button
             type="primary"
@@ -76,6 +76,11 @@
           >
         </el-col>
       </el-row>
+
+      <el-tabs v-model="activeName" @tab-click="handleTabClick">
+        <el-tab-pane label="已授权" name="0"></el-tab-pane>
+        <el-tab-pane label="未授权" name="1"></el-tab-pane>
+      </el-tabs>
 
       <el-table
         v-loading="loading"
@@ -170,9 +175,7 @@ export default {
       //当前行
       row_g: null,
       // 查询参数
-      queryParams: {
-        flag: true,
-      },
+      queryParams: {},
       // 是否授权
       authShow: true,
       // 选中用户组
@@ -183,7 +186,9 @@ export default {
       userList: [],
       //遮罩
       loading: false,
-
+      //是否展示授权用户
+      flag: true,
+      activeName: "0",
       // 分页
       pagination: {
         pageNum: 1,
@@ -203,22 +208,29 @@ export default {
       this.userOpen = true;
     },
     getPageList() {
+      this.loading = true;
       this.$axios({
         method: "get",
-        url: "/role/authUser/allocatedList",
+        url: "/role/getAuthUserList",
         params: {
-          flag: this.queryParams.flag,
+          flag: this.flag,
           username: this.queryParams.username,
           telephone: this.queryParams.telephone,
           roleId: this.row_g.roleId,
           pageNum: this.pagination.pageNum,
           pageSize: this.pagination.pageSize,
         },
-      }).then((res) => {
-        this.userList = res.data.records;
-        this.pagination.total = res.data.total;
-        this.authShow = this.queryParams.flag;
-      });
+      })
+        .then((res) => {
+          this.userList = res.data.records;
+          this.pagination.total = res.data.total;
+          this.authShow = this.flag;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        });
     },
     //搜索按钮操作
     handleQuery() {
@@ -235,13 +247,17 @@ export default {
       this.userIds = selection.map((item) => item.userId);
       this.multiple = !selection.length;
     },
+    handleTabClick(val) {
+      this.flag = val.name == "0" ? true : false;
+      this.getPageList();
+    },
     // 授权用户
     authUser(row) {
-      let ids = [];
+      let userIds = [];
       if (row.userId != undefined) {
-        ids = [row.userId];
+        userIds = [row.userId];
       } else {
-        ids = this.userIds;
+        userIds = this.userIds;
       }
       this.$confirm("确定要授权'" + this.row_g.roleName + "'角色吗", "提示", {
         confirmButtonText: "确定",
@@ -252,7 +268,7 @@ export default {
           method: "post",
           url: "/role/authUser",
           data: JSON.stringify({
-            ids: ids,
+            userIds: userIds,
             roleId: this.row_g.roleId,
           }),
           headers: {

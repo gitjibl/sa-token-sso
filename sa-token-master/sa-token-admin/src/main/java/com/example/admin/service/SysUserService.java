@@ -20,4 +20,12 @@ public interface SysUserService extends IService<SysUser> {
     boolean insertUser(SysUser sysUser);
 
     boolean deleteUserBatch(List<Integer> userIds);
+
+    /**
+     * 更新用户角色关联
+     *
+     * @param sysUser
+     * @return
+     */
+    boolean updateUserRole(SysUser sysUser);
 }

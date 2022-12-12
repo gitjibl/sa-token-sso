@@ -22,6 +22,12 @@
         role_key,role_sort,status,
         create_by,create_time,remark
     </sql>
+    <delete id="deleteRoleBatch">
+        delete from sys_role where role_id in
+        <foreach collection="list" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
     <select id="getPageList" resultType="com.example.admin.domain.SysRole">
         select a.*, b.project_name
         from sys_role a
@@ -55,18 +61,23 @@
         </if>
     </select>
     <select id="getUnAuthUsers" resultType="com.example.admin.domain.SysUser">
-        select distinct u.user_id, u.dept_id, u.username, u.telephone,u.sex, u.status, u.create_time
+        select distinct u.user_id, u.dept_id,u.username,u.telephone,u.sex, u.status, u.create_time
         from sys_user u
         left join sys_dept d on u.dept_id = d.dept_id
         left join sys_user_role ur on u.user_id = ur.user_id
         left join sys_role r on r.role_id = ur.role_id
-        where r.role_id is null
+        where r.role_id is null or r.role_id != #{e.roleId}
         <if test="e.username != null and e.username != ''">
             AND u.username like concat('%', #{e.username}, '%')
         </if>
         <if test="e.telephone != null and e.telephone != ''">
             AND u.telephone like concat('%', #{e.telephone}, '%')
         </if>
+    </select>
+    <select id="selectRoleList" resultType="com.example.admin.domain.SysRole">
+        select a.*, b.project_name as projectName
+        from sys_role a
+                 left join sys_project b on a.project_id = b.project_id
     </select>
 
 </mapper>

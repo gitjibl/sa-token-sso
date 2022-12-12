@@ -135,6 +135,7 @@
         >
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column label="用户编号" align="center" prop="userId" />
+          <el-table-column label="用户昵称" align="center" prop="nickname"/>
           <el-table-column
             label="用户名称"
             align="center"
@@ -219,7 +220,13 @@
     </el-row>
 
     <!-- 添加或修改用户配置对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="600px"
+      @closed="close"
+      append-to-body
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
@@ -254,7 +261,7 @@
 
         <el-row>
           <el-col :span="12">
-            <el-form-item label="用户性别">
+            <el-form-item label="用户性别" prop="sex">
               <el-select v-model="form.sex" placeholder="请选择性别">
                 <el-option label="男" :value="0"></el-option>
                 <el-option label="女" :value="1"></el-option>
@@ -274,6 +281,14 @@
 
         <el-row>
           <el-col :span="12">
+            <el-form-item
+              label="用户昵称"
+              prop="nickname"
+            >
+              <el-input v-model="form.nickname" placeholder="请输入用户昵称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
             <el-form-item label="归属部门" prop="deptId">
               <treeselect
                 v-model="form.deptId"
@@ -283,8 +298,8 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="角色">
+
+          <!-- <el-form-item label="角色">
               <el-select
                 v-model="form.roleIds"
                 multiple
@@ -297,8 +312,7 @@
                   :value="item.roleId"
                   :disabled="item.status == 1"
                 ></el-option>
-              </el-select> </el-form-item
-          ></el-col>
+              </el-select> </el-form-item> -->
         </el-row>
 
         <el-row>
@@ -312,6 +326,14 @@
             </el-form-item>
           </el-col>
         </el-row>
+
+        <el-form-item label="角色顺序" prop="userSort">
+          <el-input-number
+            v-model="form.userSort"
+            controls-position="right"
+            :min="0"
+          />
+        </el-form-item>
 
         <el-row>
           <el-col :span="24">
@@ -327,7 +349,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button @click="open = false">取 消</el-button>
       </div>
     </el-dialog>
 
@@ -372,16 +394,19 @@
         <el-button @click="upload.open = false">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!-- 配置角色 -->
+    <auth-role ref="auth-role" />
   </div>
 </template>
 
 <script>
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-
+import AuthRole from "./authRole";
 export default {
   name: "User",
-  components: { Treeselect },
+  components: { Treeselect, AuthRole },
   data() {
     return {
       // 遮罩层
@@ -407,11 +432,13 @@ export default {
       // 默认密码
       initPassword: undefined,
       // 角色选项
-      roleOptions: [],
+      // roleOptions: [],
       // 表单参数
       form: {
         password: null,
         status: 0,
+        sex:0,
+        userSort:0
       },
       defaultProps: {
         children: "children",
@@ -468,10 +495,21 @@ export default {
             trigger: "blur",
           },
         ],
+        sex: [{ required: true, message: "用户性别不能为空", trigger: "blur" }],
+        nickname: [
+          { required: true, message: "用户昵称不能为空", trigger: "blur" },
+        ],
         telephone: [
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
             message: "请输入正确的手机号码",
+            trigger: "blur",
+          },
+        ],
+        userSort: [
+          {
+            required: true,
+            message: "角色顺序不能为空",
             trigger: "blur",
           },
         ],
@@ -553,7 +591,7 @@ export default {
         .then(() => {
           this.$axios({
             method: "get",
-            url: "/user/updateStatus",
+            url: "/user/update",
             params: {
               userId: row.userId,
               status: row.status,
@@ -569,9 +607,9 @@ export default {
           row.status = row.status === 0 ? 1 : 0;
         });
     },
-    // 取消按钮
-    cancel() {
-      this.open = false;
+    // 关闭弹窗
+    close() {
+      this.$data.form = this.$options.data().form;
     },
     /** 搜索按钮操作 */
     handleQuery() {
@@ -602,44 +640,43 @@ export default {
           break;
       }
     },
-    getUserInfo() {
-      this.$axios({
-        method: "get",
-        url: "/user/getUserInfo",
-        params: {},
-      }).then((res) => {
-        this.roleOptions = res.data;
-      });
-    },
     /** 新增按钮操作 */
     handleAdd() {
-      this.$axios({
-        method: "get",
-        url: "/user/getUserInfo",
-        params: {},
-      }).then((res) => {
-        this.roleOptions = res.data.roles;
-        this.open = true;
-        this.title = "添加用户";
-        this.form.password = this.initPassword;
-      });
+      // this.$axios({
+      //   method: "get",
+      //   url: "/user/getUserInfo",
+      //   params: {},
+      // }).then((res) => {
+      //   this.roleOptions = res.data.roles;
+      //   this.open = true;
+      //   this.title = "添加用户";
+      //   this.form.password = this.initPassword;
+      // });
+
+      this.open = true;
+      this.title = "添加用户";
+      this.form.password = this.initPassword;
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.$axios({
-        method: "get",
-        url: "/user/getUserInfo",
-        params: {
-          ...row,
-        },
-      }).then((res) => {
-        this.roleOptions = res.data.roles;
-        this.open = true;
-        this.title = "修改用户";
-        this.form = { ...row };
-        this.form.roleIds = res.data.roleIds;
-        this.form.password = "";
-      });
+      // this.$axios({
+      //   method: "get",
+      //   url: "/user/getUserInfo",
+      //   params: {
+      //     ...row,
+      //   },
+      // }).then((res) => {
+      //   this.roleOptions = res.data.roles;
+      //   this.open = true;
+      //   this.title = "修改用户";
+      //   this.form = { ...row };
+      //   this.form.roleIds = res.data.roleIds;
+      //   this.form.password = "";
+      // });
+
+      this.open = true;
+      this.title = "修改用户";
+      this.form = { ...row };
     },
     /** 重置密码按钮操作 */
     handleResetPwd(row) {
@@ -669,9 +706,7 @@ export default {
     },
     /** 分配角色操作 */
     handleAuthRole: function (row) {
-      alert("功能开发中");
-      // const userId = row.userId;
-      // this.$router.push("/system/user-auth/role/" + userId);
+      this.$refs["auth-role"].authRole(row);
     },
     /** 提交按钮 */
     submitForm: function () {
@@ -679,24 +714,18 @@ export default {
         if (valid) {
           if (this.form.userId != undefined) {
             this.$axios({
-              method: "post",
+              method: "get",
               url: "/user/update",
-              data: JSON.stringify(this.form),
-              headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-              },
+              params: this.form,
             }).then((res) => {
               this.open = false;
               this.getPageList();
             });
           } else {
             this.$axios({
-              method: "post",
+              method: "get",
               url: "/user/insert",
-              data: JSON.stringify(this.form),
-              headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-              },
+              data: this.form,
             }).then((res) => {
               this.open = false;
               this.getPageList();

@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-12-05 16:41:37
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-08 16:16:21
+ * @LastEditTime: 2022-12-12 13:08:59
 -->
 <!--  -->
 <template>
@@ -15,13 +15,13 @@
     append-to-body
   >
     <el-form ref="form" :model="menuform" label-width="100px">
-      <el-form-item label="所属项目" prop="projectName">
+      <el-form-item label="所属项目">
         <label style="color: #001fff" disabled>{{
           menuform.projectName
         }}</label>
       </el-form-item>
 
-      <el-form-item label="角色名称" prop="roleName">
+      <el-form-item label="角色名称">
         <label style="color: rgb(11 181 119)" disabled>{{ menuform.roleName }}</label>
       </el-form-item>
 
@@ -92,7 +92,6 @@ export default {
         params: { roleId: roleId, projectId: projectId },
       }).then((res) => {
         this.menuOptions = res.data.menus;
-        console.log(this.menuOptions, "this.menuOptions");
         let checkedKeys = res.data.checkedKeys;
         checkedKeys.forEach((v) => {
           this.$nextTick(() => {

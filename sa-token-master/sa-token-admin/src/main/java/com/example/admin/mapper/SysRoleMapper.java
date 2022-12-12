@@ -24,6 +24,9 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
 
     IPage getUnAuthUsers(@Param("page") Page<SysUser> page, @Param("e") SysUser user);
 
+    List<SysRole> selectRoleList();
+
+    void deleteRoleBatch(List<Integer> roleIds);
 }
 
 

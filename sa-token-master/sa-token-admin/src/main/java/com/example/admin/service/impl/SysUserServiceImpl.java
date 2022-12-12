@@ -1,9 +1,12 @@
 package com.example.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.admin.domain.SysRoleMenu;
 import com.example.admin.domain.SysUser;
 import com.example.admin.domain.SysUserRole;
 import com.example.admin.mapper.SysUserRoleMapper;
@@ -19,9 +22,7 @@ import org.springframework.util.ObjectUtils;
 import sun.security.provider.MD5;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author jibl
@@ -55,7 +56,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public boolean updateUser(SysUser sysUser) {
         int userId = sysUser.getUserId();
         // 删除用户与角色关联
-        sysUserRoleMapper.deleteUserRoleByUserId(userId);
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("user_id",userId);
+        sysUserRoleMapper.delete(queryWrapper);
         // 新增用户与角色管理
         insertUserRole(sysUser);
         UpdateWrapper updateWrapper = new UpdateWrapper();
@@ -88,9 +91,31 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Transactional(rollbackFor = {RuntimeException.class, Error.class})
     public boolean deleteUserBatch(List<Integer> userIds) {
         // 批量删除用户与角色关联
-        sysUserRoleMapper.deleteBatchUserIds(userIds);
+        sysUserRoleMapper.deleteUserBatch(userIds);
         // 批量删除用户
         sysUserMapper.deleteBatchIds(userIds);
+        return true;
+    }
+
+    @Override
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
+    public boolean updateUserRole(SysUser sysUser) {
+        //删除用户角色关联
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("user_id",sysUser.getUserId());
+        sysUserRoleMapper.delete(wrapper);
+        //更新用户角色关联
+        List<SysUserRole> sysUserRoles = new ArrayList<>();
+        List<Integer> roleIds = Arrays.asList(sysUser.getRoleIds());
+        roleIds.forEach(item->{
+            SysUserRole sysUserRole = new SysUserRole();
+            sysUserRole.setUserId(sysUser.getUserId());
+            sysUserRole.setRoleId(item);
+            sysUserRoles.add(sysUserRole);
+        });
+        if(!sysUserRoles.isEmpty()){
+            sysUserRoleMapper.insertUserRoleBatch(sysUserRoles);
+        }
         return true;
     }
 

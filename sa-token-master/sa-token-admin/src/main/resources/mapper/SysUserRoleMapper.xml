@@ -13,26 +13,15 @@
         user_id
         ,role_id
     </sql>
-    <insert id="insertBatchByRoleId">
-        INSERT INTO sys_user_role(user_id, role_id)
-        VALUES
-        <foreach collection="list" item="item" separator=",">
-            (#{item,jdbcType=INTEGER},#{roleId,jdbcType=INTEGER})
-        </foreach>
 
-    </insert>
     <insert id="insertUserRoleBatch">
         insert into sys_user_role(user_id, role_id) values
         <foreach item="item" index="index" collection="list" separator=",">
             (#{item.userId},#{item.roleId})
         </foreach>
     </insert>
-    <delete id="deleteUserRoleByUserId">
-        delete
-        from sys_user_role
-        where user_id = #{userId}
-    </delete>
-    <delete id="deleteBatchUserIds">
+
+    <delete id="deleteUserBatch">
         delete from sys_user_role where user_id in
         <foreach collection="list" index="index" item="userId" open="(" separator="," close=")">
             #{userId}

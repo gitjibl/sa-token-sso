@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.example.common.core.domain.BaseEntity;
 import lombok.Data;
@@ -78,6 +80,14 @@ public class SysRole extends BaseEntity implements Serializable {
     @TableField(exist = false)
     private Integer[] menuIds;
 
+    /** 用户组 */
+    @TableField(exist = false)
+    private Integer[] userIds;
+
+
     @TableField(exist = false)
     private String projectName;
+
+    @TableField(exist = false)
+    private List<SysRole> children = new ArrayList<SysRole>();
 }

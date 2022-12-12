@@ -81,14 +81,14 @@ public class UserController extends BaseController {
         return R.ok(sysUser);
     }
 
-    @PostMapping("/insert")
-    public R insert(@RequestBody SysUser sysUser) {
+    @GetMapping("/insert")
+    public R insert(SysUser sysUser) {
         boolean update = sysUserService.insertUser(sysUser);
         return update ? R.ok() : R.fail();
     }
 
-    @PostMapping("/update")
-    public R update(@RequestBody SysUser sysUser) {
+    @GetMapping("/update")
+    public R update(SysUser sysUser) {
         boolean update = sysUserService.updateUser(sysUser);
         return update ? R.ok() : R.fail();
     }
@@ -100,13 +100,6 @@ public class UserController extends BaseController {
         return update ? R.ok() : R.fail();
     }
 
-    @GetMapping("/updateStatus")
-    public R updateStatus(SysUser sysUser) {
-        UpdateWrapper updateWrapper = new UpdateWrapper();
-        updateWrapper.eq("user_id", sysUser.getUserId());
-        boolean update = sysUserService.update(sysUser,updateWrapper);
-        return update ? R.ok() : R.fail();
-    }
 
     @GetMapping("/resetUserPwd")
     public R resetUserPwd(SysUser sysUser) {
@@ -116,6 +109,17 @@ public class UserController extends BaseController {
         UpdateWrapper updateWrapper = new UpdateWrapper();
         updateWrapper.eq("user_id", sysUser.getUserId());
         boolean update = sysUserService.update(sysUser,updateWrapper);
+        return update ? R.ok() : R.fail();
+    }
+
+    /**
+     * 更新用户角色关联
+     * @param sysUser
+     * @return
+     */
+    @PostMapping("/updateUserRole")
+    public R updateUserRole(@RequestBody SysUser sysUser) {
+        boolean update = sysUserService.updateUserRole(sysUser);
         return update ? R.ok() : R.fail();
     }
 

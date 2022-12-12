@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 09:38:28
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-08 16:26:17
+ * @LastEditTime: 2022-12-12 13:46:59
  */
 /**
  * Note: 路由配置项
@@ -89,7 +89,7 @@ export const constantRoutes = [{
   }, {
     path: 'menu',
     name: 'Menu',
-    component: () => import('@/views/form/index'),
+    component: () => import('@/views/system/menu'),
     meta: {
       title: '菜单管理',
     }

@@ -28,6 +28,7 @@
     <select id="getPageList" resultType="com.example.admin.domain.SysUser">
         select u.user_id,
         u.dept_id,
+        u.nickname,
         u.username,
         u.telephone,
         u.sex,
@@ -35,6 +36,7 @@
         u.create_by,
         u.create_time,
         u.remark,
+        u.user_sort,
         d.dept_name
         from sys_user u
         left join sys_dept d on u.dept_id = d.dept_id
@@ -55,5 +57,6 @@
                 AND (u.dept_id = #{e.deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{e.deptId}, ancestors) ))
             </if>
         </where>
+    order by u.user_sort
     </select>
 </mapper>
