@@ -15,6 +15,13 @@ import org.apache.ibatis.annotations.Param;
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
     IPage getPageList(@Param("page") Page<SysUser> page, @Param("e") SysUser sysUser);
+
+    /**
+     *  获取登录人信息
+     * @param userId
+     * @return
+     */
+    SysUser getLoginUser(Integer userId);
 }
 
 

@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-12-08 09:19:16
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-12 14:34:20
+ * @LastEditTime: 2022-12-12 17:26:53
 -->
 <!-- 用户分配 -->
 <template>
@@ -32,12 +32,7 @@
             style="width: 240px"
           />
         </el-form-item>
-        <!-- <el-form-item label="是否授权">
-          <el-select v-model="queryParams.flag" placeholder="授权">
-            <el-option label="是" :value="true"></el-option>
-            <el-option label="否" :value="false"></el-option>
-          </el-select>
-        </el-form-item> -->
+
         <el-form-item>
           <el-button
             type="primary"

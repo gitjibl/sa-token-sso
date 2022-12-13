@@ -562,9 +562,6 @@ export default {
         .then((res) => {
           this.deptOptions = res.data;
         })
-        .catch((err) => {
-          console.log(err);
-        });
     },
     // 筛选节点
     filterNode(value, data) {

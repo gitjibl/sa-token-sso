@@ -90,4 +90,7 @@ public class SysRole extends BaseEntity implements Serializable {
 
     @TableField(exist = false)
     private List<SysRole> children = new ArrayList<SysRole>();
+
+    @TableField(exist = false)
+    private List<SysMenu> menus ;
 }

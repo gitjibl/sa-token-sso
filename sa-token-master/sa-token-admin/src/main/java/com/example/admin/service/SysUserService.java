@@ -3,6 +3,7 @@ package com.example.admin.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.admin.domain.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -28,4 +29,6 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     boolean updateUserRole(SysUser sysUser);
+
+
 }

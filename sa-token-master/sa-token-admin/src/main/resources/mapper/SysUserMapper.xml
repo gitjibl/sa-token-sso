@@ -54,9 +54,24 @@
                 AND u.telephone like concat('%', #{e.telephone}, '%')
             </if>
             <if test="e.deptId != null">
-                AND (u.dept_id = #{e.deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{e.deptId}, ancestors) ))
+                AND (u.dept_id = #{e.deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE
+                find_in_set(#{e.deptId}, ancestors) ))
             </if>
         </where>
-    order by u.user_sort
+        order by u.user_sort
+    </select>
+    <select id="getLoginUser" resultType="com.example.admin.domain.SysUser">
+        select u.user_id,
+               u.dept_id,
+               b.dept_name as deptName,
+               u.nickname,
+               u.username,
+               u.telephone,
+               u.sex,
+               u.status
+        from sys_user u
+                 left join sys_dept b
+                           on u.dept_id = b.dept_id
+        where user_id = #{userId}
     </select>
 </mapper>

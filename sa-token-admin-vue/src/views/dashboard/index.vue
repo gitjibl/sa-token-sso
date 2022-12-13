@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-07-27 14:48:00
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-09 13:32:27
+ * @LastEditTime: 2022-12-13 16:21:06
 -->
 <template>
   <div class="dashboard-container">
@@ -12,37 +12,21 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
+import { mapGetters } from "vuex";
+import { LogOutUrl } from "@/api/login";
 export default {
-  name: 'Dashboard',
+  name: "Dashboard",
   computed: {
-    ...mapGetters([
-      'name'
-    ])
+    ...mapGetters(["name"]),
   },
-  mounted() {
-    this.getToken();
-  },
+  mounted() {},
   methods: {
-    getToken() {
-      this.$axios({
-        url: "/user/getLoginUserInfo",
-        method: "get",
-        params: {},
-      }).then((res) => {
-        Notification({
-          title: "成功",
-          message: "访问成功",
-          type: "success",
-        });
-      });
+    logOut() {
+      // location.href = 'http://localhost:9000/sso/signout?'+'&back='+'http://localhost:9000/sso/auth?redirect='+location.href;
+      location.href = LogOutUrl;
     },
-    logOut(){
-      location.href = 'http://localhost:9000/sso/signout?'+'&back='+'http://localhost:9000/sso/auth?redirect='+location.href;
-    }
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

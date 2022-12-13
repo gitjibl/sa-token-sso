@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 09:38:28
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-12 13:46:59
+ * @LastEditTime: 2022-12-13 15:33:37
  */
 /**
  * Note: 路由配置项
@@ -57,53 +57,55 @@ export const constantRoutes = [{
       affix: true
     }
   }]
-}, {
-  path: '/system',
-  component: Layout,
-  redirect: 'noRedirect',
-  meta: {
-    title: '系统管理',
-    icon: 'example'
-  },
-  children: [{
-    path: 'project',
-    name: 'Project',
-    component: () => import('@/views/system/project'),
-    meta: {
-      title: '项目管理',
-    }
-  }, {
-    path: 'user',
-    name: 'User',
-    component: () => import('@/views/system/user'),
-    meta: {
-      title: '用户管理',
-    }
-  }, {
-    path: 'role',
-    name: 'Role',
-    component: () => import('@/views/system/role'),
-    meta: {
-      title: '角色管理',
-    }
-  }, {
-    path: 'menu',
-    name: 'Menu',
-    component: () => import('@/views/system/menu'),
-    meta: {
-      title: '菜单管理',
-    }
-  }, {
-    path: 'dept',
-    name: 'Dept',
-    component: () => import('@/views/system/dept/index'),  //配置部门管理组件地址
-    meta: {
-      title: '部门管理',
-    }
-  },]
 }
 ];
-export const asyncRoutes = []
+export const asyncRoutes = [
+  {
+    path: '/system',
+    component: Layout,
+    redirect: 'noRedirect',
+    meta: {
+      title: '系统管理',
+      icon: 'example'
+    },
+    children: [{
+      path: 'project',
+      name: 'Project',
+      component: () => import('@/views/system/project'),
+      meta: {
+        title: '项目管理',
+      }
+    }, {
+      path: 'user',
+      name: 'User',
+      component: () => import('@/views/system/user'),
+      meta: {
+        title: '用户管理',
+      }
+    }, {
+      path: 'role',
+      name: 'Role',
+      component: () => import('@/views/system/role'),
+      meta: {
+        title: '角色管理',
+      }
+    }, {
+      path: 'menu',
+      name: 'Menu',
+      component: () => import('@/views/system/menu'),
+      meta: {
+        title: '菜单管理',
+      }
+    }, {
+      path: 'dept',
+      name: 'Dept',
+      component: () => import('@/views/system/dept/index'),  //配置部门管理组件地址
+      meta: {
+        title: '部门管理',
+      }
+    },]
+  }
+]
 const createRouter = () => new VueRouter({
   // mode: 'history', // require service support
   scrollBehavior: () => ({
@@ -115,9 +117,9 @@ const createRouter = () => new VueRouter({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
-  const newRouter = createRouter()
-  router.matcher = newRouter.matcher // reset router
-}
+// export function resetRouter() {
+//   const newRouter = createRouter()
+//   router.matcher = newRouter.matcher // reset router
+// }
 
 export default router

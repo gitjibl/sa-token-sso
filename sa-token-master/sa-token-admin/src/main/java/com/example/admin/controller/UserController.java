@@ -42,20 +42,6 @@ public class UserController extends BaseController {
     SysUserRoleService sysUserRoleService;
 
 
-    @RequestMapping("/getLoginUserInfo")
-    public Object getLoginUserInfo() {
-        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
-        /**
-         * 调用StpUtil.getPermissionList() 才走 StpInterfaceImpl？
-         */
-//        List<String> permissionList = StpUtil.getPermissionList();
-        StpUtil.getSessionByLoginId(tokenInfo.getLoginId());
-        long tokenTimeout = StpUtil.getTokenTimeout();
-        SaSession session = StpUtil.getTokenSession();
-        Object o = session.get("user");
-        return o;
-    }
-
 
     @GetMapping("/getPageList")
     public R getPageList(SysUser sysUser) {

@@ -79,5 +79,13 @@
         from sys_role a
                  left join sys_project b on a.project_id = b.project_id
     </select>
+    <select id="getLoginUserRoles" resultType="com.example.admin.domain.SysRole">
+        select a.*
+        from sys_role a
+                 left join sys_user_role b
+                           on a.role_id = b.role_id
+        where b.user_id = #{userId}
+          and a.project_id = #{projectId}
+    </select>
 
 </mapper>

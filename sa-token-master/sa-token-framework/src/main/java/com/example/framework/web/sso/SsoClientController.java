@@ -1,6 +1,8 @@
 package com.example.framework.web.sso;
 
+import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.sso.SaSsoProcessor;
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SsoClientController {
 
-	// 首页 
+	// 首页
 	@RequestMapping("/")
 	public String index() {
-		String str = "<h2>Sa-Token SSO-Client 应用端</h2>" + 
-					"<p>当前会话是否登录：" + StpUtil.isLogin() + "</p>" + 
-					"<p><a href=\"javascript:location.href='/sso/login?back=' + encodeURIComponent(location.href);\">登录</a> " + 
-					"<a href='/sso/logout?back=self'>注销</a></p>"; 
+		String str = "<h2>应用端</h2>" +
+					"<p>当前会话是否登录：" + StpUtil.isLogin() + "</p>" +
+					"<p><a href=\"javascript:location.href='/sso/login?back=' + encodeURIComponent(location.href);\">登录</a> " +
+					"<a href='/sso/logout?back=self'>注销</a></p>";
 		return str;
 	}
 
@@ -35,11 +37,4 @@ public class SsoClientController {
 		return SaSsoProcessor.instance.clientDister();
 	}
 
-	// 全局异常拦截 
-	@ExceptionHandler
-	public SaResult handlerException(Exception e) {
-		e.printStackTrace(); 
-		return SaResult.error(e.getMessage());
-	}
-	
 }
