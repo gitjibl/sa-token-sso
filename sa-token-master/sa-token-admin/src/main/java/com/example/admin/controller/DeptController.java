@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.admin.domain.SysDept;
+import com.example.admin.domain.TreeSelect;
 import com.example.admin.service.SysDeptService;
 import com.example.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,12 @@ public class DeptController {
 
     @Autowired
     SysDeptService sysDeptService;
+
+    @GetMapping("/getList")
+    public R getList(SysDept sysDept) {
+        IPage pageList = sysDeptService.getPageList(sysDept);
+        return R.ok(pageList);
+    }
 
     /**
      * 查询部分列表
@@ -57,6 +64,14 @@ public class DeptController {
         List<String> list = JSON.parseArray(ids, String.class);
         boolean update = sysDeptService.removeByIds(list);
         return update ? R.ok() : R.fail();
+    }
+
+
+    @GetMapping("/deptTreeSelect")
+    public R deptTreeSelect(SysDept dept) {
+        List<SysDept> depts = sysDeptService.selectDeptList(dept);
+        List<TreeSelect> treeDepts = sysDeptService.buildDeptTreeSelect(depts);
+        return R.ok(treeDepts);
     }
 
 
