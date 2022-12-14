@@ -3,6 +3,8 @@ package com.example.admin.mapper;
 import com.example.admin.domain.SysRoleMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
 * @author jibl
 * @description 针对表【sys_role_menu(角色和菜单关联表)】的数据库操作Mapper
@@ -11,6 +13,19 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
 
+    /**
+     * 批量删除角色菜单关联信息
+     *
+     * @param roleIds 需要删除的数据ID
+     * @return 结果
+     */
+    void deleteRoleMenuBatch(List<Integer> roleIds);
+
+    /**
+     * 批量新增角色菜单关联
+     * @param sysRoleMenus
+     */
+    void insertRoleMenuBatch(List<SysRoleMenu> sysRoleMenus);
 }
 
 

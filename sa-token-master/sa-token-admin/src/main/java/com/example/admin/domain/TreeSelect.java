@@ -17,7 +17,7 @@ public class TreeSelect implements Serializable
     private static final long serialVersionUID = 1L;
 
     /** 节点ID */
-    private Integer id;
+    private Object id;
 
     /** 节点名称 */
     private String label;
@@ -43,6 +43,13 @@ public class TreeSelect implements Serializable
         this.id = menu.getMenuId();
         this.label = menu.getMenuName();
         this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
+    }
+
+    public TreeSelect(SysRole role)
+    {
+        this.id = role.getRoleId();
+        this.label = role.getRoleName();
+        this.children = role.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
 }

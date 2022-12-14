@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 13:31:34
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-07 16:34:44
+ * @LastEditTime: 2022-12-09 16:28:20
 -->
 <!--  -->
 <template>
@@ -260,7 +260,7 @@ export default {
     // 删除按钮
     handleDelete(row) {
       const ids = [row.projectId] || this.ids;
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+      this.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -296,7 +296,7 @@ export default {
 
     //状态改变
     handleStatusChange(row) {
-      let text = row.status === "0" ? "启用" : "停用";
+      let text = row.status === 0 ? "启用" : "停用";
       this.$confirm(
         '确认要"' + text + '""' + row.projectName + '"项目吗？',
         "提示",
@@ -308,7 +308,7 @@ export default {
       ).then(() => {
         this.$axios({
           method: "get",
-          url: "/project/updateStatus",
+          url: "/project/update",
           params: {
             projectId: row.projectId,
             status: row.status,
@@ -319,6 +319,8 @@ export default {
             message: "操作成功",
           });
         });
+      }).catch(function() {
+        row.status = row.status === 0 ? 1 : 0;
       });
     },
     // 多选框选中数据

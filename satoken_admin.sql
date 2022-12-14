@@ -11,7 +11,7 @@
  Target Server Version : 80015
  File Encoding         : 65001
 
- Date: 07/12/2022 17:32:34
+ Date: 09/12/2022 17:43:21
 */
 
 SET NAMES utf8mb4;
@@ -37,6 +37,20 @@ CREATE TABLE `sys_dept`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of sys_dept
+-- ----------------------------
+INSERT INTO `sys_dept` VALUES (1, 0, '0', '总公司', 0, 'admin', '15888888888', '123456789@qq.com', '0', 'admin', '2022-11-11 17:20:14');
+INSERT INTO `sys_dept` VALUES (2, 1, '0,1', '长春分公司', 1, 'admin', '15888888888', '123456789@qq.com', '0', 'admin', '2022-11-11 17:20:14');
+INSERT INTO `sys_dept` VALUES (3, 1, '0,1', '北京分公司', 2, 'admin', '15888888888', '123456789@qq.com', '0', 'admin', '2022-11-11 17:20:14');
+INSERT INTO `sys_dept` VALUES (4, 2, '0,1,2', '研发部门', 1, 'admin', '15888888888', '123456789@qq.com', '0', 'admin', '2022-11-11 17:20:14');
+INSERT INTO `sys_dept` VALUES (5, 2, '0,1,2', '市场部门', 2, 'admin', '15888888888', '123456789@qq.com', '0', 'admin', '2022-11-11 17:20:14');
+INSERT INTO `sys_dept` VALUES (6, 2, '0,1,2', '财务部门', 3, 'admin', '15888888888', '123456789@qq.com', '0', 'admin', '2022-11-11 17:20:14');
+INSERT INTO `sys_dept` VALUES (7, 2, '0,1,2', '测试部门', 4, 'admin', '15888888888', '123456789@qq.com', '0', 'admin', '2022-11-11 17:20:14');
+INSERT INTO `sys_dept` VALUES (8, 2, '0,1,2', '运维部门', 5, 'admin', '15888888888', '123456789@qq.com', '0', 'admin', '2022-11-11 17:20:14');
+INSERT INTO `sys_dept` VALUES (9, 3, '0,1,3', '市场部门', 1, 'admin', '15888888888', '123456789@qq.com', '0', 'admin', '2022-11-11 17:20:14');
+INSERT INTO `sys_dept` VALUES (10, 3, '0,1,3', '财务部门', 2, 'admin', '15888888888', '123456789@qq.com', '0', 'admin', '2022-11-11 17:20:14');
+
+-- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
@@ -60,7 +74,7 @@ CREATE TABLE `sys_menu`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2006 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -117,7 +131,7 @@ CREATE TABLE `sys_role`  (
 INSERT INTO `sys_role` VALUES (1, '超级管理员', 'CS001', 'super-admin', 1, 0, 'admin', '2022-11-11 17:20:14', '超级管理员');
 INSERT INTO `sys_role` VALUES (2, '管理员', 'CS001', 'admin', 2, 0, 'admin', '2022-11-11 17:20:14', '管理员');
 INSERT INTO `sys_role` VALUES (3, '普通角色', 'CS001', 'common', 3, 0, 'admin', '2022-12-07 14:12:43', '普通角色');
-INSERT INTO `sys_role` VALUES (4, '普通01', 'CS001', 'common', 4, 0, 'admin', '2022-12-07 09:09:04', NULL);
+INSERT INTO `sys_role` VALUES (4, '普通01', 'CS001', 'common', 4, 1, 'admin', '2022-12-07 09:09:04', NULL);
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -170,8 +184,10 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, NULL, 'super-admin', 'e10adc3949ba59abbe56e057f20f883e', '123456', NULL, NULL, 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', NULL, NULL, NULL);
-INSERT INTO `sys_user` VALUES (2, NULL, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', NULL, NULL, 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', NULL, NULL, NULL);
+INSERT INTO `sys_user` VALUES (1, 1, 'super-admin', 'e10adc3949ba59abbe56e057f20f883e', '123456', 1, '15946823652', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', 0, NULL, NULL);
+INSERT INTO `sys_user` VALUES (2, 2, 'admin', 'e10adc3949ba59abbe56e057f20f883e', '123456', 0, '15946823652', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', 0, '2022-12-08 10:52:00', NULL);
+INSERT INTO `sys_user` VALUES (3, 1, '桓一', 'e10adc3949ba59abbe56e057f20f883e', '123456', 0, '15948370464', NULL, 0, NULL, NULL);
+INSERT INTO `sys_user` VALUES (5, NULL, '测试01', 'f8a8d7997e870968f92748f3cc41cf90', '1232456', 0, NULL, NULL, 0, '2022-12-09 09:31:07', NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -187,5 +203,7 @@ CREATE TABLE `sys_user_role`  (
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (2, 2);
+INSERT INTO `sys_user_role` VALUES (2, 3);
+INSERT INTO `sys_user_role` VALUES (3, 2);
 
 SET FOREIGN_KEY_CHECKS = 1;

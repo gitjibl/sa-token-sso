@@ -16,10 +16,10 @@ public interface SysMenuService extends IService<SysMenu> {
     /**
      * 根据项目ID查询系统菜单列表
      *
-     * @param projectId 项目ID
+     * @param sysMenu
      * @return 菜单列表
      */
-    List<SysMenu> selectMenuListByProjectId(String projectId);
+    List<SysMenu> selectMenuList(SysMenu sysMenu);
 
     /**
      * 构建前端所需要下拉树结构
@@ -36,4 +36,18 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return 选中菜单列表
      */
     List<Integer> selectMenuListByRoleId(Integer roleId);
+
+    /**
+     * 是否存在菜单子节点
+     * @param menuId
+     * @return
+     */
+    boolean hasChildByMenuId(Integer menuId);
+
+    /**
+     * 查询菜单是否存在角色
+     * @param menuId
+     * @return
+     */
+    boolean checkMenuExistRole(Integer menuId);
 }

@@ -6,7 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import com.example.common.core.domain.BaseEntity;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
@@ -14,7 +18,7 @@ import lombok.Data;
  */
 @TableName(value ="sys_user")
 @Data
-public class SysUser implements Serializable {
+public class SysUser extends BaseEntity implements Serializable {
     /**
      * id，自增主键
      */
@@ -32,6 +36,12 @@ public class SysUser implements Serializable {
      */
     @TableField(value = "username")
     private String username;
+
+    /**
+     * 用户昵称
+     */
+    @TableField(value = "nickname")
+    private String nickname;
 
     /**
      * 密码
@@ -70,6 +80,13 @@ public class SysUser implements Serializable {
     @TableField(value = "status")
     private Integer status;
 
+
+    /**
+     * 排序
+     */
+    @TableField(value = "user_sort")
+    private Integer userSort;
+
     /**
      * 创建时间
      */
@@ -85,6 +102,23 @@ public class SysUser implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
+
+    /**
+     * 部门名称
+     */
+    @TableField(exist = false)
+    private String deptName;
+
+    /** 角色ID */
+    private Integer roleId;
+
+    /** 角色对象 */
+    @TableField(exist = false)
+    private List<SysRole> roles;
+
+    /** 角色组 */
+    @TableField(exist = false)
+    private Integer[] roleIds;
 
     public static boolean isAdmin(Integer userId)
     {

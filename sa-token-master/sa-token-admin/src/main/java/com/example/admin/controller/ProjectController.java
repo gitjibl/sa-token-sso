@@ -29,7 +29,7 @@ public class ProjectController extends BaseController {
     @GetMapping("/getList")
     public R getList(SysProject sysProject) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        List list = sysProjectService.list(queryWrapper);
+        List<SysProject> list = sysProjectService.list(queryWrapper);
         return R.ok(list);
     }
 
@@ -54,14 +54,6 @@ public class ProjectController extends BaseController {
         return update ? R.ok() : R.fail();
     }
 
-
-    @GetMapping("/updateStatus")
-    public R updateStatus(SysProject sysProject) {
-        UpdateWrapper<SysProject> wrapper = new UpdateWrapper<>();
-        wrapper.eq("project_id", sysProject.getProjectId());
-        boolean update = sysProjectService.update(sysProject, wrapper);
-        return update ? R.ok() : R.fail();
-    }
 
 
 }

@@ -3,6 +3,7 @@ package com.example.common.core.domain;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,17 +19,13 @@ public class BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    /** 搜索值 */
-    @TableField(exist = false)
-    private String searchValue;
-
     /** 创建者 */
     @TableField(exist = false)
     private String createBy;
 
     /** 创建时间 */
     @TableField(exist = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
 

@@ -38,12 +38,11 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
     List<Integer> selectMenuListByRoleId(@Param("roleId") Integer roleId);
 
     /**
-     * 根据项目ID查询系统菜单列表
-     *
-     * @param projectId 项目ID
-     * @return 菜单列表
+     * 获取登录人角色菜单
+     * @param roleId
+     * @return
      */
-    List<SysMenu> selectMenuListByProjectId(@Param("projectId")String projectId);
+    List<SysMenu> getLoginUserRoleMenus(@Param("roleId") Integer roleId);
 }
 
 

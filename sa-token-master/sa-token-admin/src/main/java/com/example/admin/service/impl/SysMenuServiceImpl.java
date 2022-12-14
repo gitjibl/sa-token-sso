@@ -1,11 +1,13 @@
 package com.example.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.admin.domain.SysMenu;
 import com.example.admin.domain.SysRole;
 import com.example.admin.domain.SysUser;
 import com.example.admin.domain.TreeSelect;
 import com.example.admin.mapper.SysRoleMapper;
+import com.example.admin.mapper.SysRoleMenuMapper;
 import com.example.admin.service.SysMenuService;
 import com.example.admin.mapper.SysMenuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,7 @@ import java.util.stream.Collectors;
  * @createDate 2022-11-28 11:35:36
  */
 @Service
-public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
-        implements SysMenuService {
+public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
     @Autowired
     SysMenuMapper sysMenuMapper;
@@ -32,17 +33,20 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
     @Autowired
     SysRoleMapper sysRoleMapper;
 
+    @Autowired
+    SysRoleMenuMapper sysRoleMenuMapper;
+
     /**
      * 查询系统菜单列表
      *
-     * @param projectId 项目ID
+     * @param sysMenu
      * @return 菜单列表
      */
     @Override
-    public List<SysMenu> selectMenuListByProjectId(String projectId) {
+    public List<SysMenu> selectMenuList(SysMenu sysMenu) {
         SysMenu menu = new SysMenu();
         List<SysMenu> menuList = null;
-        menuList = sysMenuMapper.selectMenuListByProjectId(projectId);
+        menuList = sysMenuMapper.selectMenuList(sysMenu);
 //        // 管理员显示所有菜单信息
 //        if (SysUser.isAdmin(userId)) {
 //            menuList = sysMenuMapper.selectMenuListByProjectId(projectId);
@@ -62,17 +66,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
     @Override
     public List<TreeSelect> buildMenuTreeSelect(List<SysMenu> menus) {
         List<SysMenu> menuTrees = buildMenuTree(menus);
-//        List<SysMenu> menuTrees = new ArrayList<>();
-//        Map<String, List<SysMenu>> collect = menus.stream().collect(Collectors.groupingBy(SysMenu::getProjectName));
-//
-//        collect.forEach((key,value)->{
-//            SysMenu sysMenu = new SysMenu();
-//            sysMenu.setMenuId((int) Math.random());
-//            sysMenu.setMenuName(key);
-//            sysMenu.setChildren(buildMenuTree(menus));
-//            menuTrees.add(sysMenu);
-//        });
-
         return menuTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
@@ -87,11 +80,39 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
         return sysMenuMapper.selectMenuListByRoleId(roleId);
     }
 
+    /**
+     * 是否存在菜单子节点
+     *
+     * @param menuId
+     * @return
+     */
+    @Override
+    public boolean hasChildByMenuId(Integer menuId) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("parent_id", menuId);
+        int result = sysMenuMapper.selectCount(queryWrapper);
+        return result > 0;
+    }
+
+    /**
+     * 查询菜单是否存在角色
+     *
+     * @param menuId
+     * @return
+     */
+    @Override
+    public boolean checkMenuExistRole(Integer menuId) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("menu_id", menuId);
+        Integer result = sysRoleMenuMapper.selectCount(queryWrapper);
+        return result > 0;
+    }
+
 
     /**
      * 构建前端所需要树结构
-     *  1、判断是否为顶级节点
-     *  2、递归遍历顶级节点
+     * 1、判断是否为顶级节点
+     * 2、递归遍历顶级节点
      *
      * @param menus 菜单列表
      * @return 树结构列表
@@ -121,7 +142,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
      * 递归列表
      *
      * @param list 遍历列表
-     * @param t  父节点？
+     * @param t    父节点？
      */
     private void recursionFn(List<SysMenu> list, SysMenu t) {
         // 得到子节点列表

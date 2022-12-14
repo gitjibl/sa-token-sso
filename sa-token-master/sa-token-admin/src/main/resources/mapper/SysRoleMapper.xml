@@ -22,23 +22,70 @@
         role_key,role_sort,status,
         create_by,create_time,remark
     </sql>
+    <delete id="deleteRoleBatch">
+        delete from sys_role where role_id in
+        <foreach collection="list" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
     <select id="getPageList" resultType="com.example.admin.domain.SysRole">
         select a.*, b.project_name
         from sys_role a
         left join sys_project b on a.project_id = b.project_id
         <where>
-            a.project_id = #{enity.projectId}
-            <if test="enity.roleName != null">
-                and a.role_name like '%'+#{enity.roleName}+'%'
+            a.project_id = #{e.projectId}
+            <if test="e.roleName != null">
+                and a.role_name like '%'+#{e.roleName}+'%'
             </if>
-            <if test="enity.roleKey != null">
-                and a.role_key like '%'+#{enity.roleKey}+'%'
+            <if test="e.roleKey != null">
+                and a.role_key like '%'+#{e.roleKey}+'%'
             </if>
-            <if test="enity.status != null">
-                and a.status = #{enity.status}
+            <if test="e.status != null">
+                and a.status = #{e.status}
             </if>
         </where>
         order by role_sort
+    </select>
+    <select id="getAuthUsers" resultType="com.example.admin.domain.SysUser">
+        select distinct u.user_id, u.dept_id, u.username, u.telephone,u.sex, u.status, u.create_time
+        from sys_user u
+        left join sys_dept d on u.dept_id = d.dept_id
+        left join sys_user_role ur on u.user_id = ur.user_id
+        left join sys_role r on r.role_id = ur.role_id
+        where r.role_id = #{e.roleId}
+        <if test="e.username != null and e.username != ''">
+            AND u.username like concat('%', #{e.username}, '%')
+        </if>
+        <if test="e.telephone != null and e.telephone != ''">
+            AND u.telephone like concat('%', #{e.telephone}, '%')
+        </if>
+    </select>
+    <select id="getUnAuthUsers" resultType="com.example.admin.domain.SysUser">
+        select distinct u.user_id, u.dept_id,u.username,u.telephone,u.sex, u.status, u.create_time
+        from sys_user u
+        left join sys_dept d on u.dept_id = d.dept_id
+        left join sys_user_role ur on u.user_id = ur.user_id
+        left join sys_role r on r.role_id = ur.role_id
+        where r.role_id is null or r.role_id != #{e.roleId}
+        <if test="e.username != null and e.username != ''">
+            AND u.username like concat('%', #{e.username}, '%')
+        </if>
+        <if test="e.telephone != null and e.telephone != ''">
+            AND u.telephone like concat('%', #{e.telephone}, '%')
+        </if>
+    </select>
+    <select id="selectRoleList" resultType="com.example.admin.domain.SysRole">
+        select a.*, b.project_name as projectName
+        from sys_role a
+                 left join sys_project b on a.project_id = b.project_id
+    </select>
+    <select id="getLoginUserRoles" resultType="com.example.admin.domain.SysRole">
+        select a.*
+        from sys_role a
+                 left join sys_user_role b
+                           on a.role_id = b.role_id
+        where b.user_id = #{userId}
+          and a.project_id = #{projectId}
     </select>
 
 </mapper>

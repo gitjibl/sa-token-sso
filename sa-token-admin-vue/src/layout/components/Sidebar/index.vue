@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-07-27 17:52:43
  * @LastEditors: jibl
- * @LastEditTime: 2022-07-28 15:58:16
+ * @LastEditTime: 2022-12-13 16:04:59
 -->
 <template>
   <div :class="{'has-logo':showLogo}">
@@ -36,7 +36,8 @@
         'sidebar'
       ]),
       routes() {
-        return this.$router.options.routes
+        // return this.$router.options.routes
+        return this.$store.state.permission.routes;
       },
       activeMenu() {
         debugger

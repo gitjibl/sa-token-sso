@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-12-05 10:08:45
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-07 16:43:16
+ * @LastEditTime: 2022-12-12 15:19:54
 -->
 <!--  -->
 <template>
@@ -253,11 +253,14 @@
     </el-dialog>
 
     <data-scope ref="data-scope" />
+
+    <auth-user ref="auth-user" />
   </div>
 </template>
 
 <script>
 import DataScope from "./dataScope";
+import AuthUser from "./authUser";
 export default {
   data() {
     return {
@@ -281,7 +284,7 @@ export default {
       roleOpen: false,
       // 角色表单参数
       roleform: {
-        status:0
+        status: 0,
       },
       // 分页
       pagination: {
@@ -331,6 +334,7 @@ export default {
   mounted() {},
   components: {
     DataScope,
+    AuthUser,
   },
   methods: {
     //搜索按钮操作
@@ -345,6 +349,7 @@ export default {
     },
     //查询列表
     getPageList() {
+      this.loading = true;
       this.$axios({
         method: "get",
         url: "/role/getPageList",
@@ -353,10 +358,16 @@ export default {
           pageNum: this.pagination.pageNum,
           pageSize: this.pagination.pageSize,
         },
-      }).then((res) => {
-        this.roleList = res.data.records;
-        this.pagination.total = res.data.total;
-      });
+      })
+        .then((res) => {
+          this.roleList = res.data.records;
+          this.pagination.total = res.data.total;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        });
     },
 
     //加载项目列表
@@ -370,6 +381,38 @@ export default {
         this.queryParams.projectId = res.data[0].projectId;
         this.getPageList();
       });
+    },
+
+    //状态改变
+    handleStatusChange(row) {
+      let text = row.status === 0 ? "启用" : "停用";
+      this.$confirm(
+        '确认要"' + text + '""' + row.roleName + '"角色吗？',
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      )
+        .then(() => {
+          this.$axios({
+            method: "get",
+            url: "/role/update",
+            params: {
+              roleId: row.roleId,
+              status: row.status,
+            },
+          }).then((res) => {
+            this.$notify.success({
+              title: "成功",
+              message: "操作成功",
+            });
+          });
+        })
+        .catch(function () {
+          row.status = row.status === 0 ? 1 : 0;
+        });
     },
 
     //新增按钮操作
@@ -388,9 +431,48 @@ export default {
       this.roleTitle = "编辑角色";
       this.roleform = { ...row };
     },
-    handleDelete() {},
-    handleExport() {},
-    handleSelectionChange() {},
+    //删除
+    handleDelete(row) {
+      let ids = [];
+      if (row.roleId != undefined) {
+        ids = [row.roleId];
+      } else {
+        ids = this.ids;
+      }
+      this.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$axios({
+            method: "post",
+            url: "/role/delete",
+            data: JSON.stringify(ids),
+            headers: {
+              "Content-Type": "application/json; charset=UTF-8",
+            },
+          })
+            .then((res) => {
+              this.$message({
+                type: "success",
+                message: "删除成功!",
+              });
+              this.getPageList();
+            })
+            .catch((err) => {});
+        })
+        .catch(() => {});
+    },
+    handleExport() {
+      alert("功能开发中...");
+    },
+    // 多选框选中数据
+    handleSelectionChange(selection) {
+      this.ids = selection.map((item) => item.roleId);
+      this.single = selection.length != 1;
+      this.multiple = !selection.length;
+    },
     // 更多操作触发
     handleCommand(command, row) {
       switch (command) {
@@ -398,7 +480,7 @@ export default {
           this.$refs["data-scope"].handleDataScope(row);
           break;
         case "handleAuthUser":
-          this.handleAuthUser(row);
+          this.$refs["auth-user"].handleAuthUser(row);
           break;
         default:
           break;

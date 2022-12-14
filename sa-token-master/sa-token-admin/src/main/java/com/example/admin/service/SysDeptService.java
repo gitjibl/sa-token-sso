@@ -3,6 +3,9 @@ package com.example.admin.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.admin.domain.SysDept;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.admin.domain.TreeSelect;
+
+import java.util.List;
 
 /**
 * @author jibl
@@ -12,4 +15,20 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface SysDeptService extends IService<SysDept> {
 
     IPage getPageList(SysDept sysDept);
+
+    /**
+     * 查询部门管理数据
+     *
+     * @param dept 部门信息
+     * @return 部门信息集合
+     */
+    List<SysDept> selectDeptList(SysDept dept);
+
+    /**
+     * 构建前端所需要下拉树结构
+     *
+     * @param depts 部门列表
+     * @return 下拉树结构列表
+     */
+    List<TreeSelect> buildDeptTreeSelect(List<SysDept> depts);
 }

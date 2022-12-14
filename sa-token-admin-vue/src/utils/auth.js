@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-09-26 10:24:29
  * @LastEditors: jibl
- * @LastEditTime: 2022-11-22 17:33:27
+ * @LastEditTime: 2022-12-13 13:30:18
  */
 import Cookies from 'js-cookie'
 import request from '@/utils/request';
@@ -20,11 +20,4 @@ export function setToken(token) {
 
 export function removeToken() {
   return Cookies.remove(TokenKey)
-}
-// 获取用户详细信息
-export function getUserInfo() {
-  return request({
-    url: '/getUserInfo',
-    method: 'get'
-  })
 }
