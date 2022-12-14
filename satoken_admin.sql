@@ -11,7 +11,7 @@
  Target Server Version : 80015
  File Encoding         : 65001
 
- Date: 09/12/2022 17:43:21
+ Date: 14/12/2022 17:22:24
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `sys_dept`  (
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '创建者',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -74,17 +74,17 @@ CREATE TABLE `sys_menu`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2010 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
 INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, 1, 'system', NULL, NULL, 1, 0, 'M', 0, 0, NULL, '', 'CS001', 'admin', '2022-11-28 11:46:59', '');
 INSERT INTO `sys_menu` VALUES (2, '系统监控', 0, 2, 'monitor', NULL, NULL, 1, 0, 'M', 0, 0, NULL, '', 'CS001', 'admin', '2022-11-28 11:48:01', '');
-INSERT INTO `sys_menu` VALUES (2000, '用户管理', 1, 1, 'user', 'system/user/index', NULL, 1, 0, 'C', 0, 0, NULL, '#', 'CS001', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2002, '角色管理', 1, 2, 'role', 'system/role/index', NULL, 1, 0, 'C', 0, 0, NULL, '#', 'CS001', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2004, '菜单管理', 1, 3, 'menu', 'system/menu/index', NULL, 1, 0, 'C', 0, 0, NULL, '#', 'CS001', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2005, '部门管理', 1, 4, 'dept', 'system/dept/index', NULL, 1, 0, 'C', 0, 0, NULL, '#', 'CS001', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2000, '用户管理', 1, 1, 'user', 'system/user/index', NULL, 1, 0, 'C', 0, 0, 'system:user:list', 'user', 'CS001', 'admin', '2022-11-28 11:48:00', '');
+INSERT INTO `sys_menu` VALUES (2002, '角色管理', 1, 2, 'role', 'system/role/index', NULL, 1, 0, 'C', 0, 0, 'system:role:list', 'home', 'CS001', 'admin', '2022-11-28 11:48:00', '');
+INSERT INTO `sys_menu` VALUES (2004, '菜单管理', 1, 3, 'menu', 'system/menu/index', NULL, 1, 0, 'C', 0, 0, 'system:menu:list', '#', 'CS001', 'admin', '2022-11-28 11:48:01', '');
+INSERT INTO `sys_menu` VALUES (2005, '部门管理', 1, 4, 'dept', 'system/dept/index', NULL, 1, 0, 'C', 0, 0, 'system:dept:list', '#', 'CS001', 'admin', '2022-11-28 11:48:01', '');
 
 -- ----------------------------
 -- Table structure for sys_project
@@ -123,7 +123,7 @@ CREATE TABLE `sys_role`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
@@ -131,7 +131,7 @@ CREATE TABLE `sys_role`  (
 INSERT INTO `sys_role` VALUES (1, '超级管理员', 'CS001', 'super-admin', 1, 0, 'admin', '2022-11-11 17:20:14', '超级管理员');
 INSERT INTO `sys_role` VALUES (2, '管理员', 'CS001', 'admin', 2, 0, 'admin', '2022-11-11 17:20:14', '管理员');
 INSERT INTO `sys_role` VALUES (3, '普通角色', 'CS001', 'common', 3, 0, 'admin', '2022-12-07 14:12:43', '普通角色');
-INSERT INTO `sys_role` VALUES (4, '普通01', 'CS001', 'common', 4, 1, 'admin', '2022-12-07 09:09:04', NULL);
+INSERT INTO `sys_role` VALUES (5, '管理员', 'CS002', 'admin', 0, 0, 'admin', '2022-12-12 05:13:13', NULL);
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -156,11 +156,12 @@ CREATE TABLE `sys_role_menu`  (
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
-INSERT INTO `sys_role_menu` VALUES (2, 0);
 INSERT INTO `sys_role_menu` VALUES (2, 1);
 INSERT INTO `sys_role_menu` VALUES (2, 2000);
 INSERT INTO `sys_role_menu` VALUES (2, 2002);
 INSERT INTO `sys_role_menu` VALUES (2, 2004);
+INSERT INTO `sys_role_menu` VALUES (3, 1);
+INSERT INTO `sys_role_menu` VALUES (3, 2000);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -170,24 +171,26 @@ CREATE TABLE `sys_user`  (
   `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id，自增主键',
   `dept_id` int(11) NULL DEFAULT NULL COMMENT '部门ID',
   `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户账号',
+  `nickname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '昵称',
   `password` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '密码',
   `pw` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '明文密码',
   `sex` int(255) NULL DEFAULT NULL COMMENT '性别',
   `telephone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话',
   `remark` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注\r\n',
   `status` int(255) NULL DEFAULT NULL COMMENT '帐号状态（0正常 1停用）',
+  `user_sort` int(10) NULL DEFAULT NULL COMMENT '排序',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `create_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建者',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 1, 'super-admin', 'e10adc3949ba59abbe56e057f20f883e', '123456', 1, '15946823652', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', 0, NULL, NULL);
-INSERT INTO `sys_user` VALUES (2, 2, 'admin', 'e10adc3949ba59abbe56e057f20f883e', '123456', 0, '15946823652', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', 0, '2022-12-08 10:52:00', NULL);
-INSERT INTO `sys_user` VALUES (3, 1, '桓一', 'e10adc3949ba59abbe56e057f20f883e', '123456', 0, '15948370464', NULL, 0, NULL, NULL);
-INSERT INTO `sys_user` VALUES (5, NULL, '测试01', 'f8a8d7997e870968f92748f3cc41cf90', '1232456', 0, NULL, NULL, 0, '2022-12-09 09:31:07', NULL);
+INSERT INTO `sys_user` VALUES (1, 1, 'super-admin', NULL, 'e10adc3949ba59abbe56e057f20f883e', '123456', 1, '15946823652', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', 0, NULL, NULL, NULL);
+INSERT INTO `sys_user` VALUES (2, 2, 'admin', '管理员', 'e10adc3949ba59abbe56e057f20f883e', 'admin', 0, '15946823652', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', 0, 0, '2022-12-08 10:52:00', NULL);
+INSERT INTO `sys_user` VALUES (3, 2, 'huanyi', '桓一', 'e10adc3949ba59abbe56e057f20f883e', '123456', 0, '15948370464', NULL, 1, 1, NULL, NULL);
+INSERT INTO `sys_user` VALUES (5, 4, '测试01', '测试', 'f8a8d7997e870968f92748f3cc41cf90', '1232456', 0, '15554896265', NULL, 0, 3, '2022-12-09 09:31:00', NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_role
