@@ -127,7 +127,6 @@ export default {
     refreshSelectedTag(view) {
       this.$store.dispatch('tagsView/delCachedView', view).then((cachedViews) => {
         const { fullPath } = view
-        console.log("哈哈哈哈哈哈",cachedViews)
         this.$nextTick(() => {
           this.$router.replace({
             path: '/redirect' + fullPath

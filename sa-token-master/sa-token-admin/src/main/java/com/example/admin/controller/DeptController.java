@@ -19,7 +19,7 @@ import java.util.List;
  * @author huanyi
  * @date 2022-11-29
  */
-@Controller
+@RestController
 @RequestMapping("/dept")
 public class DeptController {
 
@@ -39,7 +39,6 @@ public class DeptController {
      * @return
      */
     @RequestMapping("/getPageList")
-    @ResponseBody
     public R getPageList(SysDept sysDept) {
         IPage pageList = sysDeptService.getPageList(sysDept);
         return R.ok(pageList);
