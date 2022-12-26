@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-12-13 13:29:31
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-13 17:44:56
+ * @LastEditTime: 2022-12-26 16:42:17
  */
 import request from '@/utils/request'
 
@@ -17,6 +17,13 @@ export function getLoginUser() {
       }
     })
   }
+
+export function getRouters(){
+  return request({
+    url: '/getRouters',
+    method: 'get'
+  })
+}
 
 export const LoginUrl = process.env.VUE_APP_SSO_LOGIN_URL + location.href
 

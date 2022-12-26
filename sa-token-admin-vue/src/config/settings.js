@@ -7,7 +7,7 @@
  */
 module.exports = {
 
-  title: '权限系统',
+  title: '统一用户管理系统',
 
   /**
    * @type {boolean} true | false

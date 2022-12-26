@@ -1,38 +1,78 @@
-import { asyncRoutes, constantRoutes } from '@/router'
-
-/**
- * Use meta.role to determine if the current user has permission
- * @param roles
- * @param route
+/*
+ * @Descripttion: 
+ * @Author: jibl
+ * @Date: 2022-11-28 09:38:28
+ * @LastEditors: jibl
+ * @LastEditTime: 2022-12-26 17:47:25
  */
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.includes(role))
-  } else {
+import router, {
+  asyncRoutes,
+  constantRoutes
+} from '@/router'
+import {
+  getRouters
+} from '@/api/login'
+import Layout from '@/layout'
+import ParentView from '@/components/ParentView'
+
+
+// 遍历后台传来的路由字符串，转换为组件对象
+function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
+  return asyncRouterMap.filter(route => {
+    if (type && route.children) {
+      route.children = filterChildren(route.children)
+    }
+    if (route.component) {
+      // Layout ParentView 组件特殊处理
+      if (route.component === 'Layout') {
+        route.component = Layout
+      } else if (route.component === 'ParentView') {
+        route.component = ParentView
+      } else {
+        route.component = loadView(route.component)
+      }
+    }
+    if (route.children != null && route.children && route.children.length) {
+      route.children = filterAsyncRouter(route.children, route, type)
+    } else {
+      delete route['children']
+      delete route['redirect']
+    }
     return true
-  }
+  })
 }
 
-/**
- * Filter asynchronous routing tables by recursion
- * @param routes asyncRoutes
- * @param roles
- */
-export function filterAsyncRoutes(routes, roles) {
-  const res = []
-
-  routes.forEach(route => {
-    debugger
-    const tmp = { ...route }
-    if (hasPermission(roles, tmp)) {
-      if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
+function filterChildren(childrenMap, lastRouter = false) {
+  var children = []
+  childrenMap.forEach((el, index) => {
+    if (el.children && el.children.length) {
+      if (el.component === 'ParentView' && !lastRouter) {
+        el.children.forEach(c => {
+          c.path = el.path + '/' + c.path
+          if (c.children && c.children.length) {
+            children = children.concat(filterChildren(c.children, c))
+            return
+          }
+          children.push(c)
+        })
+        return
       }
-      res.push(tmp)
     }
+    if (lastRouter) {
+      el.path = lastRouter.path + '/' + el.path
+    }
+    children = children.concat(el)
   })
+  return children
+}
 
-  return res
+const loadView = (view) => {
+  if (process.env.NODE_ENV === 'development') {
+    return (resolve) => require([`@/views/${view}`], resolve)
+  } else {
+    // 使用 import 实现生产环境的路由懒加载
+    return () => import(`@/views/${view}`)
+  }
 }
 
 const state = {
@@ -48,16 +88,20 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
+  generateRoutes({
+    commit
+  }, roles) {
     return new Promise(resolve => {
       let accessedRoutes
-      if (roles.includes('admin')) {
+      if (roles.includes('super-admin')) {
         accessedRoutes = asyncRoutes || []
       } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+        getRouters().then(res => {
+          accessedRoutes = filterAsyncRouter(res.data)
+          commit('SET_ROUTES', accessedRoutes)
+          resolve(accessedRoutes)
+        })
       }
-      commit('SET_ROUTES', accessedRoutes)
-      resolve(accessedRoutes)
     })
   }
 }

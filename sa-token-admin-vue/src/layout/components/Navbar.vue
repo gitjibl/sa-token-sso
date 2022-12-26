@@ -9,19 +9,18 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click"  @command="handleCommand">
+      <el-dropdown
+        class="avatar-container"
+        trigger="click"
+        @command="handleCommand"
+      >
         <div class="avatar-wrapper">
           <img :src="require('@assets/images/user.png')" class="user-avatar" />
-          <span class="user-name"> 管理员 </span>
+          <span class="user-name"> {{ userInfo.nickname }} </span>
           <i class="el-icon-caret-bottom"></i>
         </div>
-        <el-dropdown-menu
-          slot="dropdown"
-          class="user-dropdown"
-        >
-          <router-link to="/admin">
-            <el-dropdown-item>用户信息</el-dropdown-item>
-          </router-link>
+        <el-dropdown-menu slot="dropdown" class="user-dropdown">
+          <el-dropdown-item command="password">用户信息</el-dropdown-item>
           <el-dropdown-item command="password">修改密码</el-dropdown-item>
           <el-dropdown-item divided command="loginout"
             >退出登录</el-dropdown-item
@@ -43,7 +42,7 @@ export default {
     Hamburger,
   },
   computed: {
-    ...mapGetters(["sidebar"]),
+    ...mapGetters(["sidebar", "userInfo"]),
   },
   methods: {
     toggleSideBar() {

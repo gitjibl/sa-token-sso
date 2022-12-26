@@ -3,18 +3,24 @@
  * @Author: jibl
  * @Date: 2022-07-27 14:19:29
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-13 16:27:06
+ * @LastEditTime: 2022-12-26 17:46:40
  */
 import router from '@/router'
 import store from '@/store'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import getPageTitle from '@/utils/get-page-title'
-import { getToken } from '@/utils/auth'
-import { getLoginUser, LoginUrl } from '@/api/login'
+import {
+  getToken
+} from '@/utils/auth'
+import {
+  getLoginUser,
+  LoginUrl
+} from '@/api/login'
 
-
-NProgress.configure({ showSpinner: false })
+NProgress.configure({
+  showSpinner: false
+})
 
 const whiteList = ['/login'] // 白名单
 
@@ -37,13 +43,24 @@ router.beforeEach(async (to, from, next) => {
 
       getLoginUser().then(res => {
         console.log("用户信息", res)
-        //模拟存储用户信息
-        store.dispatch('user/setUserInfo', { username: "admin" });
+        if (res.roles.length == 0) {
+          this.$notify({
+            title: '警告',
+            message: '当前用户没有分配角色！请先分配角色后重新登入！',
+            type: 'warning'
+          });
+          return
+        }
+
+        //存储用户信息
+        store.dispatch('user/setUserInfo', res);
         //生成路由表
         store.dispatch('permission/generateRoutes', ['admin']).then(accessRoutes => {
           console.log("动态路由", accessRoutes)
           //动态添加可访问路由表
-          router.addRoutes(accessRoutes)
+          accessRoutes.forEach(res => {
+            router.addRoute(res);
+          })
           next({
             ...to,
             replace: true
