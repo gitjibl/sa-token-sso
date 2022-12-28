@@ -56,14 +56,17 @@
         <!-- v-loading="loading" -->
         <el-table ref="multipleTable" 
         :data="deptList" tooltip-effect="dark" style="width: 100%"
+        row-key="deptId"
+        :default-expand-all="false"
+        :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
             @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column label="部门id" width="120">
                 <template slot-scope="scope">{{ scope.row.deptId }}</template>
             </el-table-column>
-            <el-table-column prop="parentId" label="父部门id" width="120">
-            </el-table-column>
+            <!-- <el-table-column prop="parentId" label="父部门id" width="120">
+            </el-table-column> -->
             <el-table-column prop="ancestors" label="祖级列表" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="deptName" label="部门名称" show-overflow-tooltip>
@@ -193,8 +196,9 @@ export default {
                 },
             })
                 .then((res) => {
-                    console.log("部门列表：" + res);
-                    this.deptList = res.data.records;
+                    console.log("部门列表：" + res.data.records);
+                    // this.deptList = res.data.records;
+                    this.deptList = this.handleTree(res.data.records, "deptId");
                     // this.pagination.total = res.data.total;
                 })
                 .catch((err) => {
