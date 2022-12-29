@@ -3,12 +3,11 @@ package com.example.admin.controller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.admin.domain.SysDept;
-import com.example.admin.domain.TreeSelect;
-import com.example.admin.service.SysDeptService;
 import com.example.common.utils.R;
+import com.example.system.domain.SysDept;
+import com.example.system.domain.TreeSelect;
+import com.example.system.service.SysDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

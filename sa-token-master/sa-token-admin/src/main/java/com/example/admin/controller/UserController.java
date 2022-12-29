@@ -1,31 +1,25 @@
 package com.example.admin.controller;
 
-import cn.dev33.satoken.session.SaSession;
-import cn.dev33.satoken.stp.SaTokenInfo;
-import cn.dev33.satoken.stp.StpUtil;
+
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.admin.domain.SysProject;
-import com.example.admin.domain.SysRole;
-import com.example.admin.domain.SysUser;
-import com.example.admin.domain.SysUserRole;
-import com.example.admin.service.SysRoleService;
-import com.example.admin.service.SysUserRoleService;
-import com.example.admin.service.SysUserService;
 import com.example.common.core.controller.BaseController;
 import com.example.common.utils.R;
-import org.apache.commons.lang3.ArrayUtils;
+import com.example.system.domain.SysRole;
+import com.example.system.domain.SysUser;
+import com.example.system.domain.SysUserRole;
+import com.example.system.service.SysRoleService;
+import com.example.system.service.SysUserRoleService;
+import com.example.system.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
-
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,6 +37,7 @@ public class UserController extends BaseController {
 
 
 
+    @SaCheckPermission("user-list")
     @GetMapping("/getPageList")
     public R getPageList(SysUser sysUser) {
         IPage pageList = sysUserService.getPageList(sysUser);

@@ -3,9 +3,9 @@
  * @Author: jibl
  * @Date: 2022-11-28 09:38:28
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-26 17:47:25
+ * @LastEditTime: 2022-12-29 09:26:54
  */
-import router, {
+import {
   asyncRoutes,
   constantRoutes
 } from '@/router'
@@ -90,18 +90,14 @@ const mutations = {
 const actions = {
   generateRoutes({
     commit
-  }, roles) {
+  }) {
     return new Promise(resolve => {
       let accessedRoutes
-      if (roles.includes('super-admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        getRouters().then(res => {
-          accessedRoutes = filterAsyncRouter(res.data)
-          commit('SET_ROUTES', accessedRoutes)
-          resolve(accessedRoutes)
-        })
-      }
+      getRouters().then(res => {
+        accessedRoutes = filterAsyncRouter(res.data)
+        commit('SET_ROUTES', accessedRoutes)
+        resolve(accessedRoutes)
+      })
     })
   }
 }

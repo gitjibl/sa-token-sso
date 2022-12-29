@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-22 17:01:02
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-26 17:54:59
+ * @LastEditTime: 2022-12-29 13:58:42
  */
 const path = require("path");
 const webpack = require("webpack");
@@ -67,6 +67,7 @@ module.exports = {
     pages: {
         index: {
             entry: 'src/main.js',
+            title: process.env.VUE_APP_TITLE,
         },
     },
 }

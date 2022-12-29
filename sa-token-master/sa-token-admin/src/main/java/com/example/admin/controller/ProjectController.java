@@ -4,10 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.admin.domain.SysProject;
-import com.example.admin.service.SysProjectService;
 import com.example.common.core.controller.BaseController;
 import com.example.common.utils.R;
+import com.example.system.domain.SysProject;
+import com.example.system.service.SysProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

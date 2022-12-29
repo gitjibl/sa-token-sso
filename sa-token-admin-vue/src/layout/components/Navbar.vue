@@ -35,7 +35,7 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
-
+import { logOut } from "@/api/login";
 export default {
   components: {
     Breadcrumb,
@@ -50,11 +50,7 @@ export default {
     },
     handleCommand(command) {
       if (command == "loginout") {
-        location.href =
-          "http://localhost:9000/sso/signout?" +
-          "&back=" +
-          "http://localhost:9000/sso/auth?redirect=" +
-          location.href;
+        logOut();
       }
     },
   },

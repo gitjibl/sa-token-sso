@@ -40,25 +40,4 @@ public class BaseController {
         });
     }
 
-    /**
-     * 获取登录用户
-     */
-    public Object getLoginUser() {
-        SaSession session = StpUtil.getTokenSession();
-        Object obj = session.get("user");
-        return obj;
-    }
-
-    /**
-     * 获取登录用户名
-     */
-    public String getLoginUserName() {
-        SaSession session = StpUtil.getTokenSession();
-        Object obj = session.get("user");
-        LoginUser loginUser = JSON.parseObject(obj.toString(), LoginUser.class);
-        return loginUser.getUsername();
-    }
-
-
-
 }

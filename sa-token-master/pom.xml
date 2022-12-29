@@ -24,6 +24,7 @@
 
     <modules>
         <module>sa-token-admin</module>
+        <module>sa-token-system</module>
         <module>sa-token-framework</module>
         <module>sa-token-common</module>
     </modules>

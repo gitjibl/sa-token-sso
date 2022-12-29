@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-09-22 13:43:06
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-05 14:41:46
+ * @LastEditTime: 2022-12-29 14:14:24
  */
 // import Cookies from 'js-cookie'
 import axios from 'axios'
@@ -18,7 +18,7 @@ import {
     Loading
 } from 'element-ui'
 import errorCode from '@/utils/errorCode'
-
+import {LoginUrl,logOut} from '@/api/login'
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
@@ -60,7 +60,8 @@ service.interceptors.response.use(res => {
             // }).catch(() => {
 
             // });
-            location.href = 'http://localhost:9000/sso/auth?redirect='+location.href
+            // logOut()
+            location.href = LoginUrl
             return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
         } else if (code === 200) {
             return Promise.resolve(res.data)

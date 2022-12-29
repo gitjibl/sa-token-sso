@@ -1,6 +1,7 @@
 package com.example.framework.satoken;
 
 import cn.dev33.satoken.stp.StpInterface;
+import com.example.common.utils.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -9,8 +10,10 @@ import java.util.List;
 /**
  * 自定义权限验证接口扩展
  */
-@Component    // 保证此类被SpringBoot扫描，完成sa-token的自定义权限验证扩展
+@Component
 public class StpInterfaceImpl implements StpInterface {
+
+
 
     /**
      * 返回一个账号所拥有的权限码集合
@@ -25,6 +28,13 @@ public class StpInterfaceImpl implements StpInterface {
         list.add("user:update");
         list.add("user:get");
         list.add("article:get");
+
+        if (SecurityUtil.isSuperAdmin()) {
+            //超级管理员
+            list.add("*:*:*");
+        }else{
+
+        }
         return list;
     }
 

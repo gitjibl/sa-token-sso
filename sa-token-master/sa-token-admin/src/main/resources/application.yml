@@ -1,7 +1,9 @@
+#项目相关陪配置
+admin:
+  project-key: CS001
 server:
   # 服务器Http端口，默认 8080
   port: 9003
-
 # sa-token配置
 sa-token:
   # SSO-相关配置

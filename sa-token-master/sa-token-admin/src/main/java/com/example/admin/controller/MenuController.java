@@ -1,12 +1,12 @@
 package com.example.admin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.example.admin.domain.SysMenu;
-import com.example.admin.domain.TreeSelect;
-import com.example.admin.service.SysMenuService;
 import com.example.common.core.controller.BaseController;
 import com.example.common.utils.R;
+import com.example.common.utils.SecurityUtil;
+import com.example.system.domain.SysMenu;
+import com.example.system.domain.TreeSelect;
+import com.example.system.service.SysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,6 +57,7 @@ public class MenuController extends BaseController {
      */
     @GetMapping("/insert")
     public R insert(SysMenu sysMenu) {
+        sysMenu.setCreateBy(SecurityUtil.getLoginUserName());
         sysMenu.setCreateTime(new Date());
         boolean save = sysMenuService.save(sysMenu);
         return save ? R.ok() : R.fail();

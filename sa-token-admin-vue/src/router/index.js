@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 09:38:28
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-26 17:24:33
+ * @LastEditTime: 2022-12-29 11:53:44
  */
 /**
  * Note: 路由配置项
@@ -33,6 +33,8 @@ Vue.use(VueRouter)
 
 /* Layout */
 import Layout from '@/layout'
+/* ParentView */
+import ParentView from '@/components/ParentView'
 
 export const constantRoutes = [{
   path: '/redirect',
@@ -57,7 +59,25 @@ export const constantRoutes = [{
       affix: true
     }
   }]
-}
+},
+// 提示页面 401 404
+{
+  path: '/error',
+  component: ParentView,
+  hidden: true,
+  name: 'Error',
+  children: [{
+    path: '401',
+    name: 'Page401',
+    component: () => import('@/views/error/401'),
+  },
+  {
+    path: '404',
+    name: 'Page404',
+    component: () => import('@/views/error/404'),
+  }
+  ],
+},
 ];
 export const asyncRoutes = [
   {

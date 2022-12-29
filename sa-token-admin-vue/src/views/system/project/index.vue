@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 13:31:34
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-09 16:28:20
+ * @LastEditTime: 2022-12-27 17:50:13
 -->
 <!--  -->
 <template>
@@ -47,6 +47,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
+          v-hasPermi="['system:project:add']"
           >新增</el-button
         >
       </el-col>
@@ -58,6 +59,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
+          v-hasPermi="['system:project:edit']"
           >修改</el-button
         >
       </el-col>
@@ -69,6 +71,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
+          v-hasPermi="['system:project:delete']"
           >删除</el-button
         >
       </el-col>
@@ -305,23 +308,25 @@ export default {
           cancelButtonText: "取消",
           type: "warning",
         }
-      ).then(() => {
-        this.$axios({
-          method: "get",
-          url: "/project/update",
-          params: {
-            projectId: row.projectId,
-            status: row.status,
-          },
-        }).then((res) => {
-          this.$notify.success({
-            title: "成功",
-            message: "操作成功",
+      )
+        .then(() => {
+          this.$axios({
+            method: "get",
+            url: "/project/update",
+            params: {
+              projectId: row.projectId,
+              status: row.status,
+            },
+          }).then((res) => {
+            this.$notify.success({
+              title: "成功",
+              message: "操作成功",
+            });
           });
+        })
+        .catch(function () {
+          row.status = row.status === 0 ? 1 : 0;
         });
-      }).catch(function() {
-        row.status = row.status === 0 ? 1 : 0;
-      });
     },
     // 多选框选中数据
     handleSelectionChange(selection) {

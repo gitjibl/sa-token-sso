@@ -5,13 +5,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.admin.domain.SysRole;
-import com.example.admin.domain.SysUser;
-import com.example.admin.domain.SysUserRole;
-import com.example.admin.domain.TreeSelect;
-import com.example.admin.service.SysRoleService;
 import com.example.common.core.controller.BaseController;
 import com.example.common.utils.R;
+import com.example.common.utils.SecurityUtil;
+import com.example.system.domain.SysRole;
+import com.example.system.domain.SysUser;
+import com.example.system.domain.TreeSelect;
+import com.example.system.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +44,7 @@ public class RoleController extends BaseController {
 
     @GetMapping("/insert")
     public R insert(SysRole sysRole) {
-        sysRole.setCreateBy(getLoginUserName());
+        sysRole.setCreateBy(SecurityUtil.getLoginUserName());
         sysRole.setCreateTime(new Date());
         boolean update = sysRoleService.save(sysRole);
         return update ? R.ok() : R.fail();

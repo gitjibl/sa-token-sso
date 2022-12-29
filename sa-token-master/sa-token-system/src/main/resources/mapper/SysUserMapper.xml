@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.system.mapper.SysUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.system.domain.SysUser">
+        <id property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="deptId" column="dept_id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="pw" column="pw" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="INTEGER"/>
+        <result property="telephone" column="telephone" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id
+        ,dept_id,username,
+        password,pw,sex,
+        telephone,remark,status,
+        create_time,create_by
+    </sql>
+    <select id="getPageList" resultType="com.example.system.domain.SysUser">
+        select u.user_id,
+        u.dept_id,
+        u.nickname,
+        u.username,
+        u.telephone,
+        u.sex,
+        u.status,
+        u.create_by,
+        u.create_time,
+        u.remark,
+        u.user_sort,
+        d.dept_name
+        from sys_user u
+        left join sys_dept d on u.dept_id = d.dept_id
+        <where>
+            <if test="e.userId != null">
+                AND u.user_id = #{e.userId}
+            </if>
+            <if test="e.username != null and e.username != ''">
+                AND u.username like concat('%', #{e.username}, '%')
+            </if>
+            <if test="e.status != null">
+                AND u.status = #{e.status}
+            </if>
+            <if test="e.telephone != null and e.telephone != ''">
+                AND u.telephone like concat('%', #{e.telephone}, '%')
+            </if>
+            <if test="e.deptId != null">
+                AND (u.dept_id = #{e.deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE
+                find_in_set(#{e.deptId}, ancestors) ))
+            </if>
+        </where>
+        order by u.user_sort
+    </select>
+    <select id="getLoginUser" resultType="com.example.system.domain.SysUser">
+        select u.user_id,
+               u.dept_id,
+               b.dept_name as deptName,
+               u.nickname,
+               u.username,
+               u.telephone,
+               u.sex,
+               u.status
+        from sys_user u
+                 left join sys_dept b
+                           on u.dept_id = b.dept_id
+        where user_id = #{userId}
+    </select>
+</mapper>

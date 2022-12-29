@@ -17,7 +17,6 @@
           v-model="queryParams.menuName"
           placeholder="请输入菜单名称"
           clearable
-          @keyup.enter.native="handleQuery"
         />
       </el-form-item>
       <el-form-item label="状态">
@@ -52,6 +51,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
+          v-hasPermi="['system:menu:add']"
           >新增</el-button
         >
       </el-col>
@@ -132,6 +132,7 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
+            v-hasPermi="['system:menu:edit']"
             >修改</el-button
           >
           <el-button
@@ -139,6 +140,7 @@
             type="text"
             icon="el-icon-plus"
             @click="handleAdd(scope.row)"
+            v-hasPermi="['system:menu:add']"
             >新增</el-button
           >
           <el-button
@@ -146,6 +148,7 @@
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
+            v-hasPermi="['system:menu:delete']"
             >删除</el-button
           >
         </template>
@@ -175,7 +178,7 @@
           </el-col>
           <el-col :span="24">
             <el-form-item label="菜单类型" prop="menuType">
-              <el-radio-group v-model="form.menuType">
+              <el-radio-group v-model="form.menuType" @input="menuTypeInput">
                 <el-radio label="M">目录</el-radio>
                 <el-radio label="C">菜单</el-radio>
                 <el-radio label="F">按钮</el-radio>
@@ -378,6 +381,7 @@ export default {
       refreshTable: true,
       // 查询参数
       queryParams: {
+        projectId:null,
         menuName: undefined,
         visible: undefined,
       },
@@ -510,9 +514,16 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.menuTreeSelect();
-      this.form = { ...row };
+      this.form = { ...row,children:null };
       this.open = true;
       this.title = "修改菜单";
+    },
+    /**菜单类型改变事件 */
+    menuTypeInput(val){
+      let parentId = this.form.parentId;
+      this.$data.form = this.$options.data().form;
+      this.form.menuType = val;
+      this.form.parentId = parentId;
     },
     /** 提交按钮 */
     submitForm: function () {

@@ -3,10 +3,9 @@
  * @Author: jibl
  * @Date: 2022-09-26 10:24:29
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-13 13:30:18
+ * @LastEditTime: 2022-12-27 17:26:09
  */
 import Cookies from 'js-cookie'
-import request from '@/utils/request';
 
 const TokenKey = 'satoken'
 

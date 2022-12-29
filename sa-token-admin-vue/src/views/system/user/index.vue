@@ -80,6 +80,7 @@
               plain
               icon="el-icon-plus"
               size="mini"
+              v-hasPermi="['system:user:add']"
               @click="handleAdd"
               >新增</el-button
             >
@@ -91,9 +92,10 @@
               icon="el-icon-edit"
               size="mini"
               :disabled="single"
+              v-hasPermi="['system:user:edit']"
               @click="handleUpdate"
-              >修改</el-button
-            >
+              >修改
+            </el-button>
           </el-col>
           <el-col :span="1.5">
             <el-button
@@ -102,8 +104,10 @@
               icon="el-icon-delete"
               size="mini"
               :disabled="multiple"
+              v-hasPermi="['system:user:delete']"
               @click="handleDelete"
-              >删除</el-button
+            >
+              删除</el-button
             >
           </el-col>
           <el-col :span="1.5">
@@ -112,6 +116,7 @@
               plain
               icon="el-icon-upload2"
               size="mini"
+              v-hasPermi="['system:user:import']"
               @click="handleImport"
               >导入</el-button
             >
@@ -122,6 +127,7 @@
               plain
               icon="el-icon-download"
               size="mini"
+              v-hasPermi="['system:user:export']"
               @click="handleExport"
               >导出</el-button
             >
@@ -135,7 +141,7 @@
         >
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column label="用户编号" align="center" prop="userId" />
-          <el-table-column label="用户昵称" align="center" prop="nickname"/>
+          <el-table-column label="用户昵称" align="center" prop="nickname" />
           <el-table-column
             label="用户名称"
             align="center"
@@ -172,6 +178,7 @@
                 size="mini"
                 type="text"
                 icon="el-icon-edit"
+                v-hasPermi="['system:user:edit']"
                 @click="handleUpdate(scope.row)"
                 >修改</el-button
               >
@@ -179,23 +186,29 @@
                 size="mini"
                 type="text"
                 icon="el-icon-delete"
+                v-hasPermi="['system:user:delete']"
                 @click="handleDelete(scope.row)"
                 >删除</el-button
               >
               <el-dropdown
                 size="mini"
                 @command="(command) => handleCommand(command, scope.row)"
+                v-hasPermi="['system:user:resetPwd', 'system:user:authRole']"
               >
                 <span class="el-dropdown-link">
                   <i class="el-icon-d-arrow-right el-icon--right"></i>更多
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item command="handleResetPwd" icon="el-icon-key"
+                  <el-dropdown-item
+                    command="handleResetPwd"
+                    icon="el-icon-key"
+                    v-hasPermi="['system:user:resetPwd']"
                     >重置密码</el-dropdown-item
                   >
                   <el-dropdown-item
                     command="handleAuthRole"
                     icon="el-icon-circle-check"
+                    v-hasPermi="['system:user:authRole']"
                     >分配角色</el-dropdown-item
                   >
                 </el-dropdown-menu>
@@ -281,10 +294,7 @@
 
         <el-row>
           <el-col :span="12">
-            <el-form-item
-              label="用户昵称"
-              prop="nickname"
-            >
+            <el-form-item label="用户昵称" prop="nickname">
               <el-input v-model="form.nickname" placeholder="请输入用户昵称" />
             </el-form-item>
           </el-col>
@@ -406,7 +416,10 @@ import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import AuthRole from "./authRole";
 export default {
   name: "User",
-  components: { Treeselect, AuthRole },
+  components: {
+    Treeselect,
+    AuthRole,
+  },
   data() {
     return {
       // 遮罩层
@@ -437,8 +450,8 @@ export default {
       form: {
         password: null,
         status: 0,
-        sex:0,
-        userSort:0
+        sex: 0,
+        userSort: 0,
       },
       defaultProps: {
         children: "children",
@@ -478,7 +491,11 @@ export default {
       // 表单校验
       rules: {
         username: [
-          { required: true, message: "用户名称不能为空", trigger: "blur" },
+          {
+            required: true,
+            message: "用户名称不能为空",
+            trigger: "blur",
+          },
           {
             min: 2,
             max: 20,
@@ -487,7 +504,11 @@ export default {
           },
         ],
         password: [
-          { required: true, message: "用户密码不能为空", trigger: "blur" },
+          {
+            required: true,
+            message: "用户密码不能为空",
+            trigger: "blur",
+          },
           {
             min: 5,
             max: 20,
@@ -495,9 +516,19 @@ export default {
             trigger: "blur",
           },
         ],
-        sex: [{ required: true, message: "用户性别不能为空", trigger: "blur" }],
+        sex: [
+          {
+            required: true,
+            message: "用户性别不能为空",
+            trigger: "blur",
+          },
+        ],
         nickname: [
-          { required: true, message: "用户昵称不能为空", trigger: "blur" },
+          {
+            required: true,
+            message: "用户昵称不能为空",
+            trigger: "blur",
+          },
         ],
         telephone: [
           {
@@ -525,9 +556,6 @@ export default {
   created() {
     this.getPageList();
     this.deptTreeSelect();
-    // this.getConfigKey("sys.user.initPassword").then(response => {
-    //   this.initPassword = response.msg;
-    // });
   },
   methods: {
     /** 查询用户列表 */
@@ -558,10 +586,9 @@ export default {
         method: "get",
         url: "/dept/deptTreeSelect",
         params: {},
-      })
-        .then((res) => {
-          this.deptOptions = res.data;
-        })
+      }).then((res) => {
+        this.deptOptions = res.data;
+      });
     },
     // 筛选节点
     filterNode(value, data) {
@@ -639,41 +666,17 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      // this.$axios({
-      //   method: "get",
-      //   url: "/user/getUserInfo",
-      //   params: {},
-      // }).then((res) => {
-      //   this.roleOptions = res.data.roles;
-      //   this.open = true;
-      //   this.title = "添加用户";
-      //   this.form.password = this.initPassword;
-      // });
-
       this.open = true;
       this.title = "添加用户";
       this.form.password = this.initPassword;
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      // this.$axios({
-      //   method: "get",
-      //   url: "/user/getUserInfo",
-      //   params: {
-      //     ...row,
-      //   },
-      // }).then((res) => {
-      //   this.roleOptions = res.data.roles;
-      //   this.open = true;
-      //   this.title = "修改用户";
-      //   this.form = { ...row };
-      //   this.form.roleIds = res.data.roleIds;
-      //   this.form.password = "";
-      // });
-
       this.open = true;
       this.title = "修改用户";
-      this.form = { ...row };
+      this.form = {
+        ...row,
+      };
     },
     /** 重置密码按钮操作 */
     handleResetPwd(row) {
@@ -722,7 +725,7 @@ export default {
             this.$axios({
               method: "get",
               url: "/user/insert",
-              data: this.form,
+              params: this.form,
             }).then((res) => {
               this.open = false;
               this.getPageList();
@@ -803,7 +806,9 @@ export default {
           response.msg +
           "</div>",
         "导入结果",
-        { dangerouslyUseHTMLString: true }
+        {
+          dangerouslyUseHTMLString: true,
+        }
       );
       this.getPageList();
     },

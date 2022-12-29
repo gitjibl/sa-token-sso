@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-07-27 14:19:29
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-26 17:46:40
+ * @LastEditTime: 2022-12-29 14:18:26
  */
 import router from '@/router'
 import store from '@/store'
@@ -18,6 +18,7 @@ import {
   LoginUrl
 } from '@/api/login'
 
+// import { Message, MessageBox, Notification, Loading } from 'element-ui'
 NProgress.configure({
   showSpinner: false
 })
@@ -43,19 +44,15 @@ router.beforeEach(async (to, from, next) => {
 
       getLoginUser().then(res => {
         console.log("用户信息", res)
-        if (res.roles.length == 0) {
-          this.$notify({
-            title: '警告',
-            message: '当前用户没有分配角色！请先分配角色后重新登入！',
-            type: 'warning'
-          });
-          return
+        if (res.roleKeys.length == 0) {
+          router.replace({ name: 'Page401', params: { info: '当前帐号没有操作权限,请联系管理员。', headline: '您没有操作权限...' } })
         }
 
         //存储用户信息
         store.dispatch('user/setUserInfo', res);
+        store.dispatch('user/setPermissions', res.menus);
         //生成路由表
-        store.dispatch('permission/generateRoutes', ['admin']).then(accessRoutes => {
+        store.dispatch('permission/generateRoutes').then(accessRoutes => {
           console.log("动态路由", accessRoutes)
           //动态添加可访问路由表
           accessRoutes.forEach(res => {
@@ -78,7 +75,6 @@ router.beforeEach(async (to, from, next) => {
       // 在免登录白名单，直接进入
       next()
     } else {
-      // location.href = "http://localhost:9000/sso/auth?redirect=http://localhost:9003/sso/login?back=http://localhost:9004/"
       location.href = LoginUrl
       NProgress.done()
     }
