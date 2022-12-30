@@ -117,7 +117,11 @@ public class SysUser extends BaseEntity implements Serializable {
 
     /** 权限集合 */
     @TableField(exist = false)
-    private String[] menus;
+    private List<SysMenu> menus;
+
+    /** 权限标识集合 */
+    @TableField(exist = false)
+    private String[] perms;
 
     /** 角色ID组 */
     @TableField(exist = false)
@@ -126,5 +130,6 @@ public class SysUser extends BaseEntity implements Serializable {
     /** 角色权限字符串数组 */
     @TableField(exist = false)
     private String[] roleKeys;
+
 
 }

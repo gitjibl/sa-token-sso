@@ -37,7 +37,7 @@ public class UserController extends BaseController {
 
 
 
-    @SaCheckPermission("user-list")
+    @SaCheckPermission("system:user:list")
     @GetMapping("/getPageList")
     public R getPageList(SysUser sysUser) {
         IPage pageList = sysUserService.getPageList(sysUser);
@@ -62,18 +62,21 @@ public class UserController extends BaseController {
         return R.ok(sysUser);
     }
 
+    @SaCheckPermission("system:user:add")
     @GetMapping("/insert")
     public R insert(SysUser sysUser) {
         boolean update = sysUserService.insertUser(sysUser);
         return update ? R.ok() : R.fail();
     }
 
+    @SaCheckPermission("system:user:edit")
     @GetMapping("/update")
     public R update(SysUser sysUser) {
         boolean update = sysUserService.updateUser(sysUser);
         return update ? R.ok() : R.fail();
     }
 
+    @SaCheckPermission("system:user:delete")
     @PostMapping("/delete")
     public R delete(@RequestBody String ids) {
         List<Integer> userIds = JSON.parseArray(ids, Integer.class);
@@ -82,6 +85,7 @@ public class UserController extends BaseController {
     }
 
 
+    @SaCheckPermission("system:user:resetPwd")
     @GetMapping("/resetUserPwd")
     public R resetUserPwd(SysUser sysUser) {
         sysUser.setPw(sysUser.getPassword());
@@ -98,6 +102,7 @@ public class UserController extends BaseController {
      * @param sysUser
      * @return
      */
+    @SaCheckPermission("system:user:authRole")
     @PostMapping("/updateUserRole")
     public R updateUserRole(@RequestBody SysUser sysUser) {
         boolean update = sysUserService.updateUserRole(sysUser);

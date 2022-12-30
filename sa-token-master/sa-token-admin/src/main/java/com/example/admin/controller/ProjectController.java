@@ -1,5 +1,6 @@
 package com.example.admin.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -20,6 +21,7 @@ public class ProjectController extends BaseController {
     @Autowired
     SysProjectService sysProjectService;
 
+    @SaCheckPermission("system:project:list")
     @GetMapping("/getPageList")
     public R getPageList(SysProject sysProject) {
         IPage pageList = sysProjectService.getPageList(sysProject);
@@ -33,12 +35,14 @@ public class ProjectController extends BaseController {
         return R.ok(list);
     }
 
+    @SaCheckPermission("system:project:add")
     @GetMapping("/insert")
     public R insert(SysProject sysProject) {
         boolean update = sysProjectService.save(sysProject);
         return update ? R.ok() : R.fail();
     }
 
+    @SaCheckPermission("system:project:edit")
     @GetMapping("/update")
     public R update(SysProject sysProject) {
         UpdateWrapper<SysProject> wrapper = new UpdateWrapper<>();
@@ -47,6 +51,7 @@ public class ProjectController extends BaseController {
         return update ? R.ok() : R.fail();
     }
 
+    @SaCheckPermission("system:project:delete")
     @PostMapping("/delete")
     public R insert(@RequestBody String ids) {
         List<String> list = JSON.parseArray(ids,String.class);

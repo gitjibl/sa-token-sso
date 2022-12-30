@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 09:38:28
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-29 11:53:44
+ * @LastEditTime: 2022-12-30 13:24:50
  */
 /**
  * Note: 路由配置项
@@ -49,6 +49,7 @@ export const constantRoutes = [{
   path: '/',
   component: Layout,
   redirect: '/dashboard',
+  hidden: true,
   children: [{
     path: 'dashboard',
     name: 'Dashboard',
@@ -56,7 +57,7 @@ export const constantRoutes = [{
     meta: {
       title: '首页',
       icon: 'dashboard',
-      affix: true
+      affix: false
     }
   }]
 },

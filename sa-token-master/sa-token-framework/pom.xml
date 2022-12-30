@@ -24,6 +24,13 @@
             <artifactId>sa-token-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <!-- system模块 -->
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>sa-token-system</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 

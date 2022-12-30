@@ -86,6 +86,7 @@
                            on a.role_id = b.role_id
         where b.user_id = #{userId}
           and a.project_id = #{projectId}
+          and a.status = 0
     </select>
 
 </mapper>

@@ -121,9 +121,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public List<SysMenu> selectMenuTreeByUserId(Integer userId, String projectId) {
         List<SysMenu> menus = null;
         if (SecurityUtil.isSuperAdmin()) {
-            menus = sysMenuMapper.selectMenuTreeByUserId(null, projectId);
+            menus = sysMenuMapper.selectMenusByUserIdAndProjectId(null, projectId);
         } else {
-            menus = sysMenuMapper.selectMenuTreeByUserId(userId, projectId);
+            menus = sysMenuMapper.selectMenusByUserIdAndProjectId(userId, projectId);
         }
         menus = menus.stream().filter(e -> e.getMenuType().equals("M") || e.getMenuType().equals("C")).collect(Collectors.toList());
         return getChildPerms(menus, 0);

@@ -1,5 +1,6 @@
 package com.example.admin.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -28,6 +29,7 @@ public class RoleController extends BaseController {
     SysRoleService sysRoleService;
 
 
+    @SaCheckPermission("system:role:list")
     @GetMapping("/getPageList")
     public R getPageList(SysRole sysRole) {
         IPage pageList = sysRoleService.getPageList(sysRole);
@@ -42,6 +44,7 @@ public class RoleController extends BaseController {
     }
 
 
+    @SaCheckPermission("system:role:add")
     @GetMapping("/insert")
     public R insert(SysRole sysRole) {
         sysRole.setCreateBy(SecurityUtil.getLoginUserName());
@@ -50,6 +53,7 @@ public class RoleController extends BaseController {
         return update ? R.ok() : R.fail();
     }
 
+    @SaCheckPermission("system:role:edit")
     @GetMapping("/update")
     public R update(SysRole sysRole) {
         UpdateWrapper<SysRole> wrapper = new UpdateWrapper<>();
@@ -58,6 +62,7 @@ public class RoleController extends BaseController {
         return update ? R.ok() : R.fail();
     }
 
+    @SaCheckPermission("system:role:delete")
     @PostMapping("/delete")
     public R delete(@RequestBody String ids) {
         List<Integer> roleIds = JSON.parseArray(ids, Integer.class);
@@ -70,6 +75,7 @@ public class RoleController extends BaseController {
      * @param sysRole
      * @return
      */
+    @SaCheckPermission("system:role:dataScope")
     @PostMapping("/updateRoleMenu")
     public R updateRoleMenu(@RequestBody SysRole sysRole) {
         boolean update = sysRoleService.updateRoleMenu(sysRole);
@@ -96,6 +102,7 @@ public class RoleController extends BaseController {
      * @param sysRole
      * @return
      */
+    @SaCheckPermission("system:role:authUser")
     @PostMapping("authUser")
     public R authUser(@RequestBody SysRole sysRole) {
         sysRoleService.authUser(sysRole);
@@ -108,6 +115,7 @@ public class RoleController extends BaseController {
      * @param params
      * @return
      */
+    @SaCheckPermission("system:role:authUser")
     @PostMapping("cancelAuthUser")
     public R cancelAuthUser(@RequestBody String params) {
         JSONObject jsonObject = JSONObject.parseObject(params);

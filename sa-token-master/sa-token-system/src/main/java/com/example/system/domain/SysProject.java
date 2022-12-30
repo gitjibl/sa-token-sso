@@ -69,4 +69,8 @@ public class SysProject extends BaseEntity implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
+    /** user 用户 */
+    @TableField(exist = false)
+    private SysUser user;
+
 }

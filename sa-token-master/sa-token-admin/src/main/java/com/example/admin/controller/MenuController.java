@@ -1,5 +1,6 @@
 package com.example.admin.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.common.core.controller.BaseController;
 import com.example.common.utils.R;
@@ -43,6 +44,7 @@ public class MenuController extends BaseController {
      * @param sysMenu
      * @return
      */
+    @SaCheckPermission("system:menu:list")
     @GetMapping("/getList")
     public R getList(SysMenu sysMenu) {
         List<SysMenu> menus = sysMenuService.selectMenuList(sysMenu);
@@ -55,6 +57,7 @@ public class MenuController extends BaseController {
      * @param sysMenu
      * @return
      */
+    @SaCheckPermission("system:menu:add")
     @GetMapping("/insert")
     public R insert(SysMenu sysMenu) {
         sysMenu.setCreateBy(SecurityUtil.getLoginUserName());
@@ -69,6 +72,7 @@ public class MenuController extends BaseController {
      * @param sysMenu
      * @return
      */
+    @SaCheckPermission("system:menu:edit")
     @GetMapping("/update")
     public R update(SysMenu sysMenu) {
         UpdateWrapper updateWrapper = new UpdateWrapper();
@@ -83,6 +87,7 @@ public class MenuController extends BaseController {
      * @param sysMenu
      * @return
      */
+    @SaCheckPermission("system:menu:delete")
     @GetMapping("/delete")
     public R delete(SysMenu sysMenu) {
         if(sysMenuService.hasChildByMenuId(sysMenu.getMenuId())){

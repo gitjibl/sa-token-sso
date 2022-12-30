@@ -38,13 +38,6 @@
             <version>3.4.1</version>
         </dependency>
 
-        <!-- framework框架核心 -->
-        <dependency>
-            <groupId>com.example</groupId>
-            <artifactId>sa-token-framework</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
         <!-- common通用工具 -->
         <dependency>
             <groupId>com.example</groupId>

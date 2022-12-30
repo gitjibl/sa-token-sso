@@ -3,13 +3,13 @@
  * @Author: jibl
  * @Date: 2022-09-22 13:43:06
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-29 14:14:24
+ * @LastEditTime: 2022-12-30 10:14:23
  */
 // import Cookies from 'js-cookie'
 import axios from 'axios'
 import store from '@/store'
 import {
-    getToken
+    getToken,removeToken
 } from '@/utils/auth'
 import {
     Notification,
@@ -61,6 +61,7 @@ service.interceptors.response.use(res => {
 
             // });
             // logOut()
+            removeToken()
             location.href = LoginUrl
             return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
         } else if (code === 200) {

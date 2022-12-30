@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-07-27 14:19:29
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-29 14:18:26
+ * @LastEditTime: 2022-12-30 11:23:33
  */
 import router from '@/router'
 import store from '@/store'
@@ -44,16 +44,18 @@ router.beforeEach(async (to, from, next) => {
 
       getLoginUser().then(res => {
         console.log("用户信息", res)
-        if (res.roleKeys.length == 0) {
+        if (res.status == 1) {
+          router.replace({ name: 'Page401', params: { info: '', headline: '项目已停用！' } })
+        }
+        else if (res.user.roleKeys.length == 0) {
           router.replace({ name: 'Page401', params: { info: '当前帐号没有操作权限,请联系管理员。', headline: '您没有操作权限...' } })
         }
 
         //存储用户信息
-        store.dispatch('user/setUserInfo', res);
-        store.dispatch('user/setPermissions', res.menus);
+        store.dispatch('user/setUserInfo', res.user);
+        store.dispatch('user/setPermissions', res.user.perms);
         //生成路由表
         store.dispatch('permission/generateRoutes').then(accessRoutes => {
-          console.log("动态路由", accessRoutes)
           //动态添加可访问路由表
           accessRoutes.forEach(res => {
             router.addRoute(res);
@@ -63,6 +65,7 @@ router.beforeEach(async (to, from, next) => {
             replace: true
           })
         })
+
       })
     } else {
       next()
