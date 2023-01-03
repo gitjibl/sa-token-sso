@@ -3,11 +3,11 @@
  * @Author: jibl
  * @Date: 2022-07-27 14:48:00
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-29 14:33:15
+ * @LastEditTime: 2023-01-03 17:03:15
 -->
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ "555555555" }}</div>
+    <div class="dashboard-text"></div>
   </div>
 </template>
 

@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 09:38:28
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-30 13:24:50
+ * @LastEditTime: 2023-01-03 17:02:54
  */
 /**
  * Note: 路由配置项
@@ -57,7 +57,7 @@ export const constantRoutes = [{
     meta: {
       title: '首页',
       icon: 'dashboard',
-      affix: false
+      affix: true
     }
   }]
 },

@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-07-27 14:19:29
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-30 11:23:33
+ * @LastEditTime: 2023-01-03 17:05:20
  */
 import router from '@/router'
 import store from '@/store'
@@ -46,6 +46,9 @@ router.beforeEach(async (to, from, next) => {
         console.log("用户信息", res)
         if (res.status == 1) {
           router.replace({ name: 'Page401', params: { info: '', headline: '项目已停用！' } })
+        }
+        else if (res.user && res.user.status == 1){
+          router.replace({ name: 'Page401', params: { info: '', headline: '用户被禁用,请联系管理员！' } })
         }
         else if (res.user.roleKeys.length == 0) {
           router.replace({ name: 'Page401', params: { info: '当前帐号没有操作权限,请联系管理员。', headline: '您没有操作权限...' } })
