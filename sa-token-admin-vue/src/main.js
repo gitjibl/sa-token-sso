@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-22 16:46:10
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-29 09:59:30
+ * @LastEditTime: 2023-01-04 16:20:18
  */
 import request from '@/utils/request'
 import Vue from 'vue'
@@ -31,6 +31,7 @@ Vue.config.productionTip = false
 // 全局方法挂载
 Vue.prototype.$axios = request
 Vue.prototype.handleTree = handleTree
+Vue.prototype.$projectId = 'CS001'
 
 
 new Vue({

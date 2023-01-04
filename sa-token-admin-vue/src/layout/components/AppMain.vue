@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-07-27 17:52:42
  * @LastEditors: jibl
- * @LastEditTime: 2022-11-28 16:23:27
+ * @LastEditTime: 2023-01-04 09:20:31
 -->
 <template>
   <section class="app-main">
@@ -16,39 +16,63 @@
 </template>
 
 <script>
-  export default {
-    name: "AppMain",
-    computed: {
-      cachedViews() {
-        return this.$store.state.tagsView.cachedViews;
-      },
-      key() {
-        return this.$route.path;
-      }
-    }
-  };
+export default {
+  name: "AppMain",
+  computed: {
+    cachedViews() {
+      return this.$store.state.tagsView.cachedViews;
+    },
+    key() {
+      return this.$route.path;
+    },
+  },
+};
 </script>
 
 <style scoped>
-  .app-main {
-    /*50 = navbar  */
-    height: calc(100vh - 94px);
-    /* height: 100%; */
-    width: 100%;
-    box-sizing: border-box;
-    overflow-y: auto;
-  }
+.app-main {
+  /*50 = navbar  */
+  height: calc(100vh - 94px);
+  /* height: 100%; */
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
 
-  .fixed-header+.app-main {
-    margin-top: 90px
-  }
+.fixed-header + .app-main {
+  margin-top: 90px;
+}
 </style>
 
 <style lang="scss">
-  // fix css style bug in open el-dialog
-  // .el-popup-parent--hidden {  
-  //   .fixed-header {
-  //     padding-right: 15px;
-  //   }
-  // }
+/* fade-transform */
+// .fade-transform-leave-active,
+// .fade-transform-enter-active {
+//   transition: all 0.2s;
+// }
+
+// .fade-transform-enter {
+//   opacity: 0;
+//   transform: translateX(0px);
+// }
+
+// .fade-transform-leave-to {
+//   opacity: 0;
+//   transform: translateX(0px);
+// }
+/* fade-transform */
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.5s;
+}
+
+.fade-transform-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
 </style>

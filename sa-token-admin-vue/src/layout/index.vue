@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-07-27 17:52:43
  * @LastEditors: jibl
- * @LastEditTime: 2022-07-28 08:57:05
+ * @LastEditTime: 2023-01-04 09:17:10
 -->
 <template>
   <div :class="classObj" class="app-wrapper">

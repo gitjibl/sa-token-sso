@@ -42,7 +42,7 @@ public class StpInterfaceImpl implements StpInterface {
         List<SysMenu> menus = new ArrayList<>();
         if (SecurityUtil.isSuperAdmin()) {
             //超级管理员
-            menus = sysMenuMapper.selectMenusByUserIdAndProjectId(null, projectId);
+            menus = sysMenuMapper.selectMenusByProjectId(projectId);
         } else {
             menus = sysMenuMapper.selectMenusByUserIdAndProjectId(SecurityUtil.getLoginUserId(), projectId);
         }

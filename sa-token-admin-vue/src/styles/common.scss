@@ -74,14 +74,14 @@
 
 
 .el-dialog:not(.is-fullscreen) {
-	margin-top: 6vh !important;
+    margin-top: 6vh !important;
 }
 
 .el-dialog__wrapper.scrollbar .el-dialog .el-dialog__body {
     overflow: auto;
-	overflow-x: hidden;
-	max-height: 70vh;
-	padding: 10px 20px 0;
+    overflow-x: hidden;
+    max-height: 70vh;
+    padding: 10px 20px 0;
 }
 
 
@@ -147,8 +147,9 @@ label {
     margin-top: 5px;
     border: 1px solid #e5e6e7;
     background: #FFFFFF none;
-    border-radius:4px;
+    border-radius: 4px;
     max-height: 480px;
     min-height: 300px;
-    overflow-y:auto
+    overflow-y: auto
 }
+

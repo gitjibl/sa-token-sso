@@ -15,6 +15,7 @@
         </div>
         <div class="head-container">
           <el-tree
+            node-key="id"
             :data="deptOptions"
             :props="defaultProps"
             :expand-on-click-node="false"
@@ -588,6 +589,9 @@ export default {
         params: {},
       }).then((res) => {
         this.deptOptions = res.data;
+        this.$nextTick(() => {
+          this.$refs.tree.setCurrentKey(2);
+        });
       });
     },
     // 筛选节点
@@ -830,3 +834,17 @@ export default {
   },
 };
 </script>
+<style scoped>
+/* 设置树形最外层的背景颜色和字体颜色 */
+.el-tree {
+    color: rgb(25 120 219);
+}
+
+::v-deep .el-tree-node:focus>.el-tree-node__content {
+    background-color: rgb(197, 218, 245);
+}
+
+::v-deep .el-tree-node.is-current>.el-tree-node__content {
+    background-color: rgb(197, 218, 245);
+}
+</style>

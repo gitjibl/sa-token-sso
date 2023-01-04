@@ -95,5 +95,8 @@
         </where>
         order by m.parent_id, m.order_num
     </select>
+    <select id="selectMenusByProjectId" resultType="com.example.system.domain.SysMenu">
+        select * from sys_menu where project_id  = #{projectId} and status = 0
+    </select>
 
 </mapper>

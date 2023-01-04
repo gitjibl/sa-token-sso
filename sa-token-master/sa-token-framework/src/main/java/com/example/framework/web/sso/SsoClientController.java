@@ -69,7 +69,7 @@ public class SsoClientController {
             //超级管理员
             sysUser.setPerms(new String[]{"*:*:*"});
             sysUser.setRoleKeys(new String[]{"super-admin"});
-            List<SysMenu> menus = sysMenuMapper.selectMenusByUserIdAndProjectId(null, projectId);
+            List<SysMenu> menus = sysMenuMapper.selectMenusByProjectId(projectId);
             sysUser.setMenus(menus);
         } else {
             List<SysRole> roles = sysRoleMapper.getLoginUserRoles(userId, projectId);
