@@ -157,7 +157,7 @@
           />
           <el-table-column label="手机号码" align="center" prop="telephone" />
           <el-table-column label="状态" align="center" key="status">
-            <template slot-scope="scope">
+            <template slot-scope="scope" v-if="scope.row.userId !== 1">
               <el-switch
                 v-model="scope.row.status"
                 :active-value="0"
