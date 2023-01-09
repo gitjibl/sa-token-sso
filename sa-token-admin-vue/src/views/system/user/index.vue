@@ -204,7 +204,8 @@
                     command="handleResetPwd"
                     icon="el-icon-key"
                     v-hasPermi="['system:user:resetPwd']"
-                    >重置密码</el-dropdown-item
+                  >
+                    重置密码</el-dropdown-item
                   >
                   <el-dropdown-item
                     command="handleAuthRole"
@@ -309,21 +310,6 @@
               />
             </el-form-item>
           </el-col>
-
-          <!-- <el-form-item label="角色">
-              <el-select
-                v-model="form.roleIds"
-                multiple
-                placeholder="请选择角色"
-              >
-                <el-option
-                  v-for="item in roleOptions"
-                  :key="item.roleId"
-                  :label="item.roleName"
-                  :value="item.roleId"
-                  :disabled="item.status == 1"
-                ></el-option>
-              </el-select> </el-form-item> -->
         </el-row>
 
         <el-row>
@@ -364,47 +350,7 @@
       </div>
     </el-dialog>
 
-    <!-- 用户导入对话框 -->
-    <el-dialog
-      :title="upload.title"
-      :visible.sync="upload.open"
-      width="400px"
-      append-to-body
-    >
-      <el-upload
-        ref="upload"
-        :limit="1"
-        accept=".xlsx, .xls"
-        :headers="upload.headers"
-        :action="upload.url + '?updateSupport=' + upload.updateSupport"
-        :disabled="upload.isUploading"
-        :on-progress="handleFileUploadProgress"
-        :on-success="handleFileSuccess"
-        :auto-upload="false"
-        drag
-      >
-        <i class="el-icon-upload"></i>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        <div class="el-upload__tip text-center" slot="tip">
-          <div class="el-upload__tip" slot="tip">
-            <el-checkbox v-model="upload.updateSupport" />
-            是否更新已经存在的用户数据
-          </div>
-          <span>仅允许导入xls、xlsx格式文件。</span>
-          <el-link
-            type="primary"
-            :underline="false"
-            style="font-size: 12px; vertical-align: baseline"
-            @click="importTemplate"
-            >下载模板</el-link
-          >
-        </div>
-      </el-upload>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitFileForm">确 定</el-button>
-        <el-button @click="upload.open = false">取 消</el-button>
-      </div>
-    </el-dialog>
+    <upload-manage ref="uploadManage" :upload="upload"></upload-manage>
 
     <!-- 配置角色 -->
     <auth-role ref="auth-role" />
@@ -447,6 +393,8 @@ export default {
       initPassword: undefined,
       // 角色选项
       // roleOptions: [],
+      // 当前行
+      row_: null,
       // 表单参数
       form: {
         password: null,
@@ -471,14 +419,10 @@ export default {
         open: false,
         // 弹出层标题（用户导入）
         title: "",
-        // 是否禁用上传
-        isUploading: false,
-        // 是否更新已经存在的用户数据
-        updateSupport: 0,
         // 设置上传的请求头部
-        // headers: { Authorization: "Bearer " + getToken() },
+        headers: {"Content-Type": "multipart/form-data"},
         // 上传的地址
-        url: process.env.VUE_APP_BASE_API + "/system/user/importData",
+        url: "/user/importData",
       },
       // 查询参数
       queryParams: {
@@ -651,6 +595,7 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
+      this.row_ = selection[selection.length - 1];
       this.ids = selection.map((item) => item.userId);
       this.single = selection.length != 1;
       this.multiple = !selection.length;
@@ -680,6 +625,7 @@ export default {
       this.title = "修改用户";
       this.form = {
         ...row,
+        ...this.row_,
       };
     },
     /** 重置密码按钮操作 */
@@ -722,6 +668,10 @@ export default {
               url: "/user/update",
               params: this.form,
             }).then((res) => {
+              this.$notify.success({
+                title: "成功",
+                message: "操作成功",
+              });
               this.open = false;
               this.getPageList();
             });
@@ -731,6 +681,10 @@ export default {
               url: "/user/insert",
               params: this.form,
             }).then((res) => {
+              this.$notify.success({
+                title: "成功",
+                message: "操作成功",
+              });
               this.open = false;
               this.getPageList();
             });
@@ -773,52 +727,37 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      alert("功能开发中...");
-      // this.download(
-      //   "system/user/export",
-      //   {
-      //     ...this.queryParams,
-      //   },
-      //   `user_${new Date().getTime()}.xlsx`
-      // );
+      import("@utils/Export2Excel").then((excel) => {
+        const tHeader = [
+          "用户编号",
+          "用户昵称",
+          "用户名称",
+          "部门",
+          "手机号码",
+        ];
+        const filterVal = [
+          "userId",
+          "nickname",
+          "username",
+          "deptName",
+          "telephone",
+        ];
+        const list = this.userList;
+        const data = this.$common.formatJson(filterVal, list);
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: "用户表",
+          autoWidth: true,
+          bookType: "xlsx",
+        });
+      });
     },
+
     /** 导入按钮操作 */
     handleImport() {
-      alert("功能开发中...");
-      // this.upload.title = "用户导入";
-      // this.upload.open = true;
-    },
-    /** 下载模板操作 */
-    importTemplate() {
-      this.download(
-        "system/user/importTemplate",
-        {},
-        `user_template_${new Date().getTime()}.xlsx`
-      );
-    },
-    // 文件上传中处理
-    handleFileUploadProgress(event, file, fileList) {
-      this.upload.isUploading = true;
-    },
-    // 文件上传成功处理
-    handleFileSuccess(response, file, fileList) {
-      this.upload.open = false;
-      this.upload.isUploading = false;
-      this.$refs.upload.clearFiles();
-      this.$alert(
-        "<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" +
-          response.msg +
-          "</div>",
-        "导入结果",
-        {
-          dangerouslyUseHTMLString: true,
-        }
-      );
-      this.getPageList();
-    },
-    // 提交上传文件
-    submitFileForm() {
-      this.$refs.upload.submit();
+      this.upload.title = "用户导入";
+      this.upload.open = true;
     },
 
     // ----分页----
@@ -837,14 +776,14 @@ export default {
 <style scoped>
 /* 设置树形最外层的背景颜色和字体颜色 */
 .el-tree {
-    color: rgb(25 120 219);
+  color: rgb(25 120 219);
 }
 
-::v-deep .el-tree-node:focus>.el-tree-node__content {
-    background-color: rgb(197, 218, 245);
+::v-deep .el-tree-node:focus > .el-tree-node__content {
+  background-color: rgb(197, 218, 245);
 }
 
-::v-deep .el-tree-node.is-current>.el-tree-node__content {
-    background-color: rgb(197, 218, 245);
+::v-deep .el-tree-node.is-current > .el-tree-node__content {
+  background-color: rgb(197, 218, 245);
 }
 </style>

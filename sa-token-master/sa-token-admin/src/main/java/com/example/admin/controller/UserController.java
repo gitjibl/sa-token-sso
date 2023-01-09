@@ -14,10 +14,14 @@ import com.example.system.domain.SysUserRole;
 import com.example.system.service.SysRoleService;
 import com.example.system.service.SysUserRoleService;
 import com.example.system.service.SysUserService;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -109,5 +113,17 @@ public class UserController extends BaseController {
         return update ? R.ok() : R.fail();
     }
 
+    @SaCheckPermission("system:user:export")
+    @PostMapping("/export")
+    public void export(HttpServletResponse response, SysUser user)
+    {
+        System.out.println(123456);
+    }
 
+    @PostMapping("/importData")
+    public R importData(MultipartFile file, boolean updateSupport) throws Exception
+    {
+        String message = "导入成功！";
+        return R.ok(message);
+    }
 }

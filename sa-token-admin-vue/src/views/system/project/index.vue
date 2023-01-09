@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 13:31:34
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-27 17:50:13
+ * @LastEditTime: 2023-01-09 09:25:36
 -->
 <!--  -->
 <template>
@@ -73,16 +73,6 @@
           @click="handleDelete"
           v-hasPermi="['system:project:delete']"
           >删除</el-button
-        >
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          >导出</el-button
         >
       </el-col>
     </el-row>
@@ -292,9 +282,6 @@ export default {
             message: "已取消删除",
           });
         });
-    },
-    handleExport() {
-      alert("功能开发中...");
     },
 
     //状态改变

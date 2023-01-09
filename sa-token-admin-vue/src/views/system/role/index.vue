@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-12-05 10:08:45
  * @LastEditors: jibl
- * @LastEditTime: 2023-01-04 16:25:28
+ * @LastEditTime: 2023-01-09 10:10:06
 -->
 <!--  -->
 <template>
@@ -190,6 +190,8 @@
         projectNameTxt: "",
         //项目集合
         projectOptions: [],
+        // 当前行
+        row_:null,
         // 表单校验
         roleRules: {
           projectName: [{
@@ -341,6 +343,7 @@
         this.roleTitle = "编辑角色";
         this.roleform = {
           ...row,
+          ...this.row_
         };
       },
       //删除
@@ -378,6 +381,7 @@
       },
       // 多选框选中数据
       handleSelectionChange(selection) {
+        this.row_ = selection[selection.length-1]
         this.ids = selection.map((item) => item.roleId);
         this.single = selection.length != 1;
         this.multiple = !selection.length;
