@@ -21,6 +21,21 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
      * @return 部门信息集合
      */
     List<SysDept> selectDeptList(SysDept dept);
+
+    /**
+     * 是否存在子节点
+     * @param deptId
+     * @return
+     */
+    int hasChildByDeptId(Integer deptId);
+
+    /**
+     * 查询部门是否存在用户
+     *
+     * @param deptId 部门ID
+     * @return 结果 true 存在 false 不存在
+     */
+    int checkDeptExistUser(Integer deptId);
 }
 
 

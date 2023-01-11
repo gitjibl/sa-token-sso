@@ -13,50 +13,60 @@ public class SecurityUtil {
      * 获取登录用户
      */
     public static Object getLoginUser() {
-        SaSession session = StpUtil.getTokenSession();
-        Object obj = session.get("user");
-        return obj;
+        try {
+            SaSession session = StpUtil.getTokenSession();
+            Object obj = session.get("user");
+            return obj;
+        } catch (Exception e) {
+            throw new NotLoginException("Token已过期", null, "-3");
+        }
     }
 
     /**
      * 获取登录用户名
      */
     public static String getLoginUserName() {
-        SaSession session = StpUtil.getTokenSession();
-        Object obj = session.get("user");
-        if(ObjectUtils.isEmpty(obj)){
-            throw new NotLoginException("Token已过期",null,"-3");
+        try {
+            SaSession session = StpUtil.getTokenSession();
+            Object obj = session.get("user");
+            LoginUser loginUser = JSON.parseObject(obj.toString(), LoginUser.class);
+            return loginUser.getUsername();
+        } catch (Exception e) {
+            throw new NotLoginException("Token已过期", null, "-3");
         }
-        LoginUser loginUser = JSON.parseObject(obj.toString(), LoginUser.class);
-        return loginUser.getUsername();
+
     }
 
     /**
      * 获取登录用户ID
      */
     public static Integer getLoginUserId() {
-        SaSession session = StpUtil.getTokenSession();
-        Object obj = session.get("user");
-        if(ObjectUtils.isEmpty(obj)){
-            throw new NotLoginException("Token已过期",null,"-3");
+        try {
+            SaSession session = StpUtil.getTokenSession();
+            Object obj = session.get("user");
+            LoginUser loginUser = JSON.parseObject(obj.toString(), LoginUser.class);
+            return loginUser.getUserId();
+        } catch (Exception e) {
+            throw new NotLoginException("Token已过期", null, "-3");
         }
-        LoginUser loginUser = JSON.parseObject(obj.toString(), LoginUser.class);
-        return loginUser.getUserId();
+
     }
 
     /**
      * 是否超级管理员
+     *
      * @return
      */
-    public static boolean isSuperAdmin()
-    {
-        SaSession session = StpUtil.getTokenSession();
-        Object obj = session.get("user");
-        if(ObjectUtils.isEmpty(obj)){
-            throw new NotLoginException("Token已过期",null,"-3");
+    public static boolean isSuperAdmin() {
+        try {
+            SaSession session = StpUtil.getTokenSession();
+            Object obj = session.get("user");
+            LoginUser loginUser = JSON.parseObject(obj.toString(), LoginUser.class);
+            Integer userId = loginUser.getUserId();
+            return userId != null && 1 == userId;
+        } catch (Exception e) {
+            throw new NotLoginException("Token已过期", null, "-3");
         }
-        LoginUser loginUser = JSON.parseObject(obj.toString(), LoginUser.class);
-        Integer userId = loginUser.getUserId();
-        return userId != null && 1 == userId;
+
     }
 }

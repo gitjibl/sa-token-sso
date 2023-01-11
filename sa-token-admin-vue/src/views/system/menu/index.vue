@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-12-12 13:46:38
  * @LastEditors: jibl
- * @LastEditTime: 2023-01-04 17:01:06
+ * @LastEditTime: 2023-01-11 14:12:01
 -->
 <template>
   <div class="app-container">
@@ -49,7 +49,7 @@
 
         <el-table v-if="refreshTable" v-loading="loading" :data="menuList" row-key="menuId"
           :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-          <el-table-column prop="menuName" label="菜单名称" align="center" :show-overflow-tooltip="true" width="160">
+          <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="160">
           </el-table-column>
           <el-table-column prop="icon" label="图标" align="center" :show-overflow-tooltip="true">
           </el-table-column>
@@ -334,9 +334,6 @@
           url: "/project/getList",
           params: {},
         }).then((res) => {
-          // this.projectOptions = res.data;
-          // this.queryParams.projectId = res.data[0].projectId;
-          // this.getList();
           this.projectOptions = res.data.map((e) => {
             return {
               id: e.projectId,

@@ -32,4 +32,19 @@ public interface SysDeptService extends IService<SysDept> {
      * @return 下拉树结构列表
      */
     List<TreeSelect> buildDeptTreeSelect(List<SysDept> depts);
+
+    /**
+     * 是否存在子节点
+     * @param deptId
+     * @return
+     */
+    boolean hasChildByDeptId(Integer deptId);
+
+    /**
+     * 查询部门是否存在用户
+     *
+     * @param deptId 部门ID
+     * @return 结果 true 存在 false 不存在
+     */
+    boolean checkDeptExistUser(Integer deptId);
 }

@@ -42,4 +42,11 @@
             </if>
         </where>
     </select>
+    <select id="hasChildByDeptId" resultType="java.lang.Integer">
+        select count(1) from sys_user where dept_id = #{deptId}
+    </select>
+    <select id="checkDeptExistUser" resultType="java.lang.Integer">
+        select count(1) from sys_dept
+        where parent_id = #{deptId} limit 1
+    </select>
 </mapper>

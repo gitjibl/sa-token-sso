@@ -48,6 +48,18 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         return deptTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
+    @Override
+    public boolean hasChildByDeptId(Integer deptId) {
+        int result = sysDeptMapper.hasChildByDeptId(deptId);
+        return result > 0;
+    }
+
+    @Override
+    public boolean checkDeptExistUser(Integer deptId) {
+        int result = sysDeptMapper.checkDeptExistUser(deptId);
+        return result > 0;
+    }
+
     /**
      * 构建前端所需要树结构
      *
