@@ -64,8 +64,10 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     #自动映射model(pojo)
     auto-mapping-behavior: full
-    #开启日志打印
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #开启控制台日志打印
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #开启控制台日志打印
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
     #xml扫描
   mapper-locations: classpath*:mapper/**/*Mapper.xml
   global-config:
