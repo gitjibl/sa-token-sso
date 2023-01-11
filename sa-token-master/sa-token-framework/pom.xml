@@ -18,6 +18,7 @@
     </parent>
 
     <dependencies>
+
         <!-- common通用工具 -->
         <dependency>
             <groupId>com.example</groupId>
