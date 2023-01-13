@@ -36,6 +36,7 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
      * @return 结果 true 存在 false 不存在
      */
     int checkDeptExistUser(Integer deptId);
+
 }
 
 

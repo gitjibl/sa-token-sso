@@ -60,6 +60,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         return result > 0;
     }
 
+
     /**
      * 构建前端所需要树结构
      *

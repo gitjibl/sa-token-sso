@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-12-12 13:46:38
  * @LastEditors: jibl
- * @LastEditTime: 2023-01-11 14:12:01
+ * @LastEditTime: 2023-01-13 17:00:11
 -->
 <template>
   <div class="app-container">
@@ -49,7 +49,13 @@
 
         <el-table v-if="refreshTable" v-loading="loading" :data="menuList" row-key="menuId"
           :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-          <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="160">
+          <el-table-column label="菜单名称" :show-overflow-tooltip="true" width="160">
+            <template slot-scope="scope">
+              <svg-icon v-if="scope.row.menuType == 'M'" icon-class="listings" />
+              <svg-icon v-if="scope.row.menuType == 'C'" icon-class="menus" />
+              <svg-icon v-if="scope.row.menuType == 'F'" icon-class="button" />
+              <span style="margin-left: 5px">{{ scope.row.menuName }}</span>
+            </template>
           </el-table-column>
           <el-table-column prop="icon" label="图标" align="center" :show-overflow-tooltip="true">
           </el-table-column>
@@ -84,8 +90,9 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="上级菜单">
-              <treeselect v-model="form.parentId" :options="menuOptions" :normalizer="normalizer" :show-count="true"
-                placeholder="选择上级菜单" />
+              <treeselect v-if="isInsert" v-model="form.parentId" :options="menuOptions" :normalizer="normalizer"
+                :show-count="true" placeholder="选择上级菜单" />
+              <el-input v-if="!isInsert" v-model="form.parentName" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -225,8 +232,8 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button size="small" type="primary" @click="submitForm">确 定</el-button>
+        <el-button size="small" @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -245,10 +252,14 @@
       return {
         // 遮罩层
         loading: false,
+        // 数据集
+        menuData: [],
         // 菜单表格树数据
         menuList: [],
         // 菜单树选项
         menuOptions: [],
+        //操作类型
+        isInsert: false,
         // 弹出层标题
         title: "",
         // 是否显示弹出层
@@ -267,6 +278,7 @@
         form: {
           menuId: undefined,
           parentId: 0,
+          parentName: undefined,
           menuName: undefined,
           icon: undefined,
           menuType: "M",
@@ -358,6 +370,7 @@
             },
           })
           .then((res) => {
+            this.menuData = res.data;
             this.menuList = this.handleTree(res.data, "menuId");
             this.loading = false;
           })
@@ -377,25 +390,6 @@
           children: node.children,
         };
       },
-      /** 查询菜单下拉树结构 */
-      menuTreeSelect() {
-        this.$axios({
-          method: "get",
-          url: "/menu/getList",
-          params: {
-            projectId: this.queryParams.projectId,
-          },
-        }).then((res) => {
-          this.menuOptions = [];
-          const menu = {
-            menuId: 0,
-            menuName: "主类目",
-            children: []
-          };
-          menu.children = this.handleTree(res.data, "menuId");
-          this.menuOptions.push(menu);
-        });
-      },
       // 取消按钮
       cancel() {
         this.open = false;
@@ -411,7 +405,15 @@
       },
       /** 新增按钮操作 */
       handleAdd(row) {
-        this.menuTreeSelect();
+        this.isInsert = true;
+        this.menuOptions = [];
+        const menu = {
+          menuId: 0,
+          menuName: "主类目",
+          children: []
+        };
+        menu.children = this.menuList;
+        this.menuOptions = [menu]
         if (row != null && row.menuId) {
           this.form.parentId = row.menuId;
         } else {
@@ -420,6 +422,30 @@
         this.open = true;
         this.title = "添加菜单";
       },
+
+      /** 修改按钮操作 */
+      handleUpdate(row) {
+        this.isInsert = false;
+        this.form = {
+          ...row,
+          children: null
+        };
+        this.getParentName(row.parentId)
+        this.open = true;
+        this.title = "修改菜单";
+      },
+      //获取上级部门名称
+      getParentName(parentId) {
+        if (parentId == 0) {
+          this.form.parentName = "主类目"
+        } else {
+          let item = this.menuData.filter(item => {
+            return item.menuId == parentId
+          })[0];
+          this.form.parentName = item && item.menuName
+        }
+      },
+
       /** 展开/折叠操作 */
       toggleExpandAll() {
         this.refreshTable = false;
@@ -428,28 +454,20 @@
           this.refreshTable = true;
         });
       },
-      /** 修改按钮操作 */
-      handleUpdate(row) {
-        this.menuTreeSelect();
-        this.form = {
-          ...row,
-          children: null
-        };
-        this.open = true;
-        this.title = "修改菜单";
-      },
       /**菜单类型改变事件 */
       menuTypeInput(val) {
         let parentId = this.form.parentId;
+        let parentName = this.form.parentName;
         this.$data.form = this.$options.data().form;
         this.form.menuType = val;
         this.form.parentId = parentId;
+        this.form.parentName = parentName;
       },
       /** 提交按钮 */
       submitForm: function () {
         this.$refs["form"].validate((valid) => {
           if (valid) {
-            if (this.form.menuId != undefined) {
+            if (!this.isInsert) {
               this.$axios({
                 method: "get",
                 url: "/menu/update",

@@ -5,7 +5,7 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click" @command="handleCommand">
+      <el-dropdown class="avatar-container" trigger="click" size="small" @command="handleCommand">
         <div class="avatar-wrapper">
           <img :src="require('@assets/images/user.png')" class="user-avatar" />
           <span class="user-name"> {{ userInfo.nickname }} </span>

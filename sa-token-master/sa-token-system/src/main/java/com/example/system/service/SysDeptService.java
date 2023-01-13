@@ -47,4 +47,5 @@ public interface SysDeptService extends IService<SysDept> {
      * @return 结果 true 存在 false 不存在
      */
     boolean checkDeptExistUser(Integer deptId);
+
 }

@@ -27,7 +27,7 @@
             </el-col>
         </el-row>
 
-        <el-table v-if="refreshTable" v-loading="loading" :data="deptList"  row-key="deptId"
+        <el-table v-if="refreshTable" v-loading="loading" :data="deptList" row-key="deptId"
             :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
             <el-table-column prop="deptName" label="部门名称" width="160"></el-table-column>
             <el-table-column prop="orderNum" label="排序" align="center"></el-table-column>
@@ -45,8 +45,8 @@
                         v-hasPermi="['system:dept:edit']">修改</el-button>
                     <el-button size="mini" type="text" icon="el-icon-plus" @click="handleAdd(scope.row)"
                         v-hasPermi="['system:dept:add']">新增</el-button>
-                    <el-button v-if="scope.row.parentId != 0" size="mini" type="text" icon="el-icon-delete"
-                        @click="handleDelete(scope.row)" v-hasPermi="['system:dept:remove']">删除</el-button>
+                    <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
+                        v-hasPermi="['system:dept:remove']">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -55,10 +55,11 @@
         <el-dialog :title="title" :visible.sync="open" width="600px" @closed="close" append-to-body>
             <el-form ref="form" :model="form" :rules="rules" label-width="80px">
                 <el-row>
-                    <el-col :span="24" v-if="form.parentId !== 0">
+                    <el-col :span="24">
                         <el-form-item label="上级部门" prop="parentId">
-                            <treeselect v-model="form.parentId" :options="deptOptions" :normalizer="normalizer"
-                                placeholder="选择上级部门" />
+                            <treeselect v-if="isInsert" v-model="form.parentId" :options="deptOptions"
+                                :normalizer="normalizer" placeholder="选择上级部门" />
+                            <el-input v-if="!isInsert" v-model="form.parentName" disabled />
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -103,8 +104,8 @@
                 </el-row>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm">确 定</el-button>
-                <el-button @click="cancel">取 消</el-button>
+                <el-button size="small" type="primary" @click="submitForm">确 定</el-button>
+                <el-button size="small" @click="cancel">取 消</el-button>
             </div>
         </el-dialog>
     </div>
@@ -126,6 +127,8 @@
                 //操作类型
                 isInsert: false,
                 //数据集
+                deptData: [],
+                //数据树集
                 deptList: [],
                 // 部门树选项
                 deptOptions: [],
@@ -142,6 +145,7 @@
                 // 表单参数
                 form: {
                     parentId: undefined,
+                    parentName: undefined,
                     status: 0,
                 },
                 // 表单校验
@@ -195,6 +199,7 @@
                         },
                     })
                     .then((res) => {
+                        this.deptData = res.data;
                         this.deptList = this.handleTree(res.data, "deptId");
                         this.loading = false;
                     })
@@ -205,7 +210,13 @@
             },
             //新增按钮操作
             handleAdd(row) {
-                this.deptOptions = [...this.deptList];
+                const deptMain = {
+                    deptId: 0,
+                    deptName: "主类目",
+                    children: []
+                };
+                deptMain.children = this.deptList;
+                this.deptOptions = [deptMain];
                 if (row != null && row.deptId) {
                     this.form.parentId = row.deptId;
                 }
@@ -215,13 +226,25 @@
             },
             //修改按钮操作
             handleUpdate(row) {
-                this.deptOptions = [...this.deptList];
                 this.isInsert = false;
                 this.form = {
                     ...row,
                 };
+                this.getParentName(row.parentId);
                 this.open = true;
                 this.title = "编辑部门";
+            },
+
+            //获取上级部门名称
+            getParentName(parentId) {
+                if (parentId == 0) {
+                    this.form.parentName = "主类目"
+                } else {
+                    let item = this.deptData.filter(item => {
+                        return item.deptId == parentId
+                    })[0];
+                    this.form.parentName = item && item.deptName
+                }
             },
 
             //提交按钮

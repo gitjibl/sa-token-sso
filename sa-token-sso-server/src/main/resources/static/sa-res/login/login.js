@@ -50,7 +50,7 @@ $('#login-btn').click(function () {
                     layer.msg('登录成功', {anim: 0, icon: 6});
                     setTimeout(function () {
                         location.reload();
-                    }, 800)
+                    }, 100)
                 } else {
                     layer.msg(res.msg, {anim: 6, icon: 2});
                 }

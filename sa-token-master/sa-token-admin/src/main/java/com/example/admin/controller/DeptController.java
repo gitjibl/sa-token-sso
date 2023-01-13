@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.example.common.constant.UserConstants;
 import com.example.common.core.controller.BaseController;
 import com.example.common.utils.R;
 import com.example.common.utils.SecurityUtil;
@@ -49,9 +50,9 @@ public class DeptController extends BaseController {
     @GetMapping("/insert")
     public R insert(SysDept sysDept) {
         QueryWrapper<SysDept> queryWrapper = new QueryWrapper();
-        queryWrapper.eq("dept_id",sysDept.getParentId());
+        queryWrapper.eq("dept_id", sysDept.getParentId());
         List<SysDept> list = sysDeptService.list(queryWrapper);
-        if(!list.isEmpty()){
+        if (!list.isEmpty()) {
             sysDept.setAncestors(list.get(0).getAncestors() + "," + sysDept.getParentId());
         }
         sysDept.setCreateBy(SecurityUtil.getLoginUserName());
@@ -72,12 +73,10 @@ public class DeptController extends BaseController {
     @SaCheckPermission("system:dept:delete")
     @GetMapping("/delete")
     public R insert(Integer deptId) {
-        if (sysDeptService.hasChildByDeptId(deptId))
-        {
+        if (sysDeptService.hasChildByDeptId(deptId)) {
             return R.fail("存在下级部门,不允许删除");
         }
-        if (sysDeptService.checkDeptExistUser(deptId))
-        {
+        if (sysDeptService.checkDeptExistUser(deptId)) {
             return R.fail("部门存在用户,不允许删除");
         }
         boolean update = sysDeptService.removeById(deptId);
