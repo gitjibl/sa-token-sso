@@ -73,7 +73,7 @@ public class SsoServerController {
             } else if (!pwd.equals(user.getPw())) {
                 return SaResult.error("密码错误！");
             } else {
-                StpUtil.login(user.getUserId());
+                StpUtil.login("userId-"+user.getUserId());
                 SaSession session = StpUtil.getTokenSession();
                 session.set("user", JSON.toJSON(user));
                 return SaResult.ok("登录成功！").setData(StpUtil.getTokenValue());

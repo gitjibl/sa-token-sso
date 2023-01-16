@@ -1,7 +1,8 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8">
-    <base th:href="@{/}" />
+    <base th:href="@{/}"/>
     <title>统一认证中心</title>
     <link rel="stylesheet" href="./sa-res/login/login-bg.css">
     <link rel="stylesheet" href="./sa-res/login/login.css">
@@ -20,16 +21,16 @@
                 <h3> 统一认证中心 </h3>
                 <h5 style="padding-bottom: 10px"> Unified Certification Center </h5>
                 <!-- 账号登陆 -->
-                <div class="item-box"  >
-                    <div class="input-group user-name"> <span class="input-group-addon"><i class="icon-user"></i></span>
-                        <input type="text" name="username" class="form-control" placeholder="用户名">
+                <div class="item-box">
+                    <div class="input-group user-name"><span class="input-group-addon"><i class="icon-user"></i></span>
+                        <input type="text" id="username" name="username" class="form-control" placeholder="用户名">
                     </div>
-                    <div class="input-group password"> <span class="input-group-addon"><i class="icon-lock"></i></span>
-                        <input type="password" name="password" class="form-control" placeholder="密码">
+                    <div class="input-group password"><span class="input-group-addon"><i class="icon-lock"></i></span>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="密码">
                     </div>
 
                     <div class="input-group">
-                        <img id="kaptcha_img" title="点击更换验证码" th:src="@{/kaptcha}" onclick="changeCode()" />
+                        <img id="kaptcha_img" title="点击更换验证码" th:src="@{/kaptcha}" onclick="changeCode()"/>
                         <input
                                 class="form-kaptcha"
                                 placeholder="请输入验证码"
@@ -38,9 +39,16 @@
                         >
                     </div>
 
+                    <div class="input-group">
+                        <!-- 是否记住密码复选框 -->
+                        <input type="checkbox" id="isRmbPwd" name="isRmbPwd" checked="checked" style="vertical-align:middle; margin-top:0;"><span
+                            style="color:rgb(205 215 215);vertical-align: middle"> 记住密码</span>
+                    </div>
 
                     <div class="login_btn_panel">
-                        <button id="login-btn" class="btn btn-primary btn-block btn-lg" data-ajax="post"  data-callback="success">登录</button>
+                        <button id="login-btn" class="btn btn-primary btn-block btn-lg" data-ajax="post"
+                                data-callback="success">登录
+                        </button>
                         <div class="check-tips"></div>
                     </div>
             </form>
@@ -49,6 +57,7 @@
 </div>
 <!-- scripts -->
 <script src="./sa-res/jquery.min.js"></script>
+<script src="./sa-res/jquery.cookie.min.js"></script>
 <script src="./sa-res/layer/layer.js"></script>
 <script src="./sa-res/login/login-bg.js"></script>
 <script src="./sa-res/login/login.js"></script>

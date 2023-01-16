@@ -3,10 +3,9 @@
  * @Author: jibl
  * @Date: 2022-11-28 09:38:28
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-29 09:26:54
+ * @LastEditTime: 2023-01-13 17:38:36
  */
 import {
-  asyncRoutes,
   constantRoutes
 } from '@/router'
 import {
