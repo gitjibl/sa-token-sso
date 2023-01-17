@@ -36,6 +36,7 @@ Vue.config.productionTip = false
 Vue.prototype.$axios = request
 Vue.prototype.handleTree = handleTree
 Vue.prototype.$projectId = settings.projectId
+Vue.prototype.$settings = settings
 Vue.prototype.download = download
 Vue.prototype.$common = common
 

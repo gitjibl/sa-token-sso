@@ -3,11 +3,10 @@
  * @Author: jibl
  * @Date: 2022-11-22 17:01:02
  * @LastEditors: jibl
- * @LastEditTime: 2022-12-29 13:58:42
+ * @LastEditTime: 2023-01-17 11:40:40
  */
 const path = require("path");
 const webpack = require("webpack");
-process.env.VUE_APP_TITLE = '统一用户管理系统';
 module.exports = {
     publicPath: "./",
     //放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录
