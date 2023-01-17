@@ -1,11 +1,4 @@
-<!--
- * @Descripttion: 
- * @Author: jibl
- * @Date: 2022-12-05 16:41:37
- * @LastEditors: jibl
- * @LastEditTime: 2022-12-12 13:23:06
--->
-<!--  -->
+
 <template>
   <!-- 添加或修改角色配置对话框 -->
   <el-dialog
