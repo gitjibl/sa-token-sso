@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2023-01-17 10:36:40
  * @LastEditors: jibl
- * @LastEditTime: 2023-01-17 11:21:10
+ * @LastEditTime: 2023-01-17 15:00:11
 -->
 <template>
   <el-dropdown size="small" trigger="click" @command="handleSetSize">
@@ -41,7 +41,7 @@ export default {
       this.$store.dispatch('app/setSize', size)
       this.refreshView()
       this.$message({
-        message: '字体大小改变成功！',
+        message: '字体大小改变中，请稍后！',
         type: 'success'
       })
     },

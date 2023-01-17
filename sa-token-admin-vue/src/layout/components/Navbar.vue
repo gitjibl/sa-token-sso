@@ -173,7 +173,7 @@
           .el-icon-caret-bottom {
             cursor: pointer;
             position: absolute;
-            right: -12px;
+            right: -15px;
             font-size: 12px;
           }
         }

@@ -1,10 +1,4 @@
-<!--
- * @Descripttion: 
- * @Author: jibl
- * @Date: 2022-12-05 16:41:37
- * @LastEditors: jibl
- * @LastEditTime: 2022-12-12 13:08:59
--->
+
 <!--  -->
 <template>
   <!-- 添加或修改菜单配置对话框 -->

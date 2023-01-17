@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-22 16:46:10
  * @LastEditors: jibl
- * @LastEditTime: 2023-01-17 14:14:39
+ * @LastEditTime: 2023-01-17 15:06:35
  */
 import Vue from 'vue'
 import App from './App.vue'

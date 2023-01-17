@@ -1,11 +1,4 @@
-<!--
- * @Descripttion: 
- * @Author: jibl
- * @Date: 2022-12-05 10:08:45
- * @LastEditors: jibl
- * @LastEditTime: 2023-01-17 09:58:03
--->
-<!--  -->
+
 <template>
   <div class="app-container">
     <el-row :gutter="20">

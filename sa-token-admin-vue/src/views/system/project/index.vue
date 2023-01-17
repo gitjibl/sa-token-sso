@@ -1,11 +1,4 @@
-<!--
- * @Descripttion: 
- * @Author: jibl
- * @Date: 2022-11-28 13:31:34
- * @LastEditors: jibl
- * @LastEditTime: 2023-01-17 14:11:57
--->
-<!--  -->
+
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">

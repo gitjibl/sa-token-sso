@@ -1,10 +1,4 @@
-<!--
- * @Descripttion: 
- * @Author: jibl
- * @Date: 2022-12-08 09:19:16
- * @LastEditors: jibl
- * @LastEditTime: 2022-12-12 17:26:53
--->
+
 <!-- 用户分配 -->
 <template>
   <div>
