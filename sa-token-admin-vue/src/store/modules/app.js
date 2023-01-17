@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-07-27 14:49:28
  * @LastEditors: jibl
- * @LastEditTime: 2022-07-27 17:13:46
+ * @LastEditTime: 2023-01-17 11:07:21
  */
 import Cookies from 'js-cookie'
 
@@ -12,6 +12,7 @@ const state = {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     withoutAnimation: false
   },
+  size: Cookies.get('size') || 'medium'
 }
 
 const mutations = {
@@ -28,7 +29,11 @@ const mutations = {
     Cookies.set('sidebarStatus', 0)
     state.sidebar.opened = false
     state.sidebar.withoutAnimation = withoutAnimation
-  }
+  },
+  SET_SIZE: (state, size) => {
+    state.size = size
+    Cookies.set('size', size)
+  },
 }
 
 const actions = {
@@ -37,7 +42,10 @@ const actions = {
   },
   closeSideBar({ commit }, { withoutAnimation }) {
     commit('CLOSE_SIDEBAR', withoutAnimation)
-  }
+  },
+  setSize({ commit }, size) {
+    commit('SET_SIZE', size)
+  },
 }
 
 export default {

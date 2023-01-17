@@ -5,6 +5,12 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
+      <template>
+        <el-tooltip content="字体大小" effect="dark" placement="bottom">
+          <size-select id="size-select" class="right-menu-item hover-effect" />
+        </el-tooltip>
+      </template>
+
       <el-dropdown class="avatar-container" trigger="click" size="small" @command="handleCommand">
         <div class="avatar-wrapper">
           <img :src="require('@assets/images/user.png')" class="user-avatar" />
@@ -26,6 +32,7 @@
   } from "vuex";
   import Breadcrumb from "@/components/Breadcrumb";
   import Hamburger from "@/components/Hamburger";
+  import SizeSelect from '@/components/SizeSelect'
   import {
     logOut
   } from "@/api/login";
@@ -33,6 +40,7 @@
     components: {
       Breadcrumb,
       Hamburger,
+      SizeSelect
     },
     computed: {
       ...mapGetters(["sidebar", "userInfo"]),
@@ -45,7 +53,7 @@
         if (command == "loginout") {
           logOut();
         } else if (command == "password") {
-          this.handleResetPwd()
+          this.handleResetPwd();
         }
       },
       /** 重置密码按钮操作 */
@@ -110,34 +118,52 @@
       height: 100%;
       line-height: 50px;
 
+      .right-menu-item {
+        display: inline-block;
+        padding: 0 8px;
+        height: 100%;
+        font-size: 18px;
+        color: #5a5e66;
+        vertical-align: text-bottom;
+
+        &.hover-effect {
+          cursor: pointer;
+          transition: background 0.3s;
+
+          &:hover {
+            background: rgba(0, 0, 0, 0.025);
+          }
+        }
+      }
+
       .avatar-container {
-        margin-right: 40px;
+        padding: 0 8px;
+        margin-right: 30px;
+        vertical-align: text-bottom;
 
         .avatar-wrapper {
+          height: 100%;
+          line-height: 50px;
           display: flex;
           flex-direction: row;
-          margin-top: 5px;
+          align-items: center;
           position: relative;
 
           .user-name {
-            line-height: 45px;
-            // font-size: 15px;
             margin: 0px 0px 0px 8px;
           }
 
           .user-avatar {
-            display: flex;
             cursor: pointer;
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             border-radius: 20px;
           }
 
           .el-icon-caret-bottom {
             cursor: pointer;
             position: absolute;
-            right: -20px;
-            top: 16px;
+            right: -12px;
             font-size: 12px;
           }
         }

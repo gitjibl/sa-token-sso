@@ -183,6 +183,7 @@
         },
         created() {
             this.getList();
+            this.$ELEMENT.size = 'medium'
         },
         methods: {
             handleQuery() {

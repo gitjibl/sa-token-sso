@@ -3,19 +3,20 @@
  * @Author: jibl
  * @Date: 2022-11-22 16:46:10
  * @LastEditors: jibl
- * @LastEditTime: 2023-01-17 10:07:08
+ * @LastEditTime: 2023-01-17 11:20:47
  */
-import request from '@/utils/request'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import request from '@/utils/request'
+import Cookies from 'js-cookie'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import { download } from '@/utils/request'
 import * as common  from '@/utils/common'
 Vue.use(ElementUI, {
-  size: 'small'
+  size: Cookies.get('size') || 'medium' 
 });
 
 import '@/icons' // icon
