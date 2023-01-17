@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-07-27 14:49:28
  * @LastEditors: jibl
- * @LastEditTime: 2023-01-17 11:07:21
+ * @LastEditTime: 2023-01-17 14:18:06
  */
 import Cookies from 'js-cookie'
 
@@ -12,7 +12,7 @@ const state = {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     withoutAnimation: false
   },
-  size: Cookies.get('size') || 'medium'
+  size: Cookies.get('size') || 'medium',
 }
 
 const mutations = {
@@ -33,7 +33,7 @@ const mutations = {
   SET_SIZE: (state, size) => {
     state.size = size
     Cookies.set('size', size)
-  },
+  }
 }
 
 const actions = {
@@ -45,7 +45,7 @@ const actions = {
   },
   setSize({ commit }, size) {
     commit('SET_SIZE', size)
-  },
+  }
 }
 
 export default {

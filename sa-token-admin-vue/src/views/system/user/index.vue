@@ -38,7 +38,7 @@
         >
           <el-form-item label="用户名称">
             <el-input
-              v-model="queryParams.username"
+              v-model="queryParams.nickname"
               placeholder="请输入用户名称"
               clearable
             />
@@ -142,9 +142,9 @@
         >
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column label="用户编号" align="center" prop="userId" />
-          <el-table-column label="用户昵称" align="center" prop="nickname" />
+          <el-table-column label="用户名称" align="center" prop="nickname" />
           <el-table-column
-            label="用户名称"
+            label="登录账号"
             align="center"
             prop="username"
             :show-overflow-tooltip="true"
@@ -247,12 +247,12 @@
           <el-col :span="12">
             <el-form-item
               v-if="form.userId == undefined"
-              label="用户名称"
+              label="登录账号"
               prop="username"
             >
               <el-input
                 v-model="form.username"
-                placeholder="请输入用户名称"
+                placeholder="请输入登录账号"
                 maxlength="30"
               />
             </el-form-item>
@@ -296,8 +296,8 @@
 
         <el-row>
           <el-col :span="12">
-            <el-form-item label="用户昵称" prop="nickname">
-              <el-input v-model="form.nickname" placeholder="请输入用户昵称" />
+            <el-form-item label="用户名称" prop="nickname">
+              <el-input v-model="form.nickname" placeholder="请输入用户名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -471,7 +471,7 @@ export default {
         nickname: [
           {
             required: true,
-            message: "用户昵称不能为空",
+            message: "用户名称不能为空",
             trigger: "blur",
           },
         ],
@@ -730,7 +730,7 @@ export default {
       import("@utils/Export2Excel").then((excel) => {
         const tHeader = [
           "用户编号",
-          "用户昵称",
+          "用户名称",
           "用户名称",
           "部门",
           "手机号码",

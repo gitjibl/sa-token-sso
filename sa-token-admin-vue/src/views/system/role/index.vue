@@ -284,8 +284,8 @@
             };
           });
           this.$nextTick(() => {
-            this.$refs.tree.setCurrentKey(this.$projectId);
-            this.queryParams.projectId = this.$projectId;
+            this.$refs.tree.setCurrentKey(this.$settings.projectId);
+            this.queryParams.projectId = this.$settings.projectId;
             this.getPageList();
           });
         });

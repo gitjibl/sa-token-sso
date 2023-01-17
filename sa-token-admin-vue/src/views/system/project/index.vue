@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-28 13:31:34
  * @LastEditors: jibl
- * @LastEditTime: 2023-01-17 09:58:21
+ * @LastEditTime: 2023-01-17 14:11:57
 -->
 <!--  -->
 <template>
@@ -48,7 +48,7 @@
       <el-table-column label="项目地址" prop="projectUrl" align="center" show-overflow-tooltip />
       <el-table-column label="状态" align="center" width="140">
         <template slot-scope="scope">
-          <el-switch v-if="!isSuperAdmin(scope.row)" v-hasPermi="['system:project:edit']" v-model="scope.row.status"
+          <el-switch v-if="!projectFormatter(scope.row)" v-hasPermi="['system:project:edit']" v-model="scope.row.status"
             :active-value="0" :inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
         </template>
       </el-table-column>
@@ -59,7 +59,7 @@
           <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['system:project:edit']"
             @click="handleUpdate(scope.row)">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" v-hasPermi="['system:project:delete']"
-            v-if="!isSuperAdmin(scope.row)" @click="handleDelete(scope.row)">删除</el-button>
+            v-if="!projectFormatter(scope.row)" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -294,8 +294,8 @@
           }
         });
       },
-      isSuperAdmin(row) {
-        return row.projectId == this.$projectId;
+      projectFormatter(row) {
+        return this.$settings.projectId == row.projectId
       },
       // ----分页----
       handleSizeChange(val) {

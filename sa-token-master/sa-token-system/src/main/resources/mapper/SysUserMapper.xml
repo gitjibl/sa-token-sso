@@ -44,8 +44,8 @@
             <if test="e.userId != null">
                 AND u.user_id = #{e.userId}
             </if>
-            <if test="e.username != null and e.username != ''">
-                AND u.username like concat('%', #{e.username}, '%')
+            <if test="e.nickname != null and e.nickname != ''">
+                AND u.nickname like concat('%', #{e.nickname}, '%')
             </if>
             <if test="e.status != null">
                 AND u.status = #{e.status}

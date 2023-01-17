@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-22 16:46:10
  * @LastEditors: jibl
- * @LastEditTime: 2023-01-17 11:20:47
+ * @LastEditTime: 2023-01-17 14:14:39
  */
 import Vue from 'vue'
 import App from './App.vue'
@@ -30,12 +30,13 @@ Vue.use(directive)
 import {handleTree} from '@/utils/formatter'
 
 
+
+
 Vue.config.productionTip = false
 
-// 全局方法挂载
+// 全局属性、方法挂载
 Vue.prototype.$axios = request
 Vue.prototype.handleTree = handleTree
-Vue.prototype.$projectId = settings.projectId
 Vue.prototype.$settings = settings
 Vue.prototype.download = download
 Vue.prototype.$common = common

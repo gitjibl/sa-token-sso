@@ -23,6 +23,8 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+
+    <edit-admin ref="edit-admin"></edit-admin>
   </div>
 </template>
 
@@ -32,7 +34,8 @@
   } from "vuex";
   import Breadcrumb from "@/components/Breadcrumb";
   import Hamburger from "@/components/Hamburger";
-  import SizeSelect from '@/components/SizeSelect'
+  import SizeSelect from "@/components/SizeSelect";
+  import EditAdmin from "@/components/EditAdmin";
   import {
     logOut
   } from "@/api/login";
@@ -40,7 +43,8 @@
     components: {
       Breadcrumb,
       Hamburger,
-      SizeSelect
+      SizeSelect,
+      EditAdmin
     },
     computed: {
       ...mapGetters(["sidebar", "userInfo"]),
@@ -58,31 +62,36 @@
       },
       /** 重置密码按钮操作 */
       handleResetPwd() {
-        this.$prompt('请输入"' + this.userInfo.username + '"的新密码', "提示", {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            closeOnClickModal: false,
-            inputPattern: /^.{5,20}$/,
-            inputErrorMessage: "用户密码长度必须介于 5 和 20 之间",
-          })
-          .then(({
-            value
-          }) => {
-            this.$axios({
-              method: "get",
-              url: "/user/resetUserPwd",
-              params: {
-                userId: this.userInfo.userId,
-                password: value,
-              },
-            }).then((res) => {
-              this.$notify.success({
-                title: "成功",
-                message: "操作成功",
+        if (this.userInfo.userId == 1) {
+            //超级管理员
+            this.$refs['edit-admin'].open = true;
+        } else {
+          this.$prompt('请输入"' + this.userInfo.username + '"的新密码', "提示", {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              closeOnClickModal: false,
+              inputPattern: /^.{5,20}$/,
+              inputErrorMessage: "用户密码长度必须介于 5 和 20 之间",
+            })
+            .then(({
+              value
+            }) => {
+              this.$axios({
+                method: "get",
+                url: "/user/resetUserPwd",
+                params: {
+                  userId: this.userInfo.userId,
+                  password: value,
+                },
+              }).then((res) => {
+                this.$notify.success({
+                  title: "成功",
+                  message: "操作成功",
+                });
               });
-            });
-          })
-          .catch(() => {});
+            })
+            .catch(() => {});
+        }
       },
     },
   };
@@ -137,6 +146,7 @@
       }
 
       .avatar-container {
+        height: 100%;
         padding: 0 8px;
         margin-right: 30px;
         vertical-align: text-bottom;

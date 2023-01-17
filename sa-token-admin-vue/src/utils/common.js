@@ -3,12 +3,12 @@
  * @Author: jibl
  * @Date: 2023-01-05 15:35:15
  * @LastEditors: jibl
- * @LastEditTime: 2023-01-05 16:05:52
+ * @LastEditTime: 2023-01-17 14:14:29
  */
 /**
-* 参数处理
-* @param {*} params  参数
-*/
+ * 参数处理
+ * @param {*} params  参数
+ */
 export function tansParams(params) {
     let result = ''
     for (const propName of Object.keys(params)) {
@@ -41,6 +41,7 @@ export async function blobValidate(data) {
         return true;
     }
 }
+
 
 export function formatJson(filterVal, jsonData) {
     return jsonData.map(v => filterVal.map(j => {
