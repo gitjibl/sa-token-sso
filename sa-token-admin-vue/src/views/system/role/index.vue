@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-12-05 10:08:45
  * @LastEditors: jibl
- * @LastEditTime: 2023-01-09 10:10:06
+ * @LastEditTime: 2023-01-17 09:58:03
 -->
 <!--  -->
 <template>
@@ -64,8 +64,8 @@
           <el-table-column label="显示顺序" prop="roleSort" align="center" />
           <el-table-column label="状态" align="center">
             <template slot-scope="scope">
-              <el-switch v-model="scope.row.status" :active-value="0" :inactive-value="1"
-                @change="handleStatusChange(scope.row)"></el-switch>
+              <el-switch v-model="scope.row.status" v-hasPermi="['system:role:edit']" :active-value="0"
+                :inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
             </template>
           </el-table-column>
           <el-table-column label="创建时间" align="center" prop="createTime">
@@ -156,7 +156,7 @@
       return {
         // 查询参数
         queryParams: {
-          projectId: null
+          projectId: null,
         },
         // 遮罩层
         loading: false,
@@ -191,7 +191,7 @@
         //项目集合
         projectOptions: [],
         // 当前行
-        row_:null,
+        row_: null,
         // 表单校验
         roleRules: {
           projectName: [{
@@ -343,7 +343,7 @@
         this.roleTitle = "编辑角色";
         this.roleform = {
           ...row,
-          ...this.row_
+          ...this.row_,
         };
       },
       //删除
@@ -381,7 +381,7 @@
       },
       // 多选框选中数据
       handleSelectionChange(selection) {
-        this.row_ = selection[selection.length-1]
+        this.row_ = selection[selection.length - 1];
         this.ids = selection.map((item) => item.roleId);
         this.single = selection.length != 1;
         this.multiple = !selection.length;
