@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-11-22 16:46:10
  * @LastEditors: jibl
- * @LastEditTime: 2023-01-13 17:15:18
+ * @LastEditTime: 2023-01-17 10:07:08
  */
 import request from '@/utils/request'
 import Vue from 'vue'
@@ -21,6 +21,7 @@ Vue.use(ElementUI, {
 import '@/icons' // icon
 import '@/config/permission' // permission control
 import '@/styles/index.scss' // global css
+import settings from '@/config/settings'
 
 import directive from './directive' // directive
 Vue.use(directive)
@@ -33,7 +34,7 @@ Vue.config.productionTip = false
 // 全局方法挂载
 Vue.prototype.$axios = request
 Vue.prototype.handleTree = handleTree
-Vue.prototype.$projectId = 'CS001'
+Vue.prototype.$projectId = settings.projectId
 Vue.prototype.download = download
 Vue.prototype.$common = common
 

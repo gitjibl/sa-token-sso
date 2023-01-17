@@ -3,7 +3,7 @@
  * @Author: jibl
  * @Date: 2022-07-27 14:20:40
  * @LastEditors: jibl
- * @LastEditTime: 2022-11-28 15:13:33
+ * @LastEditTime: 2023-01-17 10:07:35
  */
 module.exports = {
 
@@ -25,4 +25,9 @@ module.exports = {
    * @description 显示tagsView
    */
   tagsView: true,
+
+  /**
+   * 权限系统项目ID
+   */
+  projectId:"CS001"
 }
