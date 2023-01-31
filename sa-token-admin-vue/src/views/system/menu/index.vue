@@ -246,7 +246,7 @@
   export default {
     name: "Menu",
     components: {
-      Treeselect
+      Treeselect,
     },
     data() {
       return {
@@ -293,17 +293,17 @@
           menuName: [{
             required: true,
             message: "菜单名称不能为空",
-            trigger: "blur"
+            trigger: "blur",
           }, ],
           orderNum: [{
             required: true,
             message: "菜单顺序不能为空",
-            trigger: "blur"
+            trigger: "blur",
           }, ],
           path: [{
             required: true,
             message: "路由地址不能为空",
-            trigger: "blur"
+            trigger: "blur",
           }, ],
         },
         defaultProps: {
@@ -410,10 +410,10 @@
         const menu = {
           menuId: 0,
           menuName: "主类目",
-          children: []
+          children: [],
         };
         menu.children = this.menuList;
-        this.menuOptions = [menu]
+        this.menuOptions = [menu];
         if (row != null && row.menuId) {
           this.form.parentId = row.menuId;
         } else {
@@ -428,21 +428,21 @@
         this.isInsert = false;
         this.form = {
           ...row,
-          children: null
+          children: null,
         };
-        this.getParentName(row.parentId)
+        this.getParentName(row.parentId);
         this.open = true;
         this.title = "修改菜单";
       },
       //获取上级部门名称
       getParentName(parentId) {
         if (parentId == 0) {
-          this.form.parentName = "主类目"
+          this.form.parentName = "主类目";
         } else {
-          let item = this.menuData.filter(item => {
-            return item.menuId == parentId
+          let item = this.menuData.filter((item) => {
+            return item.menuId == parentId;
           })[0];
-          this.form.parentName = item && item.menuName
+          this.form.parentName = item && item.menuName;
         }
       },
 
@@ -505,25 +505,24 @@
       /** 删除按钮操作 */
       handleDelete(row) {
         this.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning",
-          })
-          .then(() => {
-            this.$axios({
-              method: "get",
-              url: "/menu/delete",
-              params: {
-                menuId: row.menuId,
-              },
-            }).then((res) => {
-              this.$message({
-                type: "success",
-                message: "删除成功!",
-              });
-              this.getList();
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }).then(() => {
+          this.$axios({
+            method: "get",
+            url: "/menu/delete",
+            params: {
+              menuId: row.menuId,
+            },
+          }).then((res) => {
+            this.$message({
+              type: "success",
+              message: "删除成功!",
             });
-          })
+            this.getList();
+          });
+        });
       },
 
       close() {

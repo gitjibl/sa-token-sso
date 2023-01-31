@@ -16,7 +16,9 @@
       </el-form-item>
 
       <el-form-item label="角色名称">
-        <label style="color: rgb(11 181 119)" disabled>{{ menuform.roleName }}</label>
+        <label style="color: rgb(11 181 119)" disabled>{{
+          menuform.roleName
+        }}</label>
       </el-form-item>
 
       <el-form-item label="菜单权限">
@@ -42,7 +44,9 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button size="small" type="primary" @click="submitMenuForm">确 定</el-button>
+      <el-button size="small" type="primary" @click="submitMenuForm"
+        >确 定</el-button
+      >
       <el-button size="small" @click="menuOpen = false">取 消</el-button>
     </div>
   </el-dialog>
