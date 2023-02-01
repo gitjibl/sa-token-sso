@@ -3,29 +3,26 @@
     <el-row :gutter="20">
       <!--部门数据-->
       <el-col :span="4" :xs="24">
-        <div class="head-container">
-          <el-input
-            v-model="deptName"
-            placeholder="请输入部门名称"
-            clearable
-            size="small"
-            prefix-icon="el-icon-search"
-            style="margin-bottom: 20px"
-          />
-        </div>
-        <div class="head-container">
-          <el-tree
-            node-key="id"
-            :data="deptOptions"
-            :props="defaultProps"
-            :expand-on-click-node="false"
-            :filter-node-method="filterNode"
-            ref="tree"
-            default-expand-all
-            highlight-current
-            @node-click="handleNodeClick"
-          />
-        </div>
+        <el-input
+          v-model="deptName"
+          placeholder="请输入部门名称"
+          clearable
+          size="small"
+          prefix-icon="el-icon-search"
+          style="margin-bottom: 20px"
+        />
+
+        <el-tree
+          node-key="id"
+          :data="deptOptions"
+          :props="defaultProps"
+          :expand-on-click-node="false"
+          :filter-node-method="filterNode"
+          ref="tree"
+          default-expand-all
+          highlight-current
+          @node-click="handleNodeClick"
+        />
       </el-col>
       <!--用户数据-->
       <el-col :span="20" :xs="24">
@@ -345,7 +342,9 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="submitForm">确 定</el-button>
+        <el-button size="small" type="primary" @click="submitForm"
+          >确 定</el-button
+        >
         <el-button size="small" @click="open = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -420,7 +419,7 @@ export default {
         // 弹出层标题（用户导入）
         title: "",
         // 设置上传的请求头部
-        headers: {"Content-Type": "multipart/form-data"},
+        headers: { "Content-Type": "multipart/form-data" },
         // 上传的地址
         url: "/user/importData",
       },

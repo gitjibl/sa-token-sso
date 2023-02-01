@@ -3,29 +3,25 @@
   <div class="app-container">
     <el-row :gutter="20">
       <el-col :span="4" :xs="24">
-        <div class="head-container">
-          <el-input
-            v-model="projectNameTxt"
-            placeholder="请输入项目名称"
-            clearable
-            size="small"
-            prefix-icon="el-icon-search"
-            style="margin-bottom: 20px"
-          />
-        </div>
-        <div class="head-container">
-          <el-tree
-            node-key="id"
-            :data="projectOptions"
-            :props="defaultProps"
-            :expand-on-click-node="false"
-            :filter-node-method="filterNode"
-            ref="tree"
-            default-expand-all
-            highlight-current
-            @node-click="handleNodeClick"
-          />
-        </div>
+        <el-input
+          v-model="projectNameTxt"
+          placeholder="请输入项目名称"
+          clearable
+          size="small"
+          prefix-icon="el-icon-search"
+          style="margin-bottom: 20px"
+        />
+        <el-tree
+          node-key="id"
+          :data="projectOptions"
+          :props="defaultProps"
+          :expand-on-click-node="false"
+          :filter-node-method="filterNode"
+          ref="tree"
+          default-expand-all
+          highlight-current
+          @node-click="handleNodeClick"
+        />
       </el-col>
 
       <el-col :span="20" :xs="24">

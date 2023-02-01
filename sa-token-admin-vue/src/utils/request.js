@@ -8,7 +8,7 @@
 // import Cookies from 'js-cookie'
 import axios from 'axios'
 import {
-    getToken, removeToken
+    getToken, removeToken,TokenKey
 } from '@/utils/auth'
 import {
     Notification,
@@ -33,7 +33,7 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(config => {
     if (getToken()) {
-        config.headers['satoken'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+        config.headers[TokenKey] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     }
     return config
 }, error => {
