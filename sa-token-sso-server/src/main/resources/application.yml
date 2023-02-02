@@ -31,7 +31,7 @@ sa-token:
     # 是否打开模式三
     isHttp: true
     # 接口调用秘钥（用于SSO模式三的单点注销功能）
-    secretkey: kQwIOrYvnXmSDkwEiFngrKidMcdrgKor
+    secretkey: kQwIOrYvnXmSDkwEiFngrKidMcdrgKor-
     # ---- 除了以上配置项，你还需要为 Sa-Token 配置http请求处理器（文档有步骤说明）
 
 spring:

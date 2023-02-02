@@ -491,10 +491,6 @@ export default {
       this.queryParams.projectId = data.id;
       this.handleQuery();
     },
-    // 选择图标
-    selected(name) {
-      this.form.icon = name;
-    },
     // 筛选节点
     filterNode(value, data) {
       if (!value) return true;

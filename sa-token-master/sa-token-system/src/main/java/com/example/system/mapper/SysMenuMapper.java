@@ -47,12 +47,6 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      */
     List<SysMenu> selectMenusByUserIdAndProjectId(@Param("userId") Integer userId, @Param("projectId") String projectId);
 
-    /**
-     * 通过项目ID查询所有菜单
-     * @param projectId
-     * @return
-     */
-    List<SysMenu> selectMenusByProjectId(@Param("projectId") String projectId);
 }
 
 

@@ -61,7 +61,6 @@ public class SsoClientController {
         /**
          * 调用StpUtil.getPermissionList() 才走 StpInterfaceImpl？
          */
-//        List<String> permissionList = StpUtil.getPermissionList();
         SysProject project = sysProjectMapper.selectById(projectId);
         Integer userId = SecurityUtil.getLoginUserId();
         SysUser sysUser = sysUserMapper.getLoginUser(userId);
@@ -69,7 +68,11 @@ public class SsoClientController {
             //超级管理员
             sysUser.setPerms(new String[]{"*:*:*"});
             sysUser.setRoleKeys(new String[]{"super-admin"});
-            List<SysMenu> menus = sysMenuMapper.selectMenusByProjectId(projectId);
+            //超级管理员
+            SysMenu sysMenu = new SysMenu();
+            sysMenu.setProjectId(projectId);
+            sysMenu.setStatus(0);
+            List<SysMenu> menus = sysMenuMapper.selectMenuList(sysMenu);
             sysUser.setMenus(menus);
         } else {
             List<SysRole> roles = sysRoleMapper.getLoginUserRoles(userId, projectId);

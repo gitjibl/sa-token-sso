@@ -145,10 +145,7 @@
             align="center"
             class-name="small-padding fixed-width"
           >
-            <template
-              slot-scope="scope"
-              v-if="scope.row.roleKey !== 'super-admin'"
-            >
+            <template slot-scope="scope">
               <el-button
                 size="mini"
                 type="text"
@@ -184,8 +181,7 @@
                     command="handleAuthUser"
                     icon="el-icon-user"
                     v-hasPermi="['system:role:authUser']"
-                  >
-                    分配用户
+                    >分配用户
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
