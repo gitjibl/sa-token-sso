@@ -50,9 +50,9 @@ router.beforeEach(async (to, from, next) => {
         else if (res.user && res.user.status == 1){
           router.replace({ name: 'Page401', params: { info: '', headline: '用户被禁用,请联系管理员！' } })
         }
-        else if (res.user.roleKeys.length == 0) {
-          router.replace({ name: 'Page401', params: { info: '当前帐号没有操作权限,请联系管理员。', headline: '您没有操作权限...' } })
-        }
+        // else if (res.user.roleKeys.length == 0) {
+        //   router.replace({ name: 'Page401', params: { info: '当前帐号没有操作权限,请联系管理员。', headline: '您没有操作权限...' } })
+        // }
 
         //存储用户信息
         store.dispatch('user/setUserInfo', res.user);
