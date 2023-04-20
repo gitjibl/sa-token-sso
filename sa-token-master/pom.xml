@@ -27,6 +27,7 @@
         <module>sa-token-system</module>
         <module>sa-token-framework</module>
         <module>sa-token-common</module>
+        <module>collsys-module-admin</module>
     </modules>
 
     <dependencies>

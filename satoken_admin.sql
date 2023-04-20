@@ -259,4 +259,28 @@ INSERT INTO `sys_user_role` VALUES (3, 3);
 INSERT INTO `sys_user_role` VALUES (5, 3);
 INSERT INTO `sys_user_role` VALUES (5, 5);
 
+-- ----------------------------
+-- Table structure for collsys_module
+-- ----------------------------
+DROP TABLE IF EXISTS `collsys_module`;
+CREATE TABLE `collsys_module`
+(
+    `id`          varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci NOT NULL COMMENT 'id',
+    `name`        varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci NULL DEFAULT NULL COMMENT '网站名称',
+    `link`        varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci NULL DEFAULT NULL COMMENT '链接地址',
+    `category`    int(2) NULL DEFAULT NULL COMMENT '类别 1：工具',
+    `remark`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci NULL DEFAULT NULL COMMENT '备注',
+    `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+    `status`      int(1) NULL DEFAULT NULL COMMENT '状态（0正常 1停用）',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT='collsys项目模块表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of collsys_module
+-- ----------------------------
+INSERT INTO `collsys_module` VALUES ('0000001', '在线PS', 'https://ps.gaoding.com/', 1, '备注1112', NULL, 0);
+INSERT INTO `collsys_module` VALUES ('0000002', '在线PS', 'https://ps.gaoding.com/', 1, '备注11122', NULL, 0);
+INSERT INTO `collsys_module` VALUES ('0000003', '在线PS', 'https://ps.gaoding.com/', 1, '123', NULL, 0);
+
+
 SET FOREIGN_KEY_CHECKS = 1;
