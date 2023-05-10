@@ -14,4 +14,6 @@ public interface CollsysModuleService extends IService<CollsysModule> {
     IPage getPageList(CollsysModule collsysModule);
 
 
+    boolean saveModule(CollsysModule collsysModule);
+
 }

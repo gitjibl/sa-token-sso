@@ -16,7 +16,10 @@ import java.util.List;
 
 
 /**
- *模块管理
+ * collsys项目-模块管理
+ *
+ * @author huanyi
+ * @date 2023-04-19
  */
 @RestController
 @RequestMapping("/collsysmodule")
@@ -42,7 +45,8 @@ public class CollsysModuleController extends BaseController {
     @SaCheckPermission("system:collsysmodule:add")
     @GetMapping("/insert")
     public R insert(CollsysModule collsysModule) {
-        boolean update = collsysModuleService.save(collsysModule);
+//        boolean update = collsysModuleService.save(collsysModule);
+        boolean update = collsysModuleService.saveModule(collsysModule);
         return update ? R.ok() : R.fail();
     }
 

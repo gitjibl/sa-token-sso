@@ -55,9 +55,9 @@ public class CollsysModule extends BaseEntity implements Serializable {
     /**
      * 创建时间
      */
-    @TableField(value = "create_time")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private Date createTime;
+//    @TableField(value = "create_time")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+//    private Date createTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
