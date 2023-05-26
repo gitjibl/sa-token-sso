@@ -7,6 +7,8 @@
  */
 const path = require("path");
 const webpack = require("webpack");
+// 配置 loader config.module不配置插件会报错：ExtractPluginMissingException: svg-sprite-loader exception. svg-sprite-loader in extract mode requires the corresponding plugin
+const svgSpriteLoaderPlugin = require('svg-sprite-loader/lib/plugin')
 module.exports = {
     publicPath: "./",
     //放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录
@@ -51,10 +53,13 @@ module.exports = {
         },
     },
     chainWebpack: config => {
+
+        config.plugin('svgSprite').use(svgSpriteLoaderPlugin);
         // svg是个基础loader
         const svgRule = config.module.rule('svg')
         // 清除已有的所有 loader。
         svgRule.uses.clear()
+        // svgRule.exclude.add(/node_modules/); // 正则匹配排除node_modules目录
         // 添加要替换的 loader
         svgRule
             .use('svg-sprite-loader')
@@ -62,6 +67,12 @@ module.exports = {
             .options({
                 symbolId: 'icon-[name]'
             })
+
+
+
+
+
+
     },
     pages: {
         index: {
